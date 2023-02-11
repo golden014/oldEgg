@@ -2,7 +2,8 @@ package db
 
 import (
 	"database/sql"
-	"github.com/lib/pq"
+
+	_ "github.com/lib/pq"
 )
 
 // bikin struct database

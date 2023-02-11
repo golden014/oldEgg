@@ -1,0 +1,3 @@
+\l -> utk list database dalam postgres
+\c [nama database] -> utk connect/masuk ke database
+\d -> utk liat table dalam database nya

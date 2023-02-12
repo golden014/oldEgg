@@ -5,6 +5,7 @@ import (
 	"server/db"
 	"server/internal/router"
 	"server/internal/user"
+	"server/internal/ws"
 )
 
 func main() {
@@ -17,6 +18,10 @@ func main() {
 	userSvc := user.NewService(userRep)
 	userHandler := user.NewHandler(userSvc)
 
-	router.InitRouter(userHandler)
+	hub := ws.NewHub()
+	wsHandler := ws.NewHandler(hub)
+	go hub.Run()
+
+	router.InitRouter(userHandler, wsHandler)
 	router.Start("localhost:1234")
 }

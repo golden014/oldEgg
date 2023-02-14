@@ -1,0 +1,49 @@
+
+#root {
+    $background-color:#fff;
+    $button_bg_color: #1946B8;
+    $button_txt_color: #fff;
+}
+
+@mixin button_style {
+    padding: 10px 15px 10px 15px;
+    background-color: var(--button_bg_color);
+    color: var(--button_txt_color);
+    border-radius: 20px;
+    border: 0;
+    cursor: pointer;
+}
+
+.theme_button {
+    @include button_style()
+}
+
+.navbar_top {
+   background-color: var(--background-color);
+   display: flex;
+   gap: 1vw;
+   align-items: center;
+   
+}
+
+.search_bar_home{
+    width: 25vw;
+    height: 25px;
+    display: flex;
+    cursor: pointer;
+    padding: 10px 20px;
+    background-color: whitesmoke;
+    border-radius: 30px;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.search_bar_home input{
+    width:25vw;
+    outline: none;
+    border: none;
+    font-weight: 500;
+    transition: 0.5s;
+    background: transparent;
+    font-size: large;
+}

@@ -61,6 +61,7 @@ type JWTClaims struct {
 	jwt.RegisteredClaims
 }
 
+// ada error disinii
 func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, error) {
 	ctx, cancel := context.WithTimeout(c, s.timeout)
 	defer cancel()
@@ -73,7 +74,7 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 
 	//ngebandingin password yg diinput user (req.password) dengan password yang didapat
 	//dari database berdasarkan email yang di kasih user
-	util.CheckPassword(req.Password, u.Password)
+	err = util.CheckPassword(req.Password, u.Password)
 	if err != nil {
 		return &LoginUserRes{}, err
 	}

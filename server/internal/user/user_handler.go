@@ -40,7 +40,10 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
+	//error disniii
 	u, err := h.Service.Login(c.Request.Context(), &user)
+
+	//ada error disinii
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

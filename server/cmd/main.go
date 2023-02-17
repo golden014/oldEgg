@@ -10,6 +10,7 @@ import (
 
 func main() {
 	dbConn, err := db.NewDatabase()
+
 	if err != nil {
 		log.Fatalf("couldnt init ", err)
 	}
@@ -23,5 +24,5 @@ func main() {
 	go hub.Run()
 
 	router.InitRouter(userHandler, wsHandler)
-	router.Start("localhost:1234")
+	// router.Start("localhost:1234")
 }

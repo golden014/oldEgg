@@ -2,46 +2,13 @@ import Image from "next/image";
 import hamburger from "./../../../assets/hamburger.png";
 import logo from "../../../assets/newegg-logo.png";
 import style from "../../styles/style.module.scss"
-import { useEffect, useState } from "react";
 
-const Navbar = () => {
+interface NavbarProps {
+    isDarkMode: boolean;
+    setIsDarkMode: (isDarkMode: boolean) => void;
+  }
 
-    var temp = false;
-
-    const [darkTheme, setDarkTheme] = useState(false);
-
-    useEffect(() => {
-
-        if (localStorage.getItem("isDarkTheme") === null) {
-            setDarkTheme(false)
-            localStorage.setItem("isDarkTheme", "false")
-        
-        } else if (localStorage.getItem("isDarkTheme") === "true") {
-            setDarkTheme(true)
-            localStorage.setItem("isDarkTheme", "true")
-        } else {
-            setDarkTheme(false)
-            localStorage.setItem("isDarkTheme", "false")
-        }
-
-        console.log(darkTheme)
-       
-        const root = document.documentElement;
-        root?.style.setProperty("--background-color", darkTheme ? "#050c2e" : "#fff");
-        root?.style.setProperty("--button_bg_color", darkTheme ? "#8EAFF0" : "#1946B8");
-        root?.style.setProperty("--button_txt_color", darkTheme ? "#050c2e" : "#fff");
-        console.log(darkTheme)
-    }, [darkTheme]);
-
-    function toggleTheme() {
-        if (darkTheme === true) {
-            setDarkTheme(false)
-            localStorage.setItem("isDarkTheme", "false")
-        } else {
-            setDarkTheme(true)
-            localStorage.setItem("isDarkTheme", "true")
-        }
-    }
+const Navbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
 
     return (
         <div>
@@ -70,7 +37,10 @@ const Navbar = () => {
                     />
                 </div>
 
-                <button className={style.theme_button} onClick={_ => toggleTheme()}>Change Theme</button>
+                {/* <button className={style.theme_button} onClick={_ => toggleTheme()}>Change Theme</button> */}
+                <button className={style.theme_button} onClick={() => setIsDarkMode(!isDarkMode)}>
+  {                 isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                </button>
             </div>
 
             <div className={style.navbar_bot}>

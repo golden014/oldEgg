@@ -1,8 +1,11 @@
 
 #root {
-    $background-color:#fff;
+    $navbar-background-color:#fff;
     $button_bg_color: #1946B8;
     $button_txt_color: #fff;
+    $desc_txt_color: #0e0e0e;
+    $background-color: #fff;
+    $footer-background-color: #fff;
 }
 
 @mixin button_style {
@@ -14,12 +17,27 @@
     cursor: pointer;
 }
 
+@mixin desc_text {
+    font-size: 20px;
+    color: var(--desc_txt_color);
+}
+
+@mixin footer_links{
+    @include desc_text();
+    text-decoration: none;
+
+    &:hover{
+        text-decoration: underline;
+        color: #1946B8
+    }
+}
+
 .theme_button {
-    @include button_style()
+    @include button_style();
 }
 
 .navbar_top {
-   background-color: var(--background-color);
+   background-color: var(--navbar-background-color);
    display: flex;
    gap: 1vw;
    align-items: center;
@@ -46,4 +64,36 @@
     transition: 0.5s;
     background: transparent;
     font-size: large;
+}
+
+.signUpContainer{
+    padding-top: 10vh;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
+    height: 90vh;
+}
+
+.signUpFooterContainer{
+    margin-top: auto;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 160px;
+    background-color: var(--footer-background-color);
+    p{
+        @include desc_text();
+    }
+
+    a{
+        @include footer_links();
+    }
+}
+
+.signUpFooterTop{
+    display: flex;
+    gap: 10px;
 }

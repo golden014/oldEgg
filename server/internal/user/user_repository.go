@@ -27,6 +27,16 @@ func NewRepository(db DBTX) Repository {
 // create user method
 func (r *repository) CreateUser(ctx context.Context, user *User) (*User, error) {
 
+	// uTemp := User{}
+
+	// queryUnique := "SELECT email FROM users WHERE email = $1"
+	// errUnique := r.db.QueryRowContext(ctx, queryUnique, user.Email).Scan(&uTemp.Email)
+
+	// if errUnique == nil {
+	// 	errUnique = "asdasdsad"
+	// 	return &User{}, error.Error()
+	// }
+
 	var lastInsertId int
 	query := "INSERT INTO users(username, password, email) VALUES ($1, $2, $3) returning id"
 	err := r.db.QueryRowContext(ctx, query, user.Username, user.Password, user.Email).Scan(&lastInsertId)
@@ -54,4 +64,22 @@ func (r *repository) GetUserByEmail(ctx context.Context, email string) (*User, e
 	}
 
 	return &u, nil
+}
+
+func (r *repository) EmailUnique(ctx context.Context, email string) bool {
+	//utk tampung hasil nya
+	u := User{}
+
+	query := "SELECT email FROM users WHERE email = $1"
+
+	//masukin ke u, hasilnya
+	err := r.db.QueryRowContext(ctx, query, email).Scan(&u.Email)
+
+	//kalau error/gaada yg user dgn email tsb  return true (email nya unique)
+	if err != nil {
+		return true
+	}
+
+	//kalau sudah ada, maka akan return false
+	return false
 }

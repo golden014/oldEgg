@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"errors"
 	"server/internal/util"
 	"strconv"
 	"time"
@@ -10,7 +11,7 @@ import (
 )
 
 const (
-	secretKey = "secret"
+	secretKey = "supersupersecretqwerty123"
 )
 
 type service struct {
@@ -41,6 +42,13 @@ func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUser
 		Password: hashedPassword,
 	}
 
+	//cek email unique atau ga, kalau ga unik akan return error
+	isUnique := s.Repository.EmailUnique(ctx, u.Email)
+	if !isUnique {
+		return nil, errors.New("email not unique")
+	}
+
+	//kalau unique, akan dijalankan query insert user nya
 	r, err := s.Repository.CreateUser(ctx, u)
 	if err != nil {
 		return nil, err
@@ -52,12 +60,13 @@ func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUser
 		Email:    r.Email,
 	}
 
+	//send back response
 	return res, nil
 }
 
 type JWTClaims struct {
-	ID       string `json: id`
-	Username string `json: username`
+	ID       string `json:"id"`
+	Username string `json:"username"`
 	jwt.RegisteredClaims
 }
 
@@ -94,5 +103,5 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 		return &LoginUserRes{}, err
 	}
 
-	return &LoginUserRes{accessToken: ss, Username: u.Username, ID: strconv.Itoa(int(u.ID))}, nil
+	return &LoginUserRes{AccessToken: ss, Username: u.Username, ID: strconv.Itoa(int(u.ID))}, nil
 }

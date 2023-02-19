@@ -34,9 +34,10 @@ const loginForm = () => {
             if (res.ok) {
                 const user: UserInfo = {
                     username: data.username,
-                    id: data.id
+                    id: data.id,
+                    accessToken: data.token,
                 }
-
+               
                 localStorage.setItem("user_info", JSON.stringify(user))
                 console.log(localStorage.getItem("user_info"))
                 return router.push("/")

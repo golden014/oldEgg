@@ -28,7 +28,7 @@ type LoginUserReq struct {
 
 type LoginUserRes struct {
 	//access token utk pass dari service layer ke handler layer
-	accessToken string
+	AccessToken string `json:"token" db:"token"`
 	ID          string `json:"id" db:"id"`
 	Username    string `json:"username" db:"username"`
 }
@@ -36,6 +36,7 @@ type LoginUserRes struct {
 type Repository interface {
 	CreateUser(ctx context.Context, use *User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
+	EmailUnique(ctx context.Context, email string) bool
 }
 
 type Service interface {

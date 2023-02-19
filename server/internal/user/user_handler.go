@@ -33,6 +33,7 @@ func (h *Handler) CreateUser(c *gin.Context) {
 	//no error
 	c.JSON(http.StatusOK, res)
 }
+
 func (h *Handler) Login(c *gin.Context) {
 	var user LoginUserReq
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -50,11 +51,12 @@ func (h *Handler) Login(c *gin.Context) {
 	}
 
 	//jwt cookie
-	c.SetCookie("jwt", u.accessToken, 3600, "/", "localhost", false, true)
+	// c.SetCookie("JWT", u.accessToken, 3600, "/", "localhost", false, true)
 
 	res := &LoginUserRes{
-		Username: u.Username,
-		ID:       u.ID,
+		AccessToken: u.AccessToken,
+		Username:    u.Username,
+		ID:          u.ID,
 	}
 
 	c.JSON(http.StatusOK, res)

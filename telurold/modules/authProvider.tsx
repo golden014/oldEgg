@@ -5,6 +5,7 @@ import React, { useState, createContext, useEffect } from "react";
 export type UserInfo = {
     username: string
     id: string
+    accessToken: string
 }
 
 export const AuthContext = createContext<{
@@ -39,7 +40,8 @@ const AuthContextProvider = ({children} : {children: React.ReactNode}) => {
             if (user) {
                 setUser({
                     username: user.username,
-                    id: user.id
+                    id: user.id,
+                    accessToken: user.accessToken
                 })
             }
             setAuthenticated(true)

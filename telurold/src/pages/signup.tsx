@@ -1,20 +1,13 @@
-
-import LoginForm from "./components/loginForm"
-import Theme from "./components/theme";
-import style from "../styles/style.module.scss"
-import SignUpFooter from "./components/signupFooter";
-import logo from "./../../assets/newegg-logo.png";
 import Image from "next/image";
+import SignUpFooter from "./components/signupFooter";
+import SignUpForm from "./components/signupForm";
+import logo from "./../../assets/newegg-logo.png";
+import style from "../styles/style.module.scss"
 
 
-
-export default function Login() {
+const SignUp = () => {
     return (
-        // <Theme>
-        //     <div className="container">
-        //         <LoginForm/>
-        //     </div>
-        // </Theme>
+        
         <div className={style.signUpContainer}>
             <Image
                     src={logo}
@@ -23,8 +16,10 @@ export default function Login() {
                     height={70}
                 />
 
-            <LoginForm/>
+            <SignUpForm/>
             <SignUpFooter/>
         </div>
-    )
+    );
 }
+ 
+export default SignUp;

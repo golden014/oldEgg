@@ -2,6 +2,7 @@ import Image from "next/image";
 import hamburger from "./../../../assets/hamburger.png";
 import logo from "../../../assets/newegg-logo.png";
 import style from "../../styles/style.module.scss"
+import LocationNavbar from "./locationNavbar";
 
 interface NavbarProps {
     isDarkMode: boolean;
@@ -11,13 +12,13 @@ interface NavbarProps {
 const Navbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
 
     return (
-        <div>
+        <div className={style.navbar}>
             <div className={style.navbar_top}>
                 <Image
                     src={hamburger}
                     alt="hamburger menu"
-                    width={25}
-                    height={25}
+                    width={20}
+                    height={20}
                 />
 
                 <Image
@@ -26,6 +27,8 @@ const Navbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
                     width={93}
                     height={50}
                 />
+
+                <LocationNavbar/>
 
                 <div className={style.search_bar_home}>
                     <input 

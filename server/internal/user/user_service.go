@@ -44,8 +44,8 @@ func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUser
 
 	//cek email unique atau ga, kalau ga unik akan return error
 	isUnique := s.Repository.EmailUnique(ctx, u.Email)
-	if !isUnique {
-		return nil, errors.New("email not unique")
+	if isUnique == false {
+		return nil, errors.New(u.Email + " is not unique")
 	}
 
 	//kalau unique, akan dijalankan query insert user nya

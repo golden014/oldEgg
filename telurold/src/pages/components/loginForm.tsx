@@ -20,6 +20,12 @@ const loginForm = () => {
             return
         }
     })
+    const [errorMsg, setErrorMsg] = useState("")
+    // var error = ""
+
+    // useEffect(() => {
+    //     error = errorMsg
+    // }, [errorMsg])
 
     const submitHandler = async (e :React.SyntheticEvent) => {
         e.preventDefault()
@@ -43,9 +49,10 @@ const loginForm = () => {
                 console.log(localStorage.getItem("user_info"))
                 return router.push("/")
             } else {
-                console.error(res);
+                setErrorMsg("Wrong Credentials !")
             }
         } catch (error) {
+            setErrorMsg("Wrong Credentials !")
             console.log(error)
         }
 
@@ -69,7 +76,7 @@ const loginForm = () => {
                 />
 
                 <div className={style.error_validation}>
-                    <p className="error_msg">asdasd</p>
+                    <p className="error_msg">{errorMsg}</p>
                 </div>
                 
                 <button

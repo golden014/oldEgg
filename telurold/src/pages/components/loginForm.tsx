@@ -67,10 +67,17 @@ const loginForm = () => {
                 value={password}
                 onChange={(e :any) =>setPassword(e.target.value)}
                 />
+
+                <div className={style.error_validation}>
+                    <p className="error_msg">asdasd</p>
+                </div>
+                
                 <button
                 type="submit"
                 onClick={submitHandler}
                 >Login</button>
+
+
             </form>
          </div>
      );

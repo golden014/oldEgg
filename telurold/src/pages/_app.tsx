@@ -24,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
         root?.style.setProperty("--desc_txt_color", isDarkMode ? "#969696" : "#969696");
         root.style.setProperty('--background-color', isDarkMode ? '#1e1e1e' : '#fff');
         root.style.setProperty('--footer-background-color', isDarkMode ? '#000000' : '#fff');
+        root.style.setProperty('--p_txt_color', isDarkMode ? '#fff' : '#0e0e0e');
 
 
   }, [isDarkMode]);

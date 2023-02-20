@@ -6,6 +6,7 @@
     $desc_txt_color: #0e0e0e;
     $background-color: #fff;
     $footer-background-color: #fff;
+    $p_txt_color: #0e0e0e
 }
 
 @mixin button_style {
@@ -18,7 +19,7 @@
 }
 
 @mixin desc_text {
-    font-size: 20px;
+    font-size: 15px;
     color: var(--desc_txt_color);
 }
 
@@ -73,6 +74,38 @@
     flex-direction: column;
     background-color: var(--background-color);
     height: 90vh;
+
+    button {
+        width: 15vw;
+        height: 4vh;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: #e69538;
+        border-style: solid;
+        border-color: var(--desc_txt_color);
+        margin-top: 10px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+
+    p {
+        color: var(--p_txt_color);
+       }
+
+    h2 {
+        color: var(--p_txt_color);
+        margin-top: 10px;
+        font-size: 20px;
+    }
+
+    span {
+        color: var(--p_txt_color);
+        cursor: pointer;
+       }
+       
+       span:hover{
+        color: #1946B8;
+       }
 }
 
 .signUpFooterContainer{
@@ -82,7 +115,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    min-width: 160px;
+    height: 10vh;
     background-color: var(--footer-background-color);
     p{
         @include desc_text();
@@ -99,34 +132,57 @@
 }
 
 .signUpFormContainer{
-    margin-top: 5vh;
-
-    
+    // margin-top: 3vh;
 }
 
 .formForm{
+    margin-top: 4vh;
     justify-content: center;
     align-items: center;
     display: flex;
     flex-direction: column;
     gap: 2vh;
     input {
-        width: 15vw;
-        height: 4vh;
+        width: 17vw;
+        height: 5vh;
         padding-left: 10px;
         padding-right: 10px;
         background-color: var(--background-color);
         border-style: solid;
+        color: var(--p_txt_color);
     }
 
-    button {
-        width: 15vw;
-        height: 4vh;
-        padding-left: 10px;
-        padding-right: 10px;
-        background-color: #e69538;
-        border-style: solid;
-        border-color: var(--desc_txt_color);
-            
-    }
+   p {
+    color: var(--p_txt_color);
+   }
+
+  
+
+    .error_validation {
+        p{
+            color: red;
+        }
+    }   
+
 }
+
+.subscribe_checkbox {
+    width: 15vw;
+    display: flex;
+    gap: 10px;
+    justify-content: start;
+
+    label{
+        color: var(--p_txt_color);
+        font-size: 15px;
+    }
+
+    input {
+        width: auto;
+        padding: 0px 0px 0px 0px;
+    }
+
+}
+
+
+

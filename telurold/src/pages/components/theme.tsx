@@ -22,7 +22,7 @@ const Theme = ({ children }: ThemeProps) => {
     root.style.setProperty('--button_bg_color', isDarkMode ? '#8EAFF0' : '#1946B8');
     root.style.setProperty('--button_txt_color', isDarkMode ? '#050c2e' : '#fff');
     root.style.setProperty('--desc_txt_color', isDarkMode ? '#969696' : '#969696');
-    root.style.setProperty('--background-color', isDarkMode ? '#292929' : '#fff');
+    root.style.setProperty('--background-color', isDarkMode ? '#1e1e1e' : '#fff');
     root.style.setProperty('--footer-background-color', isDarkMode ? '#000000' : '#fff');
   }, [isDarkMode]);
 

@@ -31,6 +31,7 @@ const AuthContextProvider = ({children} : {children: React.ReactNode}) => {
     useEffect(() => {
         const userInfo = localStorage.getItem("user_info")
         if (!userInfo) {
+            //harusnya dibatesin hanya saat mau checkout saja
             if (window.location.pathname != "/signup") {
                 router.push("/login")
                 return

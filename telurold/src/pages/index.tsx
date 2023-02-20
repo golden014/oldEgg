@@ -1,9 +1,10 @@
 import Navbar from "./components/navbar";
+import Theme from "./components/theme";
 
 export default function Home() {
   return (
-    <div className="container">
-        
-    </div>
+    <Theme>
+      
+    </Theme>
   )
 }

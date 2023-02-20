@@ -97,3 +97,36 @@
     display: flex;
     gap: 10px;
 }
+
+.signUpFormContainer{
+    margin-top: 5vh;
+
+    
+}
+
+.formForm{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    input {
+        width: 15vw;
+        height: 4vh;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: var(--background-color);
+        border-style: solid;
+    }
+
+    button {
+        width: 15vw;
+        height: 4vh;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: #e69538;
+        border-style: solid;
+        border-color: var(--desc_txt_color);
+            
+    }
+}

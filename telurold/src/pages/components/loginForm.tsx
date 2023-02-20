@@ -2,6 +2,7 @@ import { API_URL } from "../../../constants";
 import { useState, useEffect, useContext} from "react";
 import { useRouter } from "next/router";
 import { AuthContext, UserInfo } from "modules/authProvider";
+import style from "../../styles/style.module.scss"
 
 
 
@@ -54,7 +55,7 @@ const loginForm = () => {
 
     return ( 
          <div className="container">
-            <form action="">
+            <form className={style.formForm}>
                 <input type="email"
                  placeholder="Email"
                  value={email}

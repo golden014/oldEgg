@@ -37,9 +37,13 @@ func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUser
 	}
 
 	u := &User{
-		Username: req.Username,
-		Email:    req.Email,
-		Password: hashedPassword,
+		FirstName:   req.FirstName,
+		LastName:    req.LastName,
+		Email:       req.Email,
+		MobilePhone: req.MobilePhone,
+		Password:    hashedPassword,
+		IsSubscribe: req.IsSubscribe,
+		Role:        req.Role,
 	}
 
 	//cek email unique atau ga, kalau ga unik akan return error
@@ -55,9 +59,8 @@ func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUser
 	}
 
 	res := &CreateUserRes{
-		ID:       strconv.Itoa(int(r.ID)),
-		Username: r.Username,
-		Email:    r.Email,
+		ID:    strconv.Itoa(int(r.ID)),
+		Email: r.Email,
 	}
 
 	//send back response
@@ -65,8 +68,9 @@ func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUser
 }
 
 type JWTClaims struct {
-	ID       string `json:"id"`
-	Username string `json:"username"`
+	ID    string `json:"id"`
+	Email string `json:"email"`
+	Role  string `json:"role"`
 	jwt.RegisteredClaims
 }
 
@@ -90,8 +94,9 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 
 	//JSON WEB TOKEN JWT
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, JWTClaims{
-		ID:       strconv.Itoa(int(u.ID)),
-		Username: u.Username,
+		ID:    strconv.Itoa(int(u.ID)),
+		Email: u.Email,
+		Role:  u.Role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    strconv.Itoa(int(u.ID)),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(24 * time.Hour)),
@@ -103,5 +108,14 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 		return &LoginUserRes{}, err
 	}
 
-	return &LoginUserRes{AccessToken: ss, Username: u.Username, ID: strconv.Itoa(int(u.ID))}, nil
+	return &LoginUserRes{
+		AccessToken: ss,
+		ID:          strconv.Itoa(int(u.ID)),
+		FirstName:   u.FirstName,
+		LastName:    u.LastName,
+		Email:       u.Email,
+		MobilePhone: u.MobilePhone,
+		IsSubscribe: u.IsSubscribe,
+		Role:        u.Role,
+	}, nil
 }

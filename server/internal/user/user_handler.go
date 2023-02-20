@@ -41,10 +41,8 @@ func (h *Handler) Login(c *gin.Context) {
 		return
 	}
 
-	//error disniii
 	u, err := h.Service.Login(c.Request.Context(), &user)
 
-	//ada error disinii
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -55,8 +53,13 @@ func (h *Handler) Login(c *gin.Context) {
 
 	res := &LoginUserRes{
 		AccessToken: u.AccessToken,
-		Username:    u.Username,
 		ID:          u.ID,
+		FirstName:   u.FirstName,
+		LastName:    u.LastName,
+		Email:       u.Email,
+		MobilePhone: u.MobilePhone,
+		IsSubscribe: u.IsSubscribe,
+		Role:        u.Role,
 	}
 
 	c.JSON(http.StatusOK, res)

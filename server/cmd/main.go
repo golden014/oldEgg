@@ -15,7 +15,7 @@ func main() {
 		log.Fatalf("couldnt init ", err)
 	}
 
-	userRep := user.NewRepository(dbConn.GetDB())
+	userRep := user.NewRepository(dbConn)
 	userSvc := user.NewService(userRep)
 	userHandler := user.NewHandler(userSvc)
 

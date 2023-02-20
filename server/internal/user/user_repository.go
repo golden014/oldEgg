@@ -4,82 +4,101 @@ package user
 
 import (
 	"context"
-	"database/sql"
+	"errors"
+
+	"gorm.io/gorm"
 )
 
 // ada case kita mau pass transaction instead of db object, jadi pakai interface
-type DBTX interface {
-	ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error)
-	PrepareContext(context.Context, string) (*sql.Stmt, error)
-	QueryContext(context.Context, string, ...interface{}) (*sql.Rows, error)
-	QueryRowContext(context.Context, string, ...interface{}) *sql.Row
-}
+// type DBTX interface {
+// 	ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error)
+// 	PrepareContext(context.Context, string) (*sql.Stmt, error)
+// 	QueryContext(context.Context, string, ...interface{}) (*sql.Rows, error)
+// 	QueryRowContext(context.Context, string, ...interface{}) *sql.Row
+// }
 
 type repository struct {
-	db DBTX
+	// db DBTX
+	db *gorm.DB
 }
 
 // pass interface DBTX
-func NewRepository(db DBTX) Repository {
+func NewRepository(db *gorm.DB) Repository {
 	return &repository{db: db}
 }
 
 // create user method
 func (r *repository) CreateUser(ctx context.Context, user *User) (*User, error) {
 
-	// uTemp := User{}
-
-	// queryUnique := "SELECT email FROM users WHERE email = $1"
-	// errUnique := r.db.QueryRowContext(ctx, queryUnique, user.Email).Scan(&uTemp.Email)
-
-	// if errUnique == nil {
-	// 	errUnique = "asdasdsad"
-	// 	return &User{}, error.Error()
+	// var lastInsertId int
+	// query := "INSERT INTO users(username, password, email) VALUES ($1, $2, $3) returning id"
+	// err := r.db.QueryRowContext(ctx, query, user.Username, user.Password, user.Email).Scan(&lastInsertId)
+	// if err != nil {
+	// 	return &User{}, err
 	// }
 
-	var lastInsertId int
-	query := "INSERT INTO users(username, password, email) VALUES ($1, $2, $3) returning id"
-	err := r.db.QueryRowContext(ctx, query, user.Username, user.Password, user.Email).Scan(&lastInsertId)
-	if err != nil {
-		return &User{}, err
+	// user.ID = int64(lastInsertId)
+	// return user, nil
+	if err := r.db.WithContext(ctx).Create(user).Error; err != nil {
+		return nil, err
 	}
-
-	user.ID = int64(lastInsertId)
 	return user, nil
 }
 
 // ambil user by email
+// func (r *repository) GetUserByEmail(ctx context.Context, email string) (*User, error) {
+// 	//utk tampung hasil nya
+// 	u := User{}
+
+// 	query := "SELECT id, email, username, password FROM users WHERE email = $1"
+
+// 	//masukin ke u, hasilnya
+// 	err := r.db.QueryRowContext(ctx, query, email).Scan(&u.ID, &u.Email, &u.Username, &u.Password)
+
+// 	//kalau error return user kosong
+// 	if err != nil {
+// 		return &User{}, nil
+// 	}
+
+// 	return &u, nil
+// }
+
 func (r *repository) GetUserByEmail(ctx context.Context, email string) (*User, error) {
 	//utk tampung hasil nya
 	u := User{}
 
-	query := "SELECT id, email, username, password FROM users WHERE email = $1"
-
-	//masukin ke u, hasilnya
-	err := r.db.QueryRowContext(ctx, query, email).Scan(&u.ID, &u.Email, &u.Username, &u.Password)
-
-	//kalau error return user kosong
-	if err != nil {
-		return &User{}, nil
+	// Get the user with the specified email using GORM
+	if err := r.db.Where("email = ?", email).First(&u).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return &User{}, nil
+		}
+		return nil, err
 	}
 
 	return &u, nil
 }
 
+// func (r *repository) EmailUnique(ctx context.Context, email string) bool {
+// 	//utk tampung hasil nya
+// 	u := User{}
+
+// 	query := "SELECT email FROM users WHERE email = $1"
+
+// 	//masukin ke u, hasilnya
+// 	err := r.db.QueryRowContext(ctx, query, email).Scan(&u.Email)
+
+// 	//kalau error/gaada yg user dgn email tsb  return true (email nya unique)
+// 	if err != nil {
+// 		return true
+// 	}
+
+// 	//kalau sudah ada, maka akan return false
+// 	return false
+// }
+
 func (r *repository) EmailUnique(ctx context.Context, email string) bool {
-	//utk tampung hasil nya
-	u := User{}
+	var count int64
+	r.db.Model(&User{}).Where("email = ?", email).Count(&count)
 
-	query := "SELECT email FROM users WHERE email = $1"
-
-	//masukin ke u, hasilnya
-	err := r.db.QueryRowContext(ctx, query, email).Scan(&u.Email)
-
-	//kalau error/gaada yg user dgn email tsb  return true (email nya unique)
-	if err != nil {
-		return true
-	}
-
-	//kalau sudah ada, maka akan return false
-	return false
+	return count == 0
 }

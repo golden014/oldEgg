@@ -30,7 +30,7 @@ const SignUpForm = () => {
 
     const submitHandler = async (e :React.SyntheticEvent) => {
         e.preventDefault()
-        //validasi2 empty
+        // validasi2 empty
         if (firstName === "") {
             setErrorMsg("Please fill your first name")    
             return
@@ -84,15 +84,18 @@ const SignUpForm = () => {
                 alert("SignUp Success !")
                 router.push("/login")
             } else {
-                setErrorMsg("Email already used, please use another email")
+                console.log(res);
+                
             }
 
         } catch (error) {
-            setErrorMsg("Email already used, please use another email")
-            console.log(error)
+
+            if (error instanceof Error) {
+                // setErrorMsg(error.message);
+                console.log(error);
+            }
         }
     }
-
 
 
     return ( 

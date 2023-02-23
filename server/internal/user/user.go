@@ -1,6 +1,9 @@
 package user
 
-import "context"
+import (
+	"context"
+	"errors"
+)
 
 type User struct {
 	ID          int64  `json:"id" db:"id"`
@@ -54,4 +57,41 @@ type Repository interface {
 type Service interface {
 	CreateUser(c context.Context, req *CreateUserReq) (*CreateUserRes, error)
 	Login(c context.Context, req *LoginUserReq) (*LoginUserRes, error)
+}
+
+// validate backend
+func (u User) Validate() error {
+
+	//validate not null
+
+	if u.FirstName == "" {
+		return errors.New("firstName field is required")
+	}
+	if u.LastName == "" {
+		return errors.New("lastName field is required")
+	}
+	if u.Email == "" {
+		return errors.New("email field is required")
+	}
+	if u.MobilePhone == "" {
+		return errors.New("mobilephone field is required")
+	}
+	if u.Password == "" {
+		return errors.New("password field is required")
+	}
+
+	//validasi sisanya
+	if !isValidEmail(u.Email) {
+		return errors.New("email field is not in valid format")
+	}
+
+	if !isValidMobilePhone(u.MobilePhone) {
+		return errors.New("mobilephone field must only consist of numbers")
+	}
+
+	// if !isValidPassword(u.Password) {
+	// 	return errors.New("password field must contain capital letters, lower-case letters, numbers, and special symbols, and be 8-30 characters long")
+	// }
+
+	return nil
 }

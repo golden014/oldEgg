@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"errors"
+	"regexp"
 	"server/internal/util"
 	"strconv"
 	"time"
@@ -29,7 +30,6 @@ func NewService(repository Repository) Service {
 func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUserRes, error) {
 	ctx, cancel := context.WithTimeout(c, s.timeout)
 	defer cancel()
-
 	//TODO: hash password
 	hashedPassword, err := util.HashPassword(req.Password)
 	if err != nil {
@@ -44,6 +44,10 @@ func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUser
 		Password:    hashedPassword,
 		IsSubscribe: req.IsSubscribe,
 		Role:        req.Role,
+	}
+
+	if err := u.Validate(); err != nil {
+		return nil, err
 	}
 
 	//cek email unique atau ga, kalau ga unik akan return error
@@ -74,7 +78,6 @@ type JWTClaims struct {
 	jwt.RegisteredClaims
 }
 
-// ada error disinii
 func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, error) {
 	ctx, cancel := context.WithTimeout(c, s.timeout)
 	defer cancel()
@@ -119,3 +122,23 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 		Role:        u.Role,
 	}, nil
 }
+
+func isValidEmail(email string) bool {
+
+	regex := regexp.MustCompile(`^[^@]+@[^@]+\.[^@]+`)
+	return regex.MatchString(email) && !endsWithAtDotComs(email)
+}
+
+func endsWithAtDotComs(email string) bool {
+	return email[len(email)-5:] == "@.com" || email[len(email)-6:] == "@.com."
+}
+
+func isValidMobilePhone(mobilePhone string) bool {
+	regex := regexp.MustCompile(`^[0-9]+$`)
+	return regex.MatchString(mobilePhone)
+}
+
+// func isValidPassword(password string) bool {
+// 	regex := regexp.MustCompile(`^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[~!@#$%^&*()_+{}|:"<>?\-=[\]\\;',./]).{8,30}$`)
+// 	return regex.MatchString(password)
+// }

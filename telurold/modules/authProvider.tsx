@@ -3,7 +3,12 @@ import { useRouter } from "next/router";
 import React, { useState, createContext, useEffect } from "react";
 
 export type UserInfo = {
-    username: string
+    firstName: string
+    lastName: string
+    email: string
+    mobilePhone: string
+    isSubscribe: string
+    role: string
     id: string
     accessToken: string
 }
@@ -31,16 +36,26 @@ const AuthContextProvider = ({children} : {children: React.ReactNode}) => {
     useEffect(() => {
         const userInfo = localStorage.getItem("user_info")
         if (!userInfo) {
-            //harusnya dibatesin hanya saat mau checkout saja
-            if (window.location.pathname != "/signup") {
-                router.push("/login")
-                return
+            if (window.location.pathname == "/login") {
+                router.push("/login");
+            } else {
+                router.push("/");
             }
+            //harusnya dibatesin hanya saat mau checkout saja
+            // if (window.location.pathname != "/signup") {
+            //     router.push("/login")
+            //     return
+            // }
         } else {
             const user: UserInfo = JSON.parse(userInfo)
             if (user) {
                 setUser({
-                    username: user.username,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    email: user.email,
+                    mobilePhone: user.mobilePhone,
+                    isSubscribe: user.isSubscribe,
+                    role: user.role,
                     id: user.id,
                     accessToken: user.accessToken
                 })

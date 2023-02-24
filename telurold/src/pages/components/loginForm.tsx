@@ -40,9 +40,14 @@ const loginForm = () => {
             const data = await res.json()
             if (res.ok) {
                 const user: UserInfo = {
-                    username: data.username,
+                    firstName: data.firstname,
+                    lastName: data.lastname,
+                    email: data.email,
+                    mobilePhone: data.mobilephone,
+                    isSubscribe: data.issubscribe,
+                    role: data.role,
                     id: data.id,
-                    accessToken: data.token,
+                    accessToken: data.accesstoken
                 }
                
                 localStorage.setItem("user_info", JSON.stringify(user))

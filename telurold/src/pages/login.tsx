@@ -17,6 +17,10 @@ export default function Login() {
         router.push("/signup")
     }
 
+    function logoClicked() {
+        router.push("/")
+    }
+
     return (
         // <Theme>
         //     <div className="container">
@@ -29,6 +33,8 @@ export default function Login() {
                     alt="logo"
                     width={130}
                     height={70}
+                    onClick={logoClicked}
+                    style={{cursor: "pointer"}}
                 />
 
             <h2>Login</h2>

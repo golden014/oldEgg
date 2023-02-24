@@ -13,6 +13,11 @@ const SignUp = () => {
         router.push("/login")
     }
 
+    function logoClicked() {
+        router.push("/")
+    }
+
+
     return (
         
         <div className={style.signUpContainer}>
@@ -21,8 +26,9 @@ const SignUp = () => {
                     alt="logo"
                     width={130}
                     height={70}
+                    onClick={logoClicked}
+                    style={{cursor: "pointer"}}
                 />
-
             <h2>Create Account</h2>
 
             <SignUpForm/>

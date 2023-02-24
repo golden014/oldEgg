@@ -1,20 +1,29 @@
 import locationLogo from "../../../assets/location.png"
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import style from "../../styles/style.module.scss"
+import { useRouter } from "next/router";
 
 
-const LocationNavbar = () => {
+const LocationNavbar = ({smallText, bigText, img, link}:any) => {
+    const router = useRouter();
+
+    const clickHandler = () => {
+        if (link != "") {
+            router.push(link);
+        }
+    }
+
     return ( 
-        <div className={style.button_navbar_container}>
+        <div className={style.button_navbar_container} onClick={clickHandler}>
             <Image
-            src={locationLogo}
+            src={img}
             alt="location logo"
             width={20}
             height={20}
             />
             <div className={style.button_navbar_text}>
-                <p>Hello</p>
-                <h1>Select address</h1>
+                <p>{smallText}</p>
+                <h1>{bigText}</h1>
             </div>
         </div>
      );

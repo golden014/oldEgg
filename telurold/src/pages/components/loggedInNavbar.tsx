@@ -13,7 +13,7 @@ interface NavbarProps {
 
 const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
 
-    console.log(localStorage.getItem("user_info"));
+    // console.log(localStorage.getItem("user_info"));
 
     const userInfoString = localStorage.getItem("user_info");
     var userInfoObject;
@@ -55,7 +55,7 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
   {                 isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                 </button>
 
-                <LocationNavbar smallText= "Welcome" bigText={userInfoObject.firstName + " " + userInfoObject.lastName} img= {userLogo}/>
+                <LocationNavbar smallText= "Welcome" bigText={userInfoObject.firstName + " " + userInfoObject.lastName} img= {userLogo} link = ""/>
 
             </div>
 

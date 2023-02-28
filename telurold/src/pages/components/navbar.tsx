@@ -6,6 +6,7 @@ import LocationNavbar from "./locationNavbar";
 import locationLogo from "../../../assets/location.png"
 import GuestNavbar from "./guestNavbar";
 import LoggedInNavbar from "./loggedInNavbar";
+import { useEffect, useState } from "react";
 
 interface NavbarProps {
     isDarkMode: boolean;
@@ -14,12 +15,24 @@ interface NavbarProps {
 
 const Navbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
     // const userInfo = localStorage?.getItem("user_info");
-    const userInfo = typeof localStorage !== "undefined" && localStorage?.getItem("user_info");
+    // const userInfo = typeof localStorage !== "undefined" && localStorage?.getItem("user_info");
 
-    if (!userInfo)
-    return ( 
-        <GuestNavbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}/>
-     );
+    // const [userInfo, setUserInfo] = useState("")
+
+    // useEffect(() => setUserInfo)
+
+    const [userInfo, setUserInfo] = useState<string | null>(null);
+
+    useEffect(() => {
+        const localStorageUserInfo = localStorage?.getItem('user_info');
+        setUserInfo(localStorageUserInfo);
+    }, []);
+
+    if (!userInfo) {
+        return ( 
+            <GuestNavbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}/>
+         );
+    }
 
      else {
         return (

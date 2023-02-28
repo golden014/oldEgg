@@ -62,6 +62,15 @@ const loginForm = () => {
         }
 
        
+
+        // const redis = require('redis');
+        // const client = redis.createClient();
+
+        // function generateCode(emai:string) {
+        //     const code = Math.floor(Math.random() * 1000000).toString();
+        //     client.set(email, code, 'EX', 300*3); // 15 menit
+        //     return code;
+        // }
         
     }
 
@@ -83,6 +92,11 @@ const loginForm = () => {
                 <div className={style.error_validation}>
                     <p className="error_msg">{errorMsg}</p>
                 </div>
+
+                <button
+                >
+                
+                Sign in with one-time code</button>
                 
                 <button
                 type="submit"

@@ -2,8 +2,8 @@ import { API_URL } from "../../../constants";
 import { useState, useEffect, useContext} from "react";
 import { useRouter } from "next/router";
 import { AuthContext, UserInfo } from "modules/authProvider";
-import style from "../../styles/style.module.scss"
-
+import style from "../../styles/style.module.scss";
+import Cookies from "js-cookie"
 
 
 const loginForm = () => {
@@ -47,11 +47,22 @@ const loginForm = () => {
                     isSubscribe: data.issubscribe,
                     role: data.role,
                     id: data.id,
-                    accessToken: data.accesstoken
+                    accessToken: data.token
                 }
                
                 localStorage.setItem("user_info", JSON.stringify(user))
                 console.log(localStorage.getItem("user_info"))
+
+                const jwt = user.accessToken;
+
+                // Set the cookie in the browser using Cookies.set
+                Cookies.set('jwt', jwt, {
+                expires: 30, // Expires in 30 days
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                path: '/',
+                });
+
                 return router.push("/")
             } else {
                 setErrorMsg("Wrong Credentials !")
@@ -71,6 +82,8 @@ const loginForm = () => {
         //     client.set(email, code, 'EX', 300*3); // 15 menit
         //     return code;
         // }
+
+        // After receiving the HTTP response and getting the JWT
         
     }
 

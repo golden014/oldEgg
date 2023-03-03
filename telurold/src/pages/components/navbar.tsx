@@ -28,6 +28,8 @@ const Navbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
         setUserInfo(localStorageUserInfo);
     }, []);
 
+    console.log(userInfo)
+
     if (!userInfo) {
         return ( 
             <GuestNavbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode}/>

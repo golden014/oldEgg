@@ -1,6 +1,7 @@
 package router
 
 import (
+	"server/internal/carousel"
 	"server/internal/user"
 	"server/internal/ws"
 
@@ -10,7 +11,7 @@ import (
 
 var r *gin.Engine
 
-func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler) {
+func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler, crHandler *carousel.Handler) {
 	r = gin.Default()
 
 	config := cors.Config{
@@ -21,6 +22,8 @@ func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler) {
 	}
 
 	r.Use(cors.New(config))
+
+	r.POST("/addCarousel", crHandler.AddCarousel)
 
 	r.POST("/signup", userHandler.CreateUser)
 	r.POST("/login", userHandler.Login)

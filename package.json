@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "sass": "^1.58.1"
+    "firebase": "^9.17.1",
+    "next-cookies": "^2.0.3",
+    "sass": "^1.58.1",
+    "uuid": "^9.0.0"
   }
 }

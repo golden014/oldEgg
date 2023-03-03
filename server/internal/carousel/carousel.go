@@ -45,3 +45,14 @@ func (h *Handler) AddCarousel(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": carousel})
 
 }
+
+func (h *Handler) GetCarousels(c *gin.Context) {
+	var carousels []Carousel
+
+	if err := h.db.Find(&carousels).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve carousel items"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": carousels})
+}

@@ -1,9 +1,19 @@
 import Theme from "./components/theme";
  import { storage } from "../firebaseconfig"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+
+
+interface Carousel {
+    id: number;
+    url: string;
+  }
 
 const EditCarousel = () => {
+
+
+    
+
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const handleFileSelect = (event:any) => {
@@ -46,12 +56,57 @@ const EditCarousel = () => {
     
 
     // console.log('Uploaded a file:', snapshot);
-  }
+
+    
+
+
+    }
+
+    const [carousels, setCarousels] = useState<Carousel[]>([]);
+
+    useEffect(() => {
+        fetch('http://localhost:1234/getCarousel')
+        .then((response) => response.json())
+        .then((data) => {
+            setCarousels(data.data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+    }, []);
+
+    console.log("carousels:");
+    
+    console.log(carousels);
+    console.log(carousels[0])
+
+    const handleRemove = (id:any) => {
+
+    }
 
     return ( 
         <Theme>
             <input type="file" onChange={handleFileSelect}/>
             <button onClick={handleUpload}>Upload</button>
+
+            <div>
+                {/* {carousels.map((carousel:Carousel) => (
+                    <div key={carousel.id}>
+                        <img src={carousel.url} alt="Carousel" />
+                    </div>
+                ))} */}
+                {/* {carousels && carousels.map((carousel: Carousel) => (
+                    <div key={carousel.id}>
+                        <img src={carousel.url} alt="Carousel" />
+                    </div>
+                ))} */}
+                {carousels && carousels.length > 0 && carousels.map((carousel) => (
+                    <div key={carousel.id}>
+                        <img src={carousel.url} alt="Carousel" style={{width: "400x", height: "200px"}}/>
+                        <button onClick={(e) => handleRemove(carousel.id)}>Remove</button>
+                    </div>
+                ))}
+            </div>
         </Theme>
         
     );

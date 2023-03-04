@@ -16,6 +16,10 @@ type AddCarouselReq struct {
 	URL string `json:"url" db:"url"`
 }
 
+type RemoveCarouselReq struct {
+	ID uint `json:"ID" db:"ID"`
+}
+
 type Handler struct {
 	db *gorm.DB
 }
@@ -55,4 +59,21 @@ func (h *Handler) GetCarousels(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": carousels})
+}
+
+func (h *Handler) RemoveCarousel(c *gin.Context) {
+	var r RemoveCarouselReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+	var ID = r.ID
+
+	if err := h.db.Delete(&Carousel{}, ID).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete carousel item"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Carousel item deleted successfully"})
+
 }

@@ -5,14 +5,15 @@ import { useState, useEffect } from "react"
 
 
 interface Carousel {
-    id: number;
+    ID: number;
     url: string;
   }
 
 const EditCarousel = () => {
 
 
-    
+    const [carouselUpdate, setCarouselUpdate] = useState(false);
+
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -41,7 +42,9 @@ const EditCarousel = () => {
                         })
                     })
                 if (res.ok) {
-                    alert("Upload Success !"); 
+                    // alert("Upload Success !"); 
+                    // window.location = window.location
+                    setCarouselUpdate(!carouselUpdate)
                 } else {
                     console.log(res);
                 }
@@ -57,11 +60,9 @@ const EditCarousel = () => {
 
     // console.log('Uploaded a file:', snapshot);
 
-    
-
-
     }
 
+    
     const [carousels, setCarousels] = useState<Carousel[]>([]);
 
     useEffect(() => {
@@ -73,15 +74,38 @@ const EditCarousel = () => {
         .catch((error) => {
             console.error(error);
         });
-    }, []);
+    }, [carouselUpdate]);
 
     console.log("carousels:");
     
     console.log(carousels);
     console.log(carousels[0])
 
-    const handleRemove = (id:any) => {
-
+    const handleRemove = async (carousel:Carousel) => {
+        console.log("selected id: " + carousel.url)
+        console.log("aaaaa");
+        
+        console.log(carousel.ID)
+        try {
+            const res = await fetch("http://localhost:1234/removeCarousel", {
+                    method: "POST",
+                    headers: {"Content-Type" : "application/json;;charset=utf-8"},
+                    body: JSON.stringify({ 
+                        ID:carousel.ID
+                    })
+                })
+            if (res.ok) {
+                // alert("Remove Success !")
+                setCarouselUpdate(!carouselUpdate); 
+            } else {
+                console.log(res);
+            }
+        } catch (error) {
+            if (error instanceof Error) {
+                // setErrorMsg(error.message);
+                console.log(error);
+            }
+    }
     }
 
     return ( 
@@ -101,9 +125,9 @@ const EditCarousel = () => {
                     </div>
                 ))} */}
                 {carousels && carousels.length > 0 && carousels.map((carousel) => (
-                    <div key={carousel.id}>
+                    <div key={carousel.ID}>
                         <img src={carousel.url} alt="Carousel" style={{width: "400x", height: "200px"}}/>
-                        <button onClick={(e) => handleRemove(carousel.id)}>Remove</button>
+                        <button onClick={(e) => handleRemove(carousel)}>Remove</button>
                     </div>
                 ))}
             </div>

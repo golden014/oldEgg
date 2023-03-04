@@ -25,6 +25,7 @@ func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler, crHandler *car
 
 	r.POST("/addCarousel", crHandler.AddCarousel)
 	r.GET("/getCarousel", crHandler.GetCarousels)
+	r.POST("/removeCarousel", crHandler.RemoveCarousel)
 
 	r.POST("/signup", userHandler.CreateUser)
 	r.POST("/login", userHandler.Login)

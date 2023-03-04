@@ -70,6 +70,10 @@ const EditCarousel = () => {
         .then((response) => response.json())
         .then((data) => {
             setCarousels(data.data);
+            console.log("---------------");
+            console.log(carousels);
+            
+
         })
         .catch((error) => {
             console.error(error);

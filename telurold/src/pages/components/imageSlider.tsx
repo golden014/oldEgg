@@ -4,7 +4,6 @@ import style from "../../styles/style.module.scss"
 interface ImageSliderObject {
     slides: {
         url: string;
-        title: string;
       }[];
 }
 
@@ -53,7 +52,7 @@ const ImageSlider: React.FC <ImageSliderObject> = ({ slides }) => {
             }
 
                 }>
-                <h2>{slides[currIdx].title}</h2>
+                {/* <h2>{slides[currIdx].title}</h2> */}
             </div>
             <button className={style.slider_button_right} onClick={()=>{ setSliderIndex(sliderType.ADD) }}>
                 &gt;

@@ -48,7 +48,7 @@ const ImageSlider: React.FC <ImageSliderObject> = ({ slides }) => {
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',   
-                transition: 'background-image 0.3s ease-in-out'
+                transition: 'background-image 0.3s ease-in-out',
             }
 
                 }>

@@ -2,7 +2,7 @@ import Theme from "./components/theme";
  import { storage } from "../firebaseconfig"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { useState, useEffect } from "react"
-
+import style from "../styles/style.module.scss"
 
 interface Carousel {
     ID: number;
@@ -114,26 +114,30 @@ const EditCarousel = () => {
 
     return ( 
         <Theme>
-            <input type="file" onChange={handleFileSelect}/>
-            <button onClick={handleUpload}>Upload</button>
+            <div className={style.edit_carousel_container}>
+                <div>
+                    <input type="file" onChange={handleFileSelect}/>
+                    <button onClick={handleUpload}>Upload</button>
+                </div>
 
-            <div>
-                {/* {carousels.map((carousel:Carousel) => (
-                    <div key={carousel.id}>
-                        <img src={carousel.url} alt="Carousel" />
-                    </div>
-                ))} */}
-                {/* {carousels && carousels.map((carousel: Carousel) => (
-                    <div key={carousel.id}>
-                        <img src={carousel.url} alt="Carousel" />
-                    </div>
-                ))} */}
-                {carousels && carousels.length > 0 && carousels.map((carousel) => (
-                    <div key={carousel.ID}>
-                        <img src={carousel.url} alt="Carousel" style={{width: "400x", height: "200px"}}/>
-                        <button onClick={(e) => handleRemove(carousel)}>Remove</button>
-                    </div>
-                ))}
+                <div className={style.carousel_mid_container}>
+                    {/* {carousels.map((carousel:Carousel) => (
+                        <div key={carousel.id}>
+                            <img src={carousel.url} alt="Carousel" />
+                        </div>
+                    ))} */}
+                    {/* {carousels && carousels.map((carousel: Carousel) => (
+                        <div key={carousel.id}>
+                            <img src={carousel.url} alt="Carousel" />
+                        </div>
+                    ))} */}
+                    {carousels && carousels.length > 0 && carousels.map((carousel) => (
+                        <div key={carousel.ID} className={style.edit_carousel}>
+                            <img src={carousel.url} alt="Carousel" style={{width: "400px", height: "200px"}}/>
+                            <button onClick={(e) => handleRemove(carousel)}>Remove</button>
+                        </div>
+                    ))}
+                </div>
             </div>
         </Theme>
         

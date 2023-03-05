@@ -93,7 +93,12 @@ const RealHome = () => {
                 <PopularCategories logo={drone} title="Toys, Drones & Maker" onHover={<RealHome/>} />
 
             </div>
+
             <ImageSlider slides={slides} />
+
+            <div style={{
+                height: "1000px"
+            }}></div>
         </div>
     );
 }

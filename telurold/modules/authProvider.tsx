@@ -10,6 +10,7 @@ export type UserInfo = {
     isSubscribe: string
     role: string
     id: string
+    status: string
     accessToken: string
 }
 
@@ -57,6 +58,7 @@ const AuthContextProvider = ({children} : {children: React.ReactNode}) => {
                     isSubscribe: user.isSubscribe,
                     role: user.role,
                     id: user.id,
+                    status: user.status,
                     accessToken: user.accessToken
                 })
             }

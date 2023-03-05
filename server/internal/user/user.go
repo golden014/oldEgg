@@ -14,6 +14,7 @@ type User struct {
 	Password    string `json:"password" db:"password"`
 	IsSubscribe string `json:"issubscribe" db:"issubscribe"`
 	Role        string `json:"role" db:"role"`
+	Status      string `json:"status" db:"status"`
 }
 
 type CreateUserReq struct {
@@ -24,6 +25,7 @@ type CreateUserReq struct {
 	Password    string `json:"password" db:"password"`
 	IsSubscribe string `json:"issubscribe" db:"issubscribe"`
 	Role        string `json:"role" db:"role"`
+	Status      string `json:"status" db:"status"`
 }
 
 type CreateUserRes struct {
@@ -46,6 +48,7 @@ type LoginUserRes struct {
 	MobilePhone string `json:"mobilephone" db:"mobilephone"`
 	IsSubscribe string `json:"issubscribe" db:"issubscribe"`
 	Role        string `json:"role" db:"role"`
+	Status      string `json:"status" db:"status"`
 }
 
 type Repository interface {

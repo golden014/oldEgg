@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { AuthContext, UserInfo } from "modules/authProvider";
 import style from "../../styles/style.module.scss";
 import Cookies from "js-cookie"
+import Error from "next/error";
 
 
 const loginForm = () => {
@@ -47,6 +48,7 @@ const loginForm = () => {
                     isSubscribe: data.issubscribe,
                     role: data.role,
                     id: data.id,
+                    status: data.status,
                     accessToken: data.token
                 }
                
@@ -65,7 +67,14 @@ const loginForm = () => {
 
                 return router.push("/")
             } else {
-                setErrorMsg("Wrong Credentials !")
+                console.log(data)
+                if (data.error == "your account is banned") {
+                    setErrorMsg("Your account is banned !")
+                } else {
+                    setErrorMsg("Wrong Credentials !")
+                }
+                console.log(res);
+                
             }
         } catch (error) {
             setErrorMsg("Wrong Credentials !")

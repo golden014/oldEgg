@@ -44,6 +44,7 @@ func (s *service) CreateUser(c context.Context, req *CreateUserReq) (*CreateUser
 		Password:    hashedPassword,
 		IsSubscribe: req.IsSubscribe,
 		Role:        req.Role,
+		Status:      req.Status,
 	}
 
 	if err := u.Validate(); err != nil {
@@ -86,6 +87,10 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 	u, err := s.Repository.GetUserByEmail(ctx, req.Email)
 	if err != nil {
 		return &LoginUserRes{}, err
+	}
+
+	if u.Status == "Banned" {
+		return nil, errors.New("your account is banned")
 	}
 
 	//ngebandingin password yg diinput user (req.password) dengan password yang didapat

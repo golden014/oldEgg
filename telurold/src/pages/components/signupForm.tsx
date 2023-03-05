@@ -12,6 +12,7 @@ const SignUpForm = () => {
     //bisa tambahin function2 utk setrole jadi admin or seller
     const [role, setRole] = useState("Customer")
     const [isSubscribe, setIsSubsribe] = useState("")
+    const [status, setStatus] = useState("Active")
 
     const [errorMsg, setErrorMsg] = useState("")
 
@@ -75,6 +76,7 @@ const SignUpForm = () => {
                     password,
                     isSubscribe,
                     role,
+                    status,
                 })
             })
 

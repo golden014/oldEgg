@@ -5,6 +5,7 @@ import style from "../../styles/style.module.scss"
 import LocationNavbar from "./locationNavbar";
 import locationLogo from "../../../assets/location.png"
 import userLogo from "../../../assets/user.png"
+import { useRouter } from "next/router";
 
 interface NavbarProps {
     isDarkMode: boolean;
@@ -13,6 +14,7 @@ interface NavbarProps {
 
 const GuestNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
 
+    const router = useRouter()
     return (
         <div className={style.navbar}>
             <div className={style.navbar_top}>
@@ -28,6 +30,7 @@ const GuestNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
                     alt="logo"
                     width={93}
                     height={50}
+                    onClick= {(e) => router.push("/")}
                 />
 
                 <LocationNavbar smallText= "Deliver to" bigText="Indonesia" img= {locationLogo}/>

@@ -5,6 +5,10 @@ import style from "../../styles/style.module.scss"
 import LocationNavbar from "./locationNavbar";
 import locationLogo from "../../../assets/location.png"
 import userLogo from "../../../assets/user.png"
+import { useRouter } from "next/router";
+import NavbarDropDown from "./navbarDropdown";
+import notification from "../../../assets/notification.png"
+import unitedStates from "../../../assets/united-states.png"
 
 interface NavbarProps {
     isDarkMode: boolean;
@@ -22,14 +26,22 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
         console.log(userInfoObject.firstName);
     }
 
+    const router = useRouter()
+
     return (
         <div className={style.navbar}>
             <div className={style.navbar_top}>
-                <Image
+                {/* <Image
                     src={hamburger}
                     alt="hamburger menu"
                     width={20}
                     height={20}
+                /> */}
+                <NavbarDropDown
+                //ntar diganti komponen nya dengan dropdown 
+                //component yg asli
+                    component={<LocationNavbar/>}
+                    img = {hamburger}
                 />
 
                 <Image
@@ -37,6 +49,7 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
                     alt="logo"
                     width={93}
                     height={50}
+                    onClick= {(e) => router.push("/")}
                 />
 
                 <LocationNavbar smallText= "Deliver to" bigText="Indonesia" img= {locationLogo} link=""/>
@@ -50,6 +63,20 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
                     // onKeyDown={}
                     />
                 </div>
+
+                <br />
+
+                <NavbarDropDown
+                    component={<LocationNavbar/>}
+                    img = {notification}
+                />
+
+                <br />
+                
+                <NavbarDropDown
+                    component={<LocationNavbar/>}
+                    img = {unitedStates}
+                />
 
                 <button className={style.theme_button} onClick={() => setIsDarkMode(!isDarkMode)}>
   {                 isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}

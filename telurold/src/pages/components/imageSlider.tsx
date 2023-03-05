@@ -39,7 +39,7 @@ const ImageSlider: React.FC <ImageSliderObject> = ({ slides }) => {
     }
     
     return (  
-        <div className={style.slider_container}>
+        <div className={style.slider_container} >
             <button className={style.slider_button_left} onClick={()=> { setSliderIndex(sliderType.SUBTRACT)}}>
                 &lt;
             </button>
@@ -49,6 +49,8 @@ const ImageSlider: React.FC <ImageSliderObject> = ({ slides }) => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',   
                 transition: 'background-image 0.3s ease-in-out',
+                width: "100vw",
+                height: "70vh"
             }
 
                 }>

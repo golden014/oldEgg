@@ -42,8 +42,6 @@ const EditCarousel = () => {
                         })
                     })
                 if (res.ok) {
-                    // alert("Upload Success !"); 
-                    // window.location = window.location
                     setCarouselUpdate(!carouselUpdate)
                 } else {
                     console.log(res);
@@ -57,9 +55,6 @@ const EditCarousel = () => {
         
     }
     
-
-    // console.log('Uploaded a file:', snapshot);
-
     }
 
     
@@ -115,8 +110,8 @@ const EditCarousel = () => {
     return ( 
         <Theme>
             <div className={style.edit_carousel_container}>
-                <div>
-                    <input type="file" onChange={handleFileSelect}/>
+                <div className={style.input_file_container}>
+                        <input type="file" onChange={handleFileSelect}/>
                     <button onClick={handleUpload}>Upload</button>
                 </div>
 

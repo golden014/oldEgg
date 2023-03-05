@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './navbar';
+import style from "../../styles/style.module.scss"
 
 interface ThemeProps {
     children: React.ReactNode
@@ -25,11 +26,12 @@ const Theme = ({ children }: ThemeProps) => {
     root.style.setProperty('--background-color', isDarkMode ? '#1e1e1e' : '#fff');
     root.style.setProperty('--footer-background-color', isDarkMode ? '#000000' : '#fff');
     root.style.setProperty('--p_txt_color', isDarkMode ? '#fff' : '#0e0e0e');
+    root.style.setProperty('--main-background-color', isDarkMode ? '#0e0e0e' : '#fff');
 
   }, [isDarkMode]);
 
   return (
-    <div>
+    <div className={style.big_big_container}>
       <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       {children}
     </div>

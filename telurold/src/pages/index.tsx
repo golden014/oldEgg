@@ -3,6 +3,7 @@ import AdminHome from "./components/adminHome";
 import Navbar from "./components/navbar";
 import RealHome from "./components/realHome";
 import Theme from "./components/theme";
+import style from "../styles/style.module.scss"
 
 export default function Home() {
 
@@ -19,7 +20,10 @@ export default function Home() {
       if (userInfoObject.role == "Admin") {
         return (
           <Theme>
-            <AdminHome/>
+            <div className={style.big_big_container}>
+              
+              <AdminHome/>
+            </div>
           </Theme>
         )
       } 
@@ -27,7 +31,12 @@ export default function Home() {
   
         return (
           <Theme>
-            <RealHome/>
+            <div className={style.big_big_container}>
+            <div className="aaaaaa">
+              <RealHome/> 
+
+            </div>
+            </div>
           </Theme>
         )
       }

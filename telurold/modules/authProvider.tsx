@@ -11,6 +11,7 @@ export type UserInfo = {
     role: string
     id: string
     status: string
+    balance: number
     accessToken: string
 }
 
@@ -59,6 +60,7 @@ const AuthContextProvider = ({children} : {children: React.ReactNode}) => {
                     role: user.role,
                     id: user.id,
                     status: user.status,
+                    balance: user.balance,
                     accessToken: user.accessToken
                 })
             }

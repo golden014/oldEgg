@@ -6,6 +6,7 @@ import (
 	"server/internal/carousel"
 	"server/internal/router"
 	"server/internal/user"
+	"server/internal/voucher"
 	"server/internal/ws"
 )
 
@@ -25,7 +26,8 @@ func main() {
 	go hub.Run()
 
 	crHandler := carousel.NewHandler(dbConn)
+	vcHandler := voucher.NewHandler(dbConn)
 
-	router.InitRouter(userHandler, wsHandler, crHandler)
+	router.InitRouter(userHandler, wsHandler, crHandler, vcHandler)
 	// router.Start("localhost:1234")
 }

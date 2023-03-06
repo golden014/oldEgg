@@ -44,16 +44,16 @@ const ImageSlider: React.FC <ImageSliderObject> = ({ slides }) => {
                 &lt;
             </button>
             <div style={
-                { backgroundImage: `url(${slides[currIdx].url})`,
+                { 
+                backgroundImage: `url(${slides[currIdx].url})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',   
                 transition: 'background-image 0.3s ease-in-out',
                 width: "100vw",
                 height: "70vh"
-            }
-
-                }>
+            
+            }}>
                 {/* <h2>{slides[currIdx].title}</h2> */}
             </div>
             <button className={style.slider_button_right} onClick={()=>{ setSliderIndex(sliderType.ADD) }}>

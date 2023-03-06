@@ -3,6 +3,7 @@ package router
 import (
 	"server/internal/carousel"
 	"server/internal/user"
+	"server/internal/voucher"
 	"server/internal/ws"
 
 	"github.com/gin-contrib/cors"
@@ -11,7 +12,7 @@ import (
 
 var r *gin.Engine
 
-func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler, crHandler *carousel.Handler) {
+func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler, crHandler *carousel.Handler, vcHandler *voucher.Handler) {
 	r = gin.Default()
 
 	config := cors.Config{
@@ -22,6 +23,8 @@ func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler, crHandler *car
 	}
 
 	r.Use(cors.New(config))
+
+	r.POST("/addVoucher", vcHandler.AddVoucher)
 
 	r.POST("/addCarousel", crHandler.AddCarousel)
 	r.GET("/getCarousel", crHandler.GetCarousels)

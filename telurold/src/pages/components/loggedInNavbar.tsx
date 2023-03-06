@@ -82,7 +82,7 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
   {                 isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                 </button>
 
-                <LocationNavbar smallText= "Welcome" bigText={userInfoObject.firstName + " " + userInfoObject.lastName} img= {userLogo} link = ""/>
+                <LocationNavbar smallText= "Welcome" bigText={userInfoObject.firstName + " " + userInfoObject.lastName} img= {userLogo} link = "/home"/>
 
             </div>
 

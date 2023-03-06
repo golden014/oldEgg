@@ -10,6 +10,7 @@ const AdminHome = () => {
             <div className={style.admin_home_top}>
                 <div className={style.admin_home_button}>
                     <button onClick={(e) => router.push("/editCarousel")}> Edit Carousel </button>
+                    <button onClick={(e) => router.push("/addNewVoucher")}>Add New Voucher</button>
                 </div>
             </div>
         </div>

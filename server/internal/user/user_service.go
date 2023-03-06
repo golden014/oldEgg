@@ -125,6 +125,7 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 		MobilePhone: u.MobilePhone,
 		IsSubscribe: u.IsSubscribe,
 		Role:        u.Role,
+		Balance:     u.Balance,
 	}, nil
 }
 

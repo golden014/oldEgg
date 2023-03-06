@@ -49,8 +49,11 @@ const loginForm = () => {
                     role: data.role,
                     id: data.id,
                     status: data.status,
+                    balance: data.balance,
                     accessToken: data.token
                 }
+
+                
                
                 localStorage.setItem("user_info", JSON.stringify(user))
                 console.log(localStorage.getItem("user_info"))

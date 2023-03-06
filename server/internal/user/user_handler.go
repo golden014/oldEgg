@@ -61,6 +61,7 @@ func (h *Handler) Login(c *gin.Context) {
 		IsSubscribe: u.IsSubscribe,
 		Role:        u.Role,
 		Status:      u.Status,
+		Balance:     u.Balance,
 	}
 
 	c.JSON(http.StatusOK, res)

@@ -1,5 +1,6 @@
 import Navbar from "./components/navbar";
 import Theme from "./components/theme";
+import style from "../styles/style.module.scss"
 
 const submitHandler =async (e:any) => {
     e.preventDefault()
@@ -20,7 +21,7 @@ const submitHandler =async (e:any) => {
 const Home = () => {
     return ( 
         <Theme>
-            <div className="container">
+            <div className={style.home_container}>
                 <h1>aaaaaaaaaaaaaa</h1>
                 <button onClick={submitHandler}>Logout</button>
             </div>

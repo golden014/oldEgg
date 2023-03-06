@@ -25,9 +25,12 @@ const InputVoucher = () => {
             });
 
             if (res.ok) {
-                
+                const jsonRes = await res.json();
+                console.log(("aaaaaaa"));
+                console.log(jsonRes.message);
+                userInfoObject.balance = userInfoObject.balance += parseInt(jsonRes.message)
+                localStorage.setItem("user_info", JSON.stringify(userInfoObject))
                 alert("Success, check your balance !")
-                console.log(res);
                 
             } else {
                 alert("Invalid code/expired !")

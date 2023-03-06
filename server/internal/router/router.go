@@ -25,6 +25,7 @@ func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler, crHandler *car
 	r.Use(cors.New(config))
 
 	r.POST("/addVoucher", vcHandler.AddVoucher)
+	r.POST("/validateVoucher", vcHandler.ValidateVoucher)
 
 	r.POST("/addCarousel", crHandler.AddCarousel)
 	r.GET("/getCarousel", crHandler.GetCarousels)

@@ -15,7 +15,7 @@ type User struct {
 	IsSubscribe string `json:"issubscribe" db:"issubscribe"`
 	Role        string `json:"role" db:"role"`
 	Status      string `json:"status" db:"status"`
-	Balance     string `json:"balance" db:"balance"`
+	Balance     int    `json:"balance" db:"balance"`
 }
 
 type CreateUserReq struct {
@@ -50,7 +50,7 @@ type LoginUserRes struct {
 	IsSubscribe string `json:"issubscribe" db:"issubscribe"`
 	Role        string `json:"role" db:"role"`
 	Status      string `json:"status" db:"status"`
-	Balance     string `json:"balance" db:"balance"`
+	Balance     int    `json:"balance" db:"balance"`
 }
 
 type Repository interface {

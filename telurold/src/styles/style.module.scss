@@ -417,3 +417,24 @@
         @include button_style();
     }
 }
+
+.home_container {
+    padding-left: 20px;
+    height: 100vh;
+    p {
+        @include desc_text();
+        font-weight: 700;
+    }
+
+    div {
+        button {
+            @include button_style();
+            background-color: red;
+            color: white;
+        }
+    }
+
+    button {
+        @include button_style();
+    }
+}

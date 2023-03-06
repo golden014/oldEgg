@@ -102,3 +102,15 @@ func (r *repository) EmailUnique(ctx context.Context, email string) bool {
 
 	return count == 0
 }
+
+// blm di paginate
+func (r *repository) GetAllUsers(ctx context.Context) ([]User, error) {
+	//buat nampung
+	users := []User{}
+
+	if err := r.db.Find(&users).Error; err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}

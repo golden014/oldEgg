@@ -3,16 +3,16 @@ import { useRouter } from "next/router";
 import React, { useState, createContext, useEffect } from "react";
 
 export type UserInfo = {
-    firstName: string
-    lastName: string
+    firstname: string
+    lastname: string
     email: string
-    mobilePhone: string
-    isSubscribe: string
+    mobilephone: string
+    issubscribe: string
     role: string
     id: string
     status: string
     balance: number
-    accessToken: string
+    accesstoken: string
 }
 
 export const AuthContext = createContext<{
@@ -52,16 +52,16 @@ const AuthContextProvider = ({children} : {children: React.ReactNode}) => {
             const user: UserInfo = JSON.parse(userInfo)
             if (user) {
                 setUser({
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
                     email: user.email,
-                    mobilePhone: user.mobilePhone,
-                    isSubscribe: user.isSubscribe,
+                    mobilephone: user.mobilephone,
+                    issubscribe: user.issubscribe,
                     role: user.role,
                     id: user.id,
                     status: user.status,
                     balance: user.balance,
-                    accessToken: user.accessToken
+                    accesstoken: user.accesstoken
                 })
             }
             setAuthenticated(true)

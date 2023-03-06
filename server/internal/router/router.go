@@ -1,6 +1,7 @@
 package router
 
 import (
+	"server/internal/ban"
 	"server/internal/carousel"
 	"server/internal/user"
 	"server/internal/voucher"
@@ -12,7 +13,13 @@ import (
 
 var r *gin.Engine
 
-func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler, crHandler *carousel.Handler, vcHandler *voucher.Handler) {
+func InitRouter(userHandler *user.Handler,
+	wsHandler *ws.Handler,
+	crHandler *carousel.Handler,
+	vcHandler *voucher.Handler,
+	bnHandler *ban.Handler,
+) {
+
 	r = gin.Default()
 
 	config := cors.Config{
@@ -24,6 +31,9 @@ func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler, crHandler *car
 
 	r.Use(cors.New(config))
 
+	r.POST("/banUser", bnHandler.BanUser)
+	r.POST("/unbanUser", bnHandler.UnbanUser)
+
 	r.POST("/addVoucher", vcHandler.AddVoucher)
 	r.POST("/validateVoucher", vcHandler.ValidateVoucher)
 
@@ -34,6 +44,7 @@ func InitRouter(userHandler *user.Handler, wsHandler *ws.Handler, crHandler *car
 	r.POST("/signup", userHandler.CreateUser)
 	r.POST("/login", userHandler.Login)
 	r.GET("/logout", userHandler.Logout)
+	r.GET("/getAllUsers", userHandler.GetAllUsers)
 
 	r.POST("/ws/createRoom", wsHandler.CreateRoom)
 	r.GET("/ws/joinRoom/:roomId", wsHandler.JoinRoom)

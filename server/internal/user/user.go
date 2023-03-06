@@ -57,11 +57,13 @@ type Repository interface {
 	CreateUser(ctx context.Context, use *User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	EmailUnique(ctx context.Context, email string) bool
+	GetAllUsers(c context.Context) ([]User, error)
 }
 
 type Service interface {
 	CreateUser(c context.Context, req *CreateUserReq) (*CreateUserRes, error)
 	Login(c context.Context, req *LoginUserReq) (*LoginUserRes, error)
+	GetAllUsers(c context.Context) ([]User, error)
 }
 
 // validate backend

@@ -129,6 +129,18 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 	}, nil
 }
 
+func (s *service) GetAllUsers(c context.Context) ([]User, error) {
+	ctx, cancel := context.WithTimeout(c, s.timeout)
+	defer cancel()
+
+	users, err := s.Repository.GetAllUsers(ctx)
+	if err != nil {
+		return nil, err
+	} else {
+		return users, nil
+	}
+}
+
 func isValidEmail(email string) bool {
 
 	regex := regexp.MustCompile(`^[^@]+@[^@]+\.[^@]+`)

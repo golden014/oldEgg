@@ -11,6 +11,7 @@ const AdminHome = () => {
                 <div className={style.admin_home_button}>
                     <button onClick={(e) => router.push("/editCarousel")}> Edit Carousel </button>
                     <button onClick={(e) => router.push("/addNewVoucher")}>Add New Voucher</button>
+                    <button onClick={(e) => router.push("/viewAllUsers")}>View All Users</button>
                 </div>
             </div>
         </div>

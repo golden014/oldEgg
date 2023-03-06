@@ -54,7 +54,6 @@ const loginForm = () => {
                 }
 
                 
-               
                 localStorage.setItem("user_info", JSON.stringify(user))
                 console.log(localStorage.getItem("user_info"))
 

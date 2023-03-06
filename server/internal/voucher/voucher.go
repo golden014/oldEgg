@@ -3,6 +3,7 @@ package voucher
 import (
 	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -76,6 +77,7 @@ func (h *Handler) ValidateVoucher(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&r); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	voucher_code := r.VoucherCode
@@ -87,6 +89,7 @@ func (h *Handler) ValidateVoucher(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
+
 	}
 
 	// if (found == true) {
@@ -111,11 +114,12 @@ func (h *Handler) ValidateVoucher(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"message": "voucher validated successfully"})
+
+		c.JSON(http.StatusOK, gin.H{"message": strconv.Itoa(voucher_balance)})
+		return
 
 	} else {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "voucher not found"})
-		return
 	}
 
 }

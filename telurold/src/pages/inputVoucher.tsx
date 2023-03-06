@@ -25,6 +25,7 @@ const InputVoucher = () => {
             });
 
             if (res.ok) {
+                
                 alert("Success, check your balance !")
                 console.log(res);
                 

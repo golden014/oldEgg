@@ -38,7 +38,6 @@ export const AuthContext = createContext<{
     setAuthenticated: () => {},
     user: {username: '', id: ''},
     setUser: () => {}
-
 })
 
 
@@ -54,7 +53,7 @@ const AuthContextProvider = ({children} : {children: React.ReactNode}) => {
             if (window.location.pathname == "/login") {
                 router.push("/login");
             } else {
-                router.push("/");
+                // router.push("/");
             }
             //harusnya dibatesin hanya saat mau checkout saja
             // if (window.location.pathname != "/signup") {

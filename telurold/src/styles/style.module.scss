@@ -221,6 +221,7 @@
 }
 
 .admin_home_container{
+    height: 100vh;
     padding: 5vw 5vh;
 }
 
@@ -503,3 +504,6 @@
     }
 }
 
+.view_all_users_container {
+    height: 100%;
+}

@@ -6,10 +6,16 @@ import SignUpFooter from "./components/signupFooter";
 import logo from "./../../assets/newegg-logo.png";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
-
+import { useContext, useEffect } from "react"
+import { AuthContext } from "modules/authProvider";
 
 export default function Login() {
+
+    const { setAuthenticated } = useContext(AuthContext)
+    
+    useEffect(() => {
+        setAuthenticated(false)
+    }, [])
 
     const router = useRouter()
 

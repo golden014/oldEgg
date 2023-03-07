@@ -28,7 +28,7 @@ const Navbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
         setUserInfo(localStorageUserInfo);
     }, []);
 
-    console.log(userInfo)
+    // console.log(userInfo)
 
     if (!userInfo) {
         return ( 

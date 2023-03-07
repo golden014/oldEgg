@@ -12,12 +12,13 @@ const loginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { authenticated } = useContext(AuthContext)
+    const { setAuthenticated } = useContext(AuthContext)
 
     const router = useRouter()
 
     useEffect(() => {
         if (authenticated) {
-            router.push("/home")
+            router.push("/")
             return
         }
     })
@@ -41,23 +42,23 @@ const loginForm = () => {
             const data = await res.json()
             if (res.ok) {
                 const user: UserInfo = {
-                    firstName: data.firstname,
-                    lastName: data.lastname,
+                    firstname: data.firstname,
+                    lastname: data.lastname,
                     email: data.email,
-                    mobilePhone: data.mobilephone,
-                    isSubscribe: data.issubscribe,
+                    mobilephone: data.mobilephone,
+                    issubscribe: data.issubscribe,
                     role: data.role,
                     id: data.id,
                     status: data.status,
                     balance: data.balance,
-                    accessToken: data.token
+                    accesstoken: data.token
                 }
 
                 
                 localStorage.setItem("user_info", JSON.stringify(user))
                 console.log(localStorage.getItem("user_info"))
 
-                const jwt = user.accessToken;
+                const jwt = user.accesstoken;
 
                 // Set the cookie in the browser using Cookies.set
                 Cookies.set('jwt', jwt, {
@@ -66,7 +67,7 @@ const loginForm = () => {
                 sameSite: 'strict',
                 path: '/',
                 });
-
+                setAuthenticated(true)
                 return router.push("/")
             } else {
                 console.log(data)

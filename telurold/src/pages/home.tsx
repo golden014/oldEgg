@@ -1,8 +1,9 @@
 import Navbar from "./components/navbar";
 import Theme from "./components/theme";
 import style from "../styles/style.module.scss"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { AuthContext } from "modules/authProvider";
 
 
 
@@ -12,6 +13,7 @@ import { useRouter } from "next/router";
 
 const Home = () => {
 
+    const { setAuthenticated } = useContext(AuthContext)
     const router = useRouter();
 
     const submitHandler =async (e:any) => {
@@ -25,10 +27,13 @@ const Home = () => {
             if (res.ok) {
                 localStorage.setItem("user_info", "");
                 router.push("/login");
+                // setAuthenticated(false)
+                
             }
         } catch (error) {
             console.log(error)
         }
+        router.push("/login")
     
     }
 

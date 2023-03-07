@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './navbar';
 import style from "../../styles/style.module.scss"
+import Footer from './footer';
 
 interface ThemeProps {
     children: React.ReactNode
@@ -34,6 +35,8 @@ const Theme = ({ children }: ThemeProps) => {
     <div className={style.big_big_container}>
       <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       {children}
+
+      <Footer/>
     </div>
   );
 };

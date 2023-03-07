@@ -581,3 +581,40 @@
         @include button_style();
     }
 }
+
+.footer_container {
+    background-color: var(--navbar-background-color);
+    margin-top: auto;
+
+    .footer_top {
+        display: flex;
+        height: auto;
+        padding-bottom: 50px;
+        .footer_top_items{
+            padding-top: 30px;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            h1 {
+                font-size: 15px;
+                color: var(--p_txt_color)
+            }
+        
+            a {
+                font-size: 10px;
+                color: var(--p_txt_color);
+                text-decoration: none;
+            }
+
+            p {
+                font-size: 10px;
+                color: var(--p_txt_color);
+                cursor: pointer;
+            }
+        }
+    }
+
+  
+}

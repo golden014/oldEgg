@@ -15,6 +15,19 @@ export type UserInfo = {
     accesstoken: string
 }
 
+export type Store = {
+    store_id: string
+    store_name: string
+    store_banner: string
+    store_status: string
+    store_email: string
+    product_accuracy: number
+    delivery_statistic: number
+    service_satisfaction: number
+    storedescription: string
+    number_of_sales: number
+}
+
 export const AuthContext = createContext<{
     authenticated: boolean
     setAuthenticated: (auth: boolean) => void

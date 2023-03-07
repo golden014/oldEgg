@@ -96,3 +96,25 @@ func (h *Handler) AddStore(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": store})
 
 }
+
+// func (h *Handler) GetAllUsers(c *gin.Context) {
+// 	users, err := h.Service.GetAllUsers(c.Request.Context())
+// 	if err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+// 		return
+// 	} else {
+// 		c.JSON(http.StatusOK, users)
+// 	}
+// }
+
+func (h *Handler) GetAllStores(c *gin.Context) {
+	//buat nampung
+	stores := []Store{}
+
+	if err := h.db.Find(&stores).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, stores)
+}

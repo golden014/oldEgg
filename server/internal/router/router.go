@@ -34,9 +34,12 @@ func InitRouter(userHandler *user.Handler,
 	r.Use(cors.New(config))
 
 	r.POST("/addNewStore", stHandler.AddStore)
+	r.GET("/getAllStores", stHandler.GetAllStores)
 
 	r.POST("/banUser", bnHandler.BanUser)
 	r.POST("/unbanUser", bnHandler.UnbanUser)
+	r.POST("/banStore", bnHandler.BanStore)
+	r.POST("/unbanStore", bnHandler.UnbanStore)
 
 	r.POST("/addVoucher", vcHandler.AddVoucher)
 	r.POST("/validateVoucher", vcHandler.ValidateVoucher)

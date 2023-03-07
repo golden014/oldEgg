@@ -24,7 +24,7 @@ export type Store = {
     product_accuracy: number
     delivery_statistic: number
     service_satisfaction: number
-    storedescription: string
+    store_description: string
     number_of_sales: number
 }
 

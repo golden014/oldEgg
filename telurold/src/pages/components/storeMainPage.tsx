@@ -19,12 +19,14 @@ const StoreMainPage = (props: {store: any}) => {
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png"/>
                 <div className={style.top_detail}>
                     <h1>{store.store_name}</h1>
+                    <p>{store.store_description}</p>
                 </div>
             </div>
 
             <div className={style.store_main_page_bot}>
                 <div className={style.top_detail}>
                     <button onClick={handleEditStore}>Edit Store Info</button>
+                    <button onClick={(e) => router.push("/insertNewProduct")}>Insert New Product</button>
                 </div>
             </div>
         </div>

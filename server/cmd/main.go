@@ -5,6 +5,7 @@ import (
 	"server/db"
 	"server/internal/ban"
 	"server/internal/carousel"
+	"server/internal/product"
 	"server/internal/router"
 	"server/internal/store"
 	"server/internal/user"
@@ -31,7 +32,8 @@ func main() {
 	vcHandler := voucher.NewHandler(dbConn)
 	bnHandler := ban.NewHandler(dbConn)
 	stHandler := store.NewHandler(dbConn)
+	prHandler := product.NewHandler(dbConn)
 
-	router.InitRouter(userHandler, wsHandler, crHandler, vcHandler, bnHandler, stHandler)
+	router.InitRouter(userHandler, wsHandler, crHandler, vcHandler, bnHandler, stHandler, prHandler)
 	// router.Start("localhost:1234")
 }

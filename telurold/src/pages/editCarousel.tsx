@@ -1,5 +1,5 @@
 import Theme from "./components/theme";
- import { storage } from "../firebaseconfig"
+import { storage } from "../firebaseconfig"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 import { useState, useEffect } from "react"
 import style from "../styles/style.module.scss"
@@ -23,10 +23,9 @@ const EditCarousel = () => {
 
     const handleUpload = async () => {
         if (!selectedFile) {
-        console.log('No file selected!');
-        return;
-
-    }
+            console.log('No file selected!');
+            return;
+        }
         const storageRef = ref(storage, `carousel/${selectedFile.name}`);
         const snapshot = await uploadBytesResumable(storageRef, selectedFile);
         const downloadURL = await getDownloadURL(snapshot.ref);
@@ -51,9 +50,9 @@ const EditCarousel = () => {
                     // setErrorMsg(error.message);
                     console.log(error);
                 }
-        }
+            }
         
-    }
+        }
     
     }
 

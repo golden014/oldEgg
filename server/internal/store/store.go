@@ -20,6 +20,7 @@ type Store struct {
 	ServiceSatisfaction float32 `json:"service_satisfaction" db:"service_satisfaction"`
 	NumberOfSales       int     `json:"number_of_sales" db:"number_of_sales"`
 	SellerID            int     `json:"seller_id" db:"seller_id"`
+	StoreDescription    string  `json:"store_description" db:"store_description"`
 }
 
 type CreateStoreReq struct {
@@ -46,7 +47,6 @@ type User struct {
 	Role        string `json:"role" db:"role"`
 	Status      string `json:"status" db:"status"`
 	Balance     int    `json:"balance" db:"balance"`
-	StoreId     int    `json:"store_id" db:"store_id"`
 }
 
 type GetStoreReq struct {

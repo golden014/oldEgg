@@ -53,7 +53,7 @@ type LoginUserRes struct {
 	Role        string `json:"role" db:"role"`
 	Status      string `json:"status" db:"status"`
 	Balance     int    `json:"balance" db:"balance"`
-	StoreId     int    `json:"store_id" db:"store_id"`
+	StoreId     int    `json:"storeid" db:"storeid"`
 }
 
 type Repository interface {

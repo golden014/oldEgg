@@ -4,6 +4,7 @@ import Navbar from "./components/navbar";
 import RealHome from "./components/realHome";
 import Theme from "./components/theme";
 import style from "../styles/style.module.scss"
+import StoreHome from "./components/storeHome";
 
 export default function Home() {
 
@@ -27,7 +28,7 @@ export default function Home() {
           </Theme>
         )
       } 
-      else {
+      else if (userInfoObject.role == "Customer") {
   
         return (
           <Theme>
@@ -36,6 +37,14 @@ export default function Home() {
               <RealHome/> 
 
             </div>
+            </div>
+          </Theme>
+        )
+      } else {
+        return (
+          <Theme>
+            <div className={style.big_big_container}>
+              <StoreHome seller_id= {userInfoObject.id}/>                                                                          
             </div>
           </Theme>
         )

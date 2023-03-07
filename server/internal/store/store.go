@@ -19,6 +19,7 @@ type Store struct {
 	DeliveryStatistic   float32 `json:"delivery_statistic" db:"delivery_statistic"`
 	ServiceSatisfaction float32 `json:"service_satisfaction" db:"service_satisfaction"`
 	NumberOfSales       int     `json:"number_of_sales" db:"number_of_sales"`
+	SellerID            int     `json:"seller_id" db:"seller_id"`
 }
 
 type CreateStoreReq struct {
@@ -31,7 +32,7 @@ type CreateStoreReq struct {
 	DeliveryStatistic   float32 `json:"delivery_statistic" db:"delivery_statistic"`
 	ServiceSatisfaction float32 `json:"service_satisfaction" db:"service_satisfaction"`
 	NumberOfSales       int     `json:"number_of_sales" db:"number_of_sales"`
-	SellerID            int     `json:"seller_id" db:"selelr_id"`
+	SellerID            int     `json:"seller_id" db:"seller_id"`
 }
 
 type User struct {
@@ -46,6 +47,10 @@ type User struct {
 	Status      string `json:"status" db:"status"`
 	Balance     int    `json:"balance" db:"balance"`
 	StoreId     int    `json:"store_id" db:"store_id"`
+}
+
+type GetStoreReq struct {
+	SellerID string `json:"seller_id" db:"seller_id"`
 }
 
 type Handler struct {
@@ -65,17 +70,18 @@ func (h *Handler) AddStore(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 
-	seller_id := r.SellerID
+	// seller_id := r.SellerID
 
-	user := User{}
-	if err := h.db.Where("id = ?", seller_id).Where("role = ?", "Seller").First(&user).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			c.JSON(http.StatusBadRequest, gin.H{"error": "seller not found"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+	// user := User{}
+	// if err := h.db.Where("id = ?", seller_id).Where("role = ?", "Seller").First(&user).Error; err != nil {
+	// 	if errors.Is(err, gorm.ErrRecordNotFound) {
+	// 		c.JSON(http.StatusBadRequest, gin.H{"error": "seller not found"})
+	// 		return
+	// 	}
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
 	// validateSeller(seller_id)
 	store := Store{
 		StoreName:         r.StoreName,
@@ -86,6 +92,7 @@ func (h *Handler) AddStore(c *gin.Context) {
 		ProductAccuracy:   r.ProductAccuracy,
 		DeliveryStatistic: r.DeliveryStatistic,
 		NumberOfSales:     r.NumberOfSales,
+		SellerID:          r.SellerID,
 	}
 
 	if err := h.db.Create(&store).Error; err != nil {
@@ -117,4 +124,28 @@ func (h *Handler) GetAllStores(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, stores)
+}
+
+func (h *Handler) GetStoreBySellerID(c *gin.Context) {
+
+	var r GetStoreReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	seller_id := r.SellerID
+
+	store := Store{}
+
+	if err := h.db.Where("seller_id = ?", seller_id).First(&store).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "store not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, store)
 }

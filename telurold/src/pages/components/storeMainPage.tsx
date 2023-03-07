@@ -7,6 +7,11 @@ const StoreMainPage = (props: {store: any}) => {
 
     const router = useRouter();
 
+    const handleEditStore = () => {
+        localStorage.setItem("store_id", store.store_id)
+        router.push("/editStore")
+    }
+
     return (  
         <div className={style.store_main_page_container}>
             <img src={store.store_banner} ></img>
@@ -19,7 +24,7 @@ const StoreMainPage = (props: {store: any}) => {
 
             <div className={style.store_main_page_bot}>
                 <div className={style.top_detail}>
-                    <button onClick={(e) => router.push("/editStore")}>Edit Store Info</button>
+                    <button onClick={handleEditStore}>Edit Store Info</button>
                 </div>
             </div>
         </div>

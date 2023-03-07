@@ -398,7 +398,9 @@
     
 
     .voucher_balance_input {
-
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
         p {
             @include desc_text();
         }
@@ -544,5 +546,38 @@
                 @include button_style();
             }
         }
+    }
+}
+
+.edit_store_container {
+    margin-top: 40px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    gap: 10px;
+    
+
+    .voucher_balance_input {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        p {
+            @include desc_text();
+        }
+
+        input {
+            width: 17vw;
+            height: 5vh;
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: var(--background-color);
+            border-style: solid;
+            color: var(--p_txt_color);
+        }
+
+    }
+    button {
+        @include button_style();
     }
 }

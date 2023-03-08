@@ -1,6 +1,7 @@
 package product
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -24,6 +25,10 @@ type CreateProductRequest struct {
 	ProductDescription string `json:"product_description" db:"product_description"`
 	CategoryId         int    `json:"category_id" db:"category_id"`
 	ProductImage       string `json:"product_image" db:"product_image"`
+}
+
+type GetProductRequest struct {
+	ProductId string `json:"product_id" db:"product_id"`
 }
 
 type Handler struct {
@@ -59,4 +64,27 @@ func (h *Handler) AddProduct(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": product})
 
+}
+
+func (h *Handler) GetProductById(c *gin.Context) {
+	var r GetProductRequest
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	product_id := r.ProductId
+
+	prod := Product{}
+
+	if err := h.db.Where("product_id = ?", product_id).First(&prod).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "product not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, prod)
 }

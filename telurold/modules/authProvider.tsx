@@ -28,6 +28,16 @@ export type Store = {
     number_of_sales: number
 }
 
+export type Product = {
+    product_id: string
+    store_id: string
+    product_name: string
+    stock: number
+    product_description: string
+    category_id: number
+    product_image: string
+}
+
 export const AuthContext = createContext<{
     authenticated: boolean
     setAuthenticated: (auth: boolean) => void

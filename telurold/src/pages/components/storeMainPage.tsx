@@ -1,14 +1,18 @@
 import { Store } from "modules/authProvider";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import style from "../../styles/style.module.scss"
 
 const StoreMainPage = (props: {store: any}) => {
     const store = props.store
 
+    useEffect(() => {
+        localStorage.setItem("store_id", store.store_id)
+    })
     const router = useRouter();
 
     const handleEditStore = () => {
-        localStorage.setItem("store_id", store.store_id)
+        
         router.push("/editStore")
     }
 

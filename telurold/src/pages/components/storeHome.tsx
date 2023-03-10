@@ -52,7 +52,6 @@ const StoreHome = (props: {seller_id:any}) => {
             const data = await res.json();
             setStore(data);
             console.log(data);
-            console.log(data.data);
             
             
             } else {

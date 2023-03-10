@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Theme from "../components/theme";
 import style from "../../styles/style.module.scss"
 import Image from "next/image";
+import SimilarProducts from "../components/similarProduct";
 
 
 const ProductPage = () => {
@@ -55,19 +56,38 @@ const ProductPage = () => {
 
     if(productId) {
     
+        if (product) {
+            return (  
+                <Theme>
+                    <div className={style.product_detail_container}>
+                        <h1>{product?.product_name}</h1>
+                        <div className={style.product_page_top}>
+                            <img src={product?.product_image} alt="Carousel" style={{
+                                width: "250px", 
+                                height: "250px",
+                                objectFit: "cover"
+                                }}/>
     
-        return (  
-            <Theme>
-                <h1>{product?.product_name}</h1>
-                <div className={style.product_page_top}>
-                    <img src={product?.product_image} alt="Carousel" style={{
-                        width: "250px", 
-                        height: "250px",
-                        objectFit: "cover"
-                        }}/>
-                </div>
-            </Theme>
-        );
+                            <div className={style.prod_detail}>
+                                <p>{product?.product_description}</p>
+                                <p>Stock: {product?.stock}</p>
+                            </div>
+                        </div>
+                        <br /><br /><br />
+                        <h1>Similar Products</h1>
+                        <br />
+                        <SimilarProducts categoryId={product?.category_id} currProdId={productId}/>
+                    </div>
+                </Theme>
+            );
+        } else {
+            return(
+                <Theme>
+                    <h1>...</h1>
+                    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                </Theme>
+            )
+        }
     } else {
         console.log(product);
         console.log(productId);

@@ -50,6 +50,11 @@ type GetSubCategoryRequest struct {
 	CategoryId uint `json:"category_id" db:"category_id"`
 }
 
+type GetProductByCategory struct {
+	CategoryId  uint `json:"category_id" db:"category_id"`
+	CurrProduct uint `json:"curr_prod_id"`
+}
+
 type Handler struct {
 	db *gorm.DB
 }
@@ -146,6 +151,29 @@ func (h *Handler) GetAllSubCategoryByCategory(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, subcat)
+}
+
+func (h *Handler) GetAllProductByCategory(c *gin.Context) {
+	var prods []Product
+	var r GetProductByCategory
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	category_id := r.CategoryId
+	currProd_id := r.CurrProduct
+
+	if err := h.db.Where("category_id = ?", category_id).Where("product_id != ?", currProd_id).Find(&prods).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "subcat not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, prods)
 }
 
 func (h *Handler) GetAllSubCategory(c *gin.Context) {

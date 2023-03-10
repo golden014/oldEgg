@@ -628,3 +628,42 @@
 
   
 }
+
+.product_detail_container {
+    margin-left: 20px;
+    margin-right: 20px;
+    h1 {
+        color: var(--p_txt_color)
+    }
+
+    .product_page_top {
+        display: flex;
+        gap: 20px;
+        p {
+            color: var(--p_txt_color);
+        }
+    }
+}
+
+.product_card_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    
+    .product_card_quick_view {
+        display: none; 
+        position: absolute; 
+        button {
+            @include button_style()
+        }
+    }
+
+    &:hover {
+        .product_card_quick_view {
+            display: block;
+        }
+    }
+}
+

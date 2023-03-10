@@ -94,6 +94,7 @@ const InsertNewProduct = () => {
                 })
             if (res.ok) {
                 alert("Insert Success !")
+                window.location = window.location
             } else {
                 alert("Error")
                 console.log(res);
@@ -144,6 +145,7 @@ const InsertNewProduct = () => {
                 <div className={style.voucher_balance_input}>
                     <p>Category</p>
                     <select onChange={(e) => setCategoryId(parseInt(e.target.value))}>
+                    <option value="-1"></option>
                         {categories.map((category) =>(
                             <option value={category.category_id}>{category.category_name}</option>
                         ))}
@@ -154,6 +156,7 @@ const InsertNewProduct = () => {
                 <div className={style.voucher_balance_input}>
                     <p>SubCategory</p>
                     <select onChange={(e) => setSubCategoryId(parseInt(e.target.value))}>
+                        <option value="-1"></option>
                         {subCategories.map((subcategory) => (
                             <option value={subcategory.sub_category_id}>{subcategory.sub_category_name}</option>
                         ))}

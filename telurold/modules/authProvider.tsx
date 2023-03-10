@@ -36,6 +36,8 @@ export type Product = {
     product_description: string
     category_id: number
     product_image: string
+    price: number
+    sub_category_id: number
 }
 
 export type Category = {

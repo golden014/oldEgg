@@ -39,6 +39,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/getProductById", prHandler.GetProductById)
 	r.GET("/getAllCategory", prHandler.GetAllCategory)
 	r.GET("/getAllSubCategory", prHandler.GetAllSubCategory)
+	r.POST("/getAllProductByCategory", prHandler.GetAllProductByCategory)
 
 	r.POST("/addNewStore", stHandler.AddStore)
 	r.GET("/getAllStores", stHandler.GetAllStores)

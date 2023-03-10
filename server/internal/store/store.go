@@ -23,6 +23,11 @@ type Store struct {
 	StoreDescription    string  `json:"store_description" db:"store_description"`
 }
 
+type Category struct {
+	CategoryId   uint   `gorm:"primary_key;auto_increment" json:"category_id"`
+	CategoryName string `json:"category_name" db:"category_name"`
+}
+
 type CreateStoreReq struct {
 	StoreName           string  `json:"store_name" db:"store_name"`
 	StorePassword       string  `json:"store_password" db:"store_password"`
@@ -51,6 +56,10 @@ type User struct {
 
 type GetStoreReq struct {
 	SellerID string `json:"seller_id" db:"seller_id"`
+}
+
+type GetStoreByIdReq struct {
+	StoreId int `json:"store_id" db:"store_id"`
 }
 
 type UpdateStoreReq struct {
@@ -120,6 +129,11 @@ func (h *Handler) AddStore(c *gin.Context) {
 // 	}
 // }
 
+// get all category in store
+func (h *Handler) GetCategoryInStore(c *gin.Context) {
+
+}
+
 func (h *Handler) GetAllStores(c *gin.Context) {
 	//buat nampung
 	stores := []Store{}
@@ -145,6 +159,30 @@ func (h *Handler) GetStoreBySellerID(c *gin.Context) {
 	store := Store{}
 
 	if err := h.db.Where("seller_id = ?", seller_id).First(&store).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "store not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, store)
+}
+
+func (h *Handler) GetStoreByID(c *gin.Context) {
+
+	var r GetStoreByIdReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	store_id := r.StoreId
+
+	store := Store{}
+
+	if err := h.db.Where("store_id = ?", store_id).First(&store).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "store not found"})
 			return

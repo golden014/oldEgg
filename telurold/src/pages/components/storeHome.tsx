@@ -1,4 +1,5 @@
 import { Store } from "modules/authProvider";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import style from "../../styles/style.module.scss"
 import StoreMainPage from "./storeMainPage";
@@ -7,6 +8,7 @@ const StoreHome = (props: {seller_id:any}) => {
     
     console.log("QQQQQQQQQQQQQQQQQQQQQQQ");
     console.log(props.seller_id);
+    const router = useRouter()
 
     // const [store, setStore] = useState<Store[]>()
     
@@ -65,8 +67,15 @@ const StoreHome = (props: {seller_id:any}) => {
     }, []);
 
     if (store) {
+        localStorage.setItem("store_id", store.store_id)
+        router.push("/store/" + store.store_id)
+
         return (
-            <StoreMainPage store={store}/>
+            // rout
+            // <StoreMainPage store={store}/>
+            <div>
+
+            </div>
         );
     }
     else {

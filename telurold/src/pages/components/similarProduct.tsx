@@ -1,6 +1,7 @@
 import { Product } from "modules/authProvider"
 import { useEffect, useState } from "react"
 import ProductCard from "./productCard"
+import style from "../../styles/style.module.scss"
 
 const SimilarProducts = (props: {categoryId: any, currProdId: any}) => {
 
@@ -84,10 +85,7 @@ const SimilarProducts = (props: {categoryId: any, currProdId: any}) => {
         // console.log(prods);
         
         return (  
-            <div style={{
-                display:"grid",
-                gridTemplateColumns:"repeat(4, 25%)"
-            }}>
+            <div className={style.similar_prod_container}>
                 {prods.map((prod) => (
                     <ProductCard product={prod} />
                 ))}

@@ -45,6 +45,7 @@ func InitRouter(userHandler *user.Handler,
 	r.GET("/getAllStores", stHandler.GetAllStores)
 	r.POST("/getStoreBySeller", stHandler.GetStoreBySellerID)
 	r.POST("/updateStoreInfo", stHandler.UpdateStoreInfo)
+	r.POST("/getStoreById", stHandler.GetStoreByID)
 
 	r.POST("/banUser", bnHandler.BanUser)
 	r.POST("/unbanUser", bnHandler.UnbanUser)

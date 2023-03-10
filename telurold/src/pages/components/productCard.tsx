@@ -21,6 +21,7 @@ const ProductCard = (props: {product: Product}) => {
                 objectFit: "cover"
             }} />
             <h2>{prod.product_name}</h2>
+            <br />
             <h3>${prod.price} </h3>
             <div className={style.product_card_quick_view}>
                 <button onClick={handleQuickView}>quick view</button>
@@ -28,15 +29,7 @@ const ProductCard = (props: {product: Product}) => {
 
            {
             showView && 
-            <div className={style.quick_view_pop_up} style={{
-                position: "absolute",
-                backgroundColor: "white",
-                    // width: "1000px",
-                    // height: "1500px"
-                    top: "25vh",
-                    left: "1",
-                  
-            }}>
+            <div className={style.quick_view_pop_up}>
                 <QuickView prod_id={prod.product_id} />
             </div>
            }

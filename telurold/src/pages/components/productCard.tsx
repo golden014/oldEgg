@@ -7,9 +7,10 @@ const ProductCard = (props: {product: Product}) => {
     const prod = props.product
 
     const [quickViewProd, setQuickViewProd] = useState<Product>()
+    const [showView, setShowView] = useState(false)
 
     const handleQuickView =() => {
-        <QuickView prod_id={prod.product_id} />
+        setShowView(!showView)
     }
 
     return (  
@@ -25,9 +26,20 @@ const ProductCard = (props: {product: Product}) => {
                 <button onClick={handleQuickView}>quick view</button>
             </div>
 
-            <div className={style.product_card_quickView}>
-                
+           {
+            showView && 
+            <div className={style.quick_view_pop_up} style={{
+                position: "absolute",
+                backgroundColor: "white",
+                    // width: "1000px",
+                    // height: "1500px"
+                    top: "25vh",
+                    left: "1",
+                  
+            }}>
+                <QuickView prod_id={prod.product_id} />
             </div>
+           }
         </div>
     );
 }

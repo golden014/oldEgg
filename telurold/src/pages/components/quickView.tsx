@@ -13,7 +13,7 @@ const QuickView = (props: {prod_id: any}) => {
                     method: "POST",
                     headers: { "Content-Type": "application/json;charset=utf-8" },
                     body: JSON.stringify({
-                        product_id: props.prod_id
+                        product_id: String(props.prod_id)
                     }),
                 });
     
@@ -42,7 +42,7 @@ const QuickView = (props: {prod_id: any}) => {
                 }} />
             </div>
             <div className={style.quick_view_right}>
-                <h1>{product?.product_image}</h1>
+                <h1>{product?.product_name}</h1>
                 <p>{product?.product_description}</p>
                 <h2>${product?.price}</h2>
             </div>

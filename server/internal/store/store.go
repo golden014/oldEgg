@@ -62,6 +62,10 @@ type GetStoreByIdReq struct {
 	StoreId int `json:"store_id" db:"store_id"`
 }
 
+type GetCategoryInStoreReq struct {
+	StoreId int `json:"store_id" db:"store_id"`
+}
+
 type UpdateStoreReq struct {
 	Column       string `json:"column"`
 	NewAttribute string `json:"new_attribute"`
@@ -131,7 +135,30 @@ func (h *Handler) AddStore(c *gin.Context) {
 
 // get all category in store
 func (h *Handler) GetCategoryInStore(c *gin.Context) {
+	var r GetCategoryInStoreReq
 
+	categories := []Category{}
+
+	//bind
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	store_id := r.StoreId
+
+	//query for categories in store
+	err := h.db.
+		Table("categories").
+		Select("DISTINCT categories.category_id, categories.category_name").
+		Joins("JOIN products ON products.category_id = categories.category_id").
+		Where("products.store_id = ?", store_id).
+		Scan(&categories).Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, categories)
 }
 
 func (h *Handler) GetAllStores(c *gin.Context) {

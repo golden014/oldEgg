@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Theme from "../components/theme";
 import { useEffect, useState } from "react"
-import { Store } from "modules/authProvider";
+import { Category, Store } from "modules/authProvider";
 import StoreMainPage from "../components/storeMainPage";
 
 const StorePage = () => {
@@ -43,6 +43,7 @@ const StorePage = () => {
         getStore()
     }, [storeId])
 
+   
     if (storeId && store) {
         return (  
             <Theme>

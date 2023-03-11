@@ -7,7 +7,7 @@
     $background-color: #fff;
     $footer-background-color: #fff;
     $p_txt_color: #0e0e0e;
-    $main-background-color: #fff;
+    $main-background-color: #f7f7f7;
     $three_option_bg: #ECF1FE;
     // $three_option_sub_bg: 
 }
@@ -679,12 +679,14 @@
 }
 
 .product_card_container {
+    border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     color: var(--p_txt_color);
-    
+    padding: 10px;
+    background-color: var(--main-background-color);
     h2 {
         font-size: 18px;
     }
@@ -745,6 +747,7 @@
 
 .store_category_container {
     display: grid;
+    row-gap: 20px;
     grid-template-columns: repeat(3, 33.3%);
     border-top-style: solid;
     border-color: #8b8b8b;
@@ -824,10 +827,89 @@
     border-radius: 40px;
 
     .left {
-        background-color: #8b8b8b;
+        padding: 20px;
+        background-color: var(--main-background-color);
         width: 25%;
+        border-radius: 30px;
+        p {
+            @include desc_text();
+            color: var(--p_txt_color);
+        }
+        .filter {
+            h1 {
+                border-bottom-style: solid;
+                border-color: #8b8b8b;
+                border-width: 0.5px;
+                margin-bottom: 20px;
+            }
+            gap: 10px;
+            display: flex;
+        }
     } 
     .right {
+        padding-left: 20px;
         width: 75%;
+
+        .right_top {
+            background-color: var(--main-background-color);
+            height: 60px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-left: 30px;
+            padding-right: 30px;
+
+            input {
+                border-style: none;
+                border-radius: 7px;
+                height: 20px;
+                padding: 2px;
+            }
+
+            button {
+                @include button_style();
+                padding: 10px;
+                font-size: 12px;
+                width: 100px;
+            }
+
+            .search_container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 20px
+                
+            }
+
+            .change_page_buttons {
+                display: flex;
+                gap: 20px;
+                align-items: center;
+                p {
+                    @include desc_text();
+                    color: var(--p_txt_color)
+                }
+            }
+        }
+
+        .right_bot {
+            padding-top: 20px;
+            // display: flex;
+            // flex-direction: column;
+            // justify-content: center;
+            // // align-items: center;
+            // .right_bot_content {
+                
+            // }
+            
+            display: grid;
+            grid-template-columns: repeat(4, 20%);
+            gap: 6.6%;
+        }
     }
+
+
 }
+
+

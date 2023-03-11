@@ -64,6 +64,10 @@ type GetProductByCategory struct {
 	CurrProduct uint `json:"curr_prod_id"`
 }
 
+type GetProductCountsReq struct {
+	StoreId int `json:"store_id" db:"store_id"`
+}
+
 type Handler struct {
 	db *gorm.DB
 }
@@ -231,7 +235,7 @@ func (h *Handler) PaginateProductByStoreId(c *gin.Context) {
 
 	page := r.Page
 	store_id := r.StoreId
-	pageSize := 2
+	pageSize := 8
 	offset := (page - 1) * pageSize
 
 	if err := h.db.Where("store_id = ?", store_id).Offset(offset).Limit(pageSize).Find(&prods).Error; err != nil {
@@ -240,4 +244,23 @@ func (h *Handler) PaginateProductByStoreId(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, prods)
+}
+
+func (h *Handler) GetProductCounts(c *gin.Context) {
+	var r GetProductCountsReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	store_id := r.StoreId
+	var count int64
+
+	//query to find count of all products in store
+	if err := h.db.Model(Product{}).Where("store_id = ?", store_id).Count(&count).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"total_count": count})
 }

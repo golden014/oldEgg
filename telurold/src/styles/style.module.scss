@@ -689,6 +689,10 @@
     background-color: var(--main-background-color);
     h2 {
         font-size: 18px;
+        &:hover {
+            color: #1946B8;
+            cursor: pointer;
+        }
     }
 
     h3 {
@@ -711,13 +715,13 @@
 }
 
 .quick_view_container {
-   
+  
 }
 
 .quick_view_pop_up {
     position: absolute;
     background-color: var(--background-color);
-    top: 200px;
+    top:20vh;
     left: 1;
     border-style: solid;
     border-color: #8b8b8b;
@@ -733,6 +737,10 @@
 
     h2 {
         color: var(--p_txt_color);
+    }
+
+    button {
+        @include button_style();
     }
 }
 

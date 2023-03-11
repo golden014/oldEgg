@@ -1,8 +1,11 @@
 import { Product } from "modules/authProvider"
+import { useRouter } from "next/router"
 import { useState, useEffect } from "react"
 import style from "../../styles/style.module.scss"
 
 const QuickView = (props: {prod_id: any}) => {
+
+    const router = useRouter()
 
     const [product, setProduct] = useState<Product>()
     useEffect(() => {
@@ -45,6 +48,7 @@ const QuickView = (props: {prod_id: any}) => {
                 <h1>{product?.product_name}</h1>
                 <p>{product?.product_description}</p>
                 <h2>${product?.price}</h2>
+                <button onClick={(e) => router.push("/product/" + product?.product_id)}>See Details</button>
             </div>
         </div>
     );

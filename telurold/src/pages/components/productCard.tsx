@@ -1,11 +1,12 @@
 import { Product } from "modules/authProvider";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import style from "../../styles/style.module.scss"
 import QuickView from "./quickView";
 
 const ProductCard = (props: {product: Product}) => {
     const prod = props.product
-
+    const router = useRouter()
     const [quickViewProd, setQuickViewProd] = useState<Product>()
     const [showView, setShowView] = useState(false)
 
@@ -20,7 +21,7 @@ const ProductCard = (props: {product: Product}) => {
                 height: "150px",
                 objectFit: "cover"
             }} />
-            <h2>{prod.product_name}</h2>
+            <h2 onClick={(e) => router.push("/product/" + prod.product_id)}>{prod.product_name}</h2>
             <br />
             <h3>${prod.price} </h3>
             <div className={style.product_card_quick_view}>

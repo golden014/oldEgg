@@ -31,7 +31,6 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
         if (sortByPrice) {
             console.log("harusnya ke filter aaa");
             setFiltered(filtered.sort((a, b) => a.price - b.price))
-
         } 
         else if (!sortByPrice){
             setFiltered(products)

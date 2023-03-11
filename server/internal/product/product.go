@@ -46,6 +46,11 @@ type PaginateProductRequest struct {
 	Page int `json:"page"`
 }
 
+type PaginateProductByStoreIdRequest struct {
+	Page    int `json:"page"`
+	StoreId int `json:"store_id" db:"store_id"`
+}
+
 type GetProductRequest struct {
 	ProductId string `json:"product_id" db:"product_id"`
 }
@@ -214,4 +219,25 @@ func (h *Handler) PaginateProduct(c *gin.Context) {
 
 	c.JSON(http.StatusOK, prods)
 
+}
+
+func (h *Handler) PaginateProductByStoreId(c *gin.Context) {
+	var r PaginateProductByStoreIdRequest
+	var prods []Product
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	page := r.Page
+	store_id := r.StoreId
+	pageSize := 2
+	offset := (page - 1) * pageSize
+
+	if err := h.db.Where("store_id = ?", store_id).Offset(offset).Limit(pageSize).Find(&prods).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, prods)
 }

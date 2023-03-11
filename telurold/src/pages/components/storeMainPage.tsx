@@ -117,7 +117,7 @@ const StoreMainPage = (props: {store: Store}) => {
                         </div>
 
                         <div style={{display: "flex", justifyContent: "center", marginTop: "30px"}}>
-                            <StoreSubPage threeOption={threeOption}/>
+                            <StoreSubPage threeOption={threeOption} store_id={store.store_id}/>
                         </div>
 
                         <div className={style.store_main_page_top}>

@@ -28,6 +28,7 @@ const Theme = ({ children }: ThemeProps) => {
     root.style.setProperty('--footer-background-color', isDarkMode ? '#000000' : '#fff');
     root.style.setProperty('--p_txt_color', isDarkMode ? '#fff' : '#0e0e0e');
     root.style.setProperty('--main-background-color', isDarkMode ? '#0e0e0e' : '#fff');
+    root.style.setProperty('--three_option_bg', isDarkMode ? '#050c2e' : '#ECF1FE')
 
   }, [isDarkMode]);
 

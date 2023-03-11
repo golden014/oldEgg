@@ -3,9 +3,17 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import style from "../../styles/style.module.scss"
 import CategoryCard from "./categoryCard";
+import StoreSubPage from "./storeSubPage";
 
 const StoreMainPage = (props: {store: Store}) => {
     const store = props.store
+    const [threeOption, setThreeOption] = useState("");
+
+    //bikin useeffect setiap threeoption di change ganti isi sub page nya jadi berdasarkan three option tsb
+
+    // useEffect(() => {
+        
+    // }, [threeOption])
 
     const router = useRouter();
 
@@ -99,11 +107,19 @@ const StoreMainPage = (props: {store: Store}) => {
                             </div>
                         </div>
                         <div className={style.store_three_option}>
-                            
+                            <button onClick={(e) => setThreeOption("")}>Home</button>
+                            <button onClick={(e) => setThreeOption("Products")}>Products</button>
+                            <button onClick={(e) => setThreeOption("Reviews")}>Reviews</button>
+                            <button onClick={(e) => setThreeOption("AboutUs")}>About Us</button>   
                         </div>
                         <div style={{display: "flex", justifyContent: "center"}}>
                             <img src={store.store_banner} ></img>
                         </div>
+
+                        <div style={{display: "flex", justifyContent: "center", marginTop: "30px"}}>
+                            <StoreSubPage threeOption={threeOption}/>
+                        </div>
+
                         <div className={style.store_main_page_top}>
                             <h1>Shop by category</h1>
                         </div>

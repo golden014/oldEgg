@@ -42,6 +42,10 @@ type CreateProductRequest struct {
 	Price              int    `json:"price" db:"price"`
 }
 
+type PaginateProductRequest struct {
+	Page int `json:"page"`
+}
+
 type GetProductRequest struct {
 	ProductId string `json:"product_id" db:"product_id"`
 }
@@ -189,4 +193,25 @@ func (h *Handler) GetAllSubCategory(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, subcat)
+}
+
+func (h *Handler) PaginateProduct(c *gin.Context) {
+	var r PaginateProductRequest
+	var prods []Product
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	page := r.Page
+	pageSize := 2
+	offset := (page - 1) * pageSize
+
+	if err := h.db.Offset(offset).Limit(pageSize).Find(&prods).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, prods)
+
 }

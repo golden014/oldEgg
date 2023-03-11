@@ -12,6 +12,7 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
     const [instock, setInStock] = useState(true)
     const [filtered, setFiltered] = useState<Product[]>([])
     const [search, setSearch] = useState("")
+    const [sortByPrice, setSortByPrice] = useState(true)
 
     const nextPage = () => {
         setPage(page + 1)
@@ -26,6 +27,18 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
     }
 
     useEffect(() => {
+
+        if (sortByPrice) {
+            console.log("harusnya ke filter aaa");
+            setFiltered(filtered.sort((a, b) => a.price - b.price))
+
+        } 
+        else if (!sortByPrice){
+            setFiltered(products)
+        }
+    }, [sortByPrice])
+
+    useEffect(() => {
         if (instock) {
             setFiltered(products.filter((prod) => prod.stock <= 0))
         } else if (!instock) {
@@ -36,7 +49,6 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
     useEffect(() => {
         setFiltered(products.filter((prod) => (prod.product_name).includes(search)))
     }, [search])
-
 
     useEffect(() => {
         const getProductCount = async () => {
@@ -56,7 +68,6 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
                 } else {
                     console.log("res not ok");
                 }
-    
                 console.log(res);
             } catch (error) {
                 
@@ -84,7 +95,7 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
                 } else {
                     console.log("res not ok");
                 }
-    
+
                 console.log(res);
             } catch (error) {
                 
@@ -103,6 +114,14 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
                     <div className={style.filter}>
                         <input type="checkbox" onChange={(e) => setInStock(!instock)}/>
                         <p>In Stock</p>
+                    </div>
+                    <br /><br /><br />
+                    <div className={style.filter}>
+                        <h1>Sort</h1>
+                    </div>
+                    <div className={style.filter}>
+                        <input type="checkbox" onChange={(e) => setSortByPrice(!sortByPrice)}/>
+                        <p>By Price Ascending</p>
                     </div>
                 </div>
 

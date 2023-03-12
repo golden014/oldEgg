@@ -1,8 +1,9 @@
-import { Category, Store } from "modules/authProvider";
+import { Category, Product, Store } from "modules/authProvider";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import style from "../../styles/style.module.scss"
 import CategoryCard from "./categoryCard";
+import ProductCard from "./productCard";
 import StoreSubPage from "./storeSubPage";
 
 const StoreMainPage = (props: {store: Store}) => {
@@ -21,8 +22,47 @@ const StoreMainPage = (props: {store: Store}) => {
         router.push("/editStore")
     }
 
+    const [recProducts, setRecProducts] = useState<Product[]>([])
     const currStoreId = localStorage.getItem("store_id")
     const [categories, setCategories] = useState<Category[]>([])
+
+    const [selected, setSelected] = useState("product_name");
+
+    const handleButtonClick = (id:any) => {
+        setSelected(id);
+    };
+
+    const buttons = [
+        { id: "Price", label: "Price ASC" },
+        { id: "Stock", label: "Stock ASC" },
+    ];
+
+    useEffect(() => {
+        const getRecProducts = async () => {
+                try {
+                    const res = await fetch("http://localhost:1234/getRecommendedProducts", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json;charset=utf-8" },
+                        body: JSON.stringify({
+                            store_id: parseInt(String(store.store_id)),
+                            order_by: selected
+                        }),
+                    });
+        
+                    if (res.ok) {
+                        const data = await res.json();
+                        setRecProducts(data)
+                    } else {
+                        console.log("smth went wrong");        
+                    }
+        
+                    console.log(res);
+                } catch (error) {
+                    console.log(error);
+                }
+        }
+        getRecProducts()
+    }, [selected])
 
     useEffect(() => {
         const getCategories = async () => {
@@ -126,6 +166,30 @@ const StoreMainPage = (props: {store: Store}) => {
                         <div className={style.store_category_container}>
                             {categories.map((category) => (
                                    <CategoryCard category={category} />
+                            ))}
+                        </div>
+
+                        <div className={style.store_main_page_top}>
+                            <h1>Recommended Products</h1>
+                            <div className={style.sort_buttons}>
+                                {buttons.map((button) => (
+                                    <div className={style.details}>
+                                        <input
+                                            type="checkbox"
+                                            checked={selected === button.id}
+                                            onChange={() => handleButtonClick(button.id)}
+                                        />
+                                        <label key={button.id}>{button.label}</label>
+                                    </div>
+                                    
+                                ))}
+
+                            </div>
+                        </div>
+
+                        <div className={style.store_rec_prods_container}>
+                            {recProducts.map((prod) => (
+                                <ProductCard product={prod}/>
                             ))}
                         </div>
 

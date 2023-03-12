@@ -1,4 +1,5 @@
 import { Store } from "modules/authProvider";
+import { useRouter } from "next/router";
 import style from "../../styles/style.module.scss"
 
 interface AllStoresObject {
@@ -54,12 +55,14 @@ const AllStores: React.FC <AllStoresObject> = ({ stores }) => {
         }
     }
 
+    const router = useRouter()
+
     return (  
         <div className={style.all_user_container}>
            {stores.map((store) => (
                 <div key={store.store_id} className={style.user_container}>
                     <div className={style.user_title}>
-                        <h1>{store.store_name}</h1>
+                        <h1 onClick={(e) => router.push("/store/" + store.store_id)} style={{cursor: "pointer"}}>{store.store_name}</h1>
                     </div>
                 
                     <div className={style.user_detail}>

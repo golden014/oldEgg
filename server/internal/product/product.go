@@ -68,6 +68,11 @@ type GetProductCountsReq struct {
 	StoreId int `json:"store_id" db:"store_id"`
 }
 
+type GetRecommendedProductReq struct {
+	StoreId int    `json:"store_id" db:"store_id"`
+	OrderBy string `json:"order_by" db:"order_by"`
+}
+
 type Handler struct {
 	db *gorm.DB
 }
@@ -263,4 +268,24 @@ func (h *Handler) GetProductCounts(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"total_count": count})
+}
+
+func (h *Handler) GetRecommendedProduct(c *gin.Context) {
+	var r GetRecommendedProductReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	store_id := r.StoreId
+	order_by := r.OrderBy
+	var prods []Product
+
+	//query to get 4 products with the lowest price
+	if err := h.db.Where("store_id = ?", store_id).Order(order_by + " ASC").Limit(5).Find(&prods).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, prods)
 }

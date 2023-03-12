@@ -556,6 +556,31 @@
                 color: var(--p_txt_color)
             }
         }   
+
+        .sort_buttons {
+            margin-left: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 300px;
+            background-color: var(--three_option_bg);
+            padding: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-radius: 10px;
+            label {
+                @include desc_text();
+                color: var(--p_txt_color)
+            }
+
+            .details {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+        }
+
+
     }
 
     .store_main_page_bot {
@@ -920,4 +945,8 @@
 
 }
 
-
+.store_rec_prods_container {
+    display: grid;
+    grid-template-columns: repeat(5, 20%);
+    // gap: 6.6%;
+}

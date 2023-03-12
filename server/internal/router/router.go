@@ -43,6 +43,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/paginateProduct", prHandler.PaginateProduct)
 	r.POST("/paginateProductByStoreId", prHandler.PaginateProductByStoreId)
 	r.POST("/getProductCountById", prHandler.GetProductCounts)
+	r.POST("/getRecommendedProducts", prHandler.GetRecommendedProduct)
 
 	r.POST("/addNewStore", stHandler.AddStore)
 	r.GET("/getAllStores", stHandler.GetAllStores)

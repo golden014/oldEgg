@@ -107,7 +107,7 @@ const ProductPage = () => {
                                 
                                 <div className={style.product_page_top}>
                                     <img src={product?.product_image} alt="Carousel" style={{
-                                        width: "40vw", 
+                                        width: "30vw", 
                                         height: "auto",
                                         objectFit: "cover"
                                         }}/>

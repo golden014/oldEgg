@@ -10,6 +10,7 @@ import (
 	"server/internal/store"
 	"server/internal/user"
 	"server/internal/voucher"
+	"server/internal/websocket"
 	"server/internal/ws"
 )
 
@@ -33,7 +34,8 @@ func main() {
 	bnHandler := ban.NewHandler(dbConn)
 	stHandler := store.NewHandler(dbConn)
 	prHandler := product.NewHandler(dbConn)
+	wsNewHandler := websocket.NewHandler(dbConn)
 
-	router.InitRouter(userHandler, wsHandler, crHandler, vcHandler, bnHandler, stHandler, prHandler)
+	router.InitRouter(userHandler, wsHandler, crHandler, vcHandler, bnHandler, stHandler, prHandler, wsNewHandler)
 	// router.Start("localhost:1234")
 }

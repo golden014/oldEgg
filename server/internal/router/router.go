@@ -7,6 +7,7 @@ import (
 	"server/internal/store"
 	"server/internal/user"
 	"server/internal/voucher"
+	"server/internal/websocket"
 	"server/internal/ws"
 
 	"github.com/gin-contrib/cors"
@@ -22,6 +23,7 @@ func InitRouter(userHandler *user.Handler,
 	bnHandler *ban.Handler,
 	stHandler *store.Handler,
 	prHandler *product.Handler,
+	wsNewHandler *websocket.Handler,
 ) {
 
 	r = gin.Default()
@@ -74,6 +76,8 @@ func InitRouter(userHandler *user.Handler,
 
 	r.GET("/ws/getRooms", wsHandler.GetRooms)
 	r.GET("/ws/getClients/:roomId", wsHandler.GetClients)
+
+	r.GET("/ws/sendMessage", wsNewHandler.SendingMessage)
 
 	r.Run("localhost:1234")
 }

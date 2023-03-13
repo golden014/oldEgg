@@ -5,6 +5,7 @@ import Theme from "../components/theme";
 import style from "../../styles/style.module.scss"
 import Image from "next/image";
 import SimilarProducts from "../components/similarProduct";
+import Reviews from "../components/reviews";
 
 
 const ProductPage = () => {
@@ -127,9 +128,14 @@ const ProductPage = () => {
                                     </div>
                                 </div>
                                 <br /><br /><br />
+                                
                                 <h1>Similar Products</h1>
                                 <br />
                                 <SimilarProducts categoryId={product?.category_id} currProdId={productId}/>
+                            
+                                <h1>Reviews</h1>
+                                <br />
+                                <Reviews product_id={product.product_id} />
                             </div>
                         </Theme>
                     );

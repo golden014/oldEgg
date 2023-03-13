@@ -51,6 +51,18 @@ export type SubCategory = {
     category_id: number
 }
 
+export type Review = {
+    review_id: number
+    product_id: number
+    helpful_count: number
+    unhelpful_count: number
+    review_time: string
+    rating: number
+    review_description: string
+    store_id: number
+    user_id: number
+}
+
 export const AuthContext = createContext<{
     authenticated: boolean
     setAuthenticated: (auth: boolean) => void

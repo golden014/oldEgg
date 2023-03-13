@@ -1,11 +1,63 @@
-import { Review, UserInfo } from "modules/authProvider";
+import { async } from "@firebase/util";
+import { Product, Review, UserInfo } from "modules/authProvider";
 import { useEffect, useState } from "react";
 import style from "../../styles/style.module.scss"
+import Rating from "./rating";
 
 const ReviewCard = (props: {review:Review}) => {
     
     const [user, setUser] = useState<UserInfo>() 
+    const [product, setProduct] = useState<Product>()
     const review = props.review
+    
+    //bikin saat onclick
+
+    const [helpful, setHelpful] = useState(review.helpful_count)
+    const [unhelpful, setUnhelpful] = useState(review.unhelpful_count)
+
+    const updateCount = async(count_type: string, update_type: string) => {
+        try {
+            const res = await fetch("http://localhost:1234/updateCountsProduct", {
+                method: "POST",
+                headers: {"Content-Type": "application/json;charset=utf-8"},
+                body: JSON.stringify({
+                    product_id: review.product_id,
+                    count_type: count_type,
+                    update_type: update_type
+                }),
+            });
+
+            if (res.ok) {
+                
+            } else {
+                console.log("smth went wrong retreiving reviews");
+            }
+
+        } catch (error){
+            console.log(error);                
+        }
+    
+    }
+
+    const helpfulAddHandler = () => {
+        if (helpful == review.helpful_count) {
+            setHelpful(helpful + 1)
+            updateCount("helpful", "add")
+        } else {
+            setHelpful(helpful - 1)
+            updateCount("helpful", "substract")
+        }
+    }
+
+    const unhelpfulAddHandler = () => {
+        if (unhelpful == review.unhelpful_count) {
+            setUnhelpful(unhelpful + 1)
+            updateCount("unhelpful", "add")
+        } else {
+            setUnhelpful(unhelpful - 1)
+            updateCount("unhelpful", "substract")
+        }
+    }
 
     useEffect(() => {
         const getUserById = async () => {
@@ -35,15 +87,63 @@ const ReviewCard = (props: {review:Review}) => {
         getUserById()
     }, [])
 
+    useEffect(() => {
+        const getProductById = async () => {
+            try {
+                const res = await fetch("http://localhost:1234/getProductById", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json;charset=utf-8"},
+                    body: JSON.stringify({
+                        product_id: String(review.product_id)
+                    }),
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    setProduct(data)
+                } else {
+                    console.log("smth went wrong retreiving reviews");
+                }
+
+            } catch (error){
+                console.log(error);                
+            }
+        }
+        getProductById()
+    }, [])
+
     return (  
-        <div className={style.review_card_container}>
-            <div className={style.review_card_left}>
-                <h2>{user?.firstname} {user?.lastname}</h2>
+        <div className={style.center}>
+            <div className={style.review_card_container}>
+                
+                <div className={style.review_card_left}>
+                    <h2>{user?.firstname} {user?.lastname}</h2>
+                    <p>on {product?.product_name}</p>
+                </div>
+
+                <div className={style.review_card_right}>
+                    <div className={style.left}>
+                        <div className={style.header}>
+                            <Rating rating={review.rating} />
+                            <p>|</p> <br />
+                            <h2>{review.review_title}</h2>
+                        </div>
+                        <p>{review.review_description}</p>
+                    </div>
+
+                    <div className={style.right}>
+                        <div className={style.top}>
+                            <p>Edit</p>
+                        </div>
+
+                        <div className={style.bottom}>
+                            <p onClick={(e) => helpfulAddHandler()}>{helpful}| Helpful</p>
+                            <p onClick={(e) => unhelpfulAddHandler()}>{unhelpful}| Unhelpful</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div className={style.review_card_right}>
-                <h2>Right</h2>
-            </div>
         </div>
     );
 }

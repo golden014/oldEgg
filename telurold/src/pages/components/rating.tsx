@@ -2,23 +2,23 @@ const Rating = (props: {rating:number}) => {
     switch (props.rating) {
         case 1:
             return (
-                <h2>⭐</h2>
+                <p>⭐ ✰ ✰ ✰ ✰</p>
             )
         case 2:
             return (
-                <h2>⭐⭐</h2>
+                <p>⭐⭐ ✰ ✰ ✰</p>
             )
         case 3:
             return (
-                <h2>⭐⭐⭐</h2>
+                <p>⭐⭐⭐ ✰ ✰</p>
             )
         case 4:
             return (
-                <h2>⭐⭐⭐⭐</h2>
+                <p>⭐⭐⭐⭐ ✰ </p>
             )
         default:
             return(
-                <h2>⭐⭐⭐⭐⭐</h2>
+                <p>⭐⭐⭐⭐⭐</p>
             )
     }
 }

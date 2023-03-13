@@ -34,7 +34,7 @@ const Reviews = (props: {product_id: any}) => {
         }
 
         getReviewsByProductId()
-    }, [])
+    }, [props.product_id])
 
     console.log(reviews);
     
@@ -42,6 +42,7 @@ const Reviews = (props: {product_id: any}) => {
     if (reviews) {
         return (  
             <div className={style.reviews_container}>
+                <br />
                 {reviews.map((review) => {
                     return (
                         <div>
@@ -50,6 +51,7 @@ const Reviews = (props: {product_id: any}) => {
                         </div>
                     )
             })}
+            <br /><br />
             </div>
         );
     } else {

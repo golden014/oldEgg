@@ -61,6 +61,7 @@ export type Review = {
     review_description: string
     store_id: number
     user_id: number
+    review_title: string
 }
 
 export const AuthContext = createContext<{

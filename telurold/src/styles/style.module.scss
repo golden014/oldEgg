@@ -953,16 +953,96 @@
 
 .review_card_container {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 80%;
+
+    margin-bottom: 20px;
+    padding-top: 5px;
+
+    border-top-style: solid;
+    border-color: #8b8b8b;
+    border-width: 0.5px;
 
     .review_card_left {
-        background-color: #e69538;
+        padding-left: 10px;
+        padding-top: 5px;
+
+        // background-color: #e69538;
         width: 20%;
+        height: 100%;
+        h2 {
+            @include desc_text();
+            font-size: 14px;
+            color: var(--p_txt_color);
+        }
+
+        p {
+            @include desc_text();
+            font-size: 12px;
+            // color: var(--p_txt_color);
+        }
     }
 
     .review_card_right {
         width: 80%;
-        background-color: #1946B8;
+        // background-color: #1946B8;
+        padding-left: 10px;
+        padding-top: 5px;
+
+        display: flex;
+        justify-content: space-between;
+        h2 {
+            @include desc_text();
+            font-size: 15px;
+            color: var(--p_txt_color);
+        }
+
+        p {
+            @include desc_text();
+            font-size: 12px;
+            color: var(--p_txt_color);
+        }
+
+        .left {
+          .header {
+            display: flex;
+            gap: 10px;
+          }  
+        }
+
+        .right {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            .top {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 30px;
+
+                p {
+                    &:hover {
+                        color: #e69538;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .bottom {
+                display: flex;
+                gap: 20px;
+                
+                p {
+                    &:hover {
+                        color: #1946B8;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
     }
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -2,6 +2,7 @@ import { Review } from "modules/authProvider";
 import { useEffect, useState } from "react";
 import style from "../../styles/style.module.scss"
 import Rating from "./rating";
+import ReviewCard from "./reviewCard";
 
 const Reviews = (props: {product_id: any}) => {
 
@@ -44,7 +45,8 @@ const Reviews = (props: {product_id: any}) => {
                 {reviews.map((review) => {
                     return (
                         <div>
-                            <Rating rating={review.rating}/>
+                            <ReviewCard review={review}/>
+                            {/* <Rating rating={review.rating}/> */}
                         </div>
                     )
             })}

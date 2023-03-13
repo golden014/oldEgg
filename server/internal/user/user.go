@@ -56,17 +56,23 @@ type LoginUserRes struct {
 	StoreId     int    `json:"storeid" db:"storeid"`
 }
 
+type GetUserByIdReq struct {
+	UserId int `json:"user_id" db:"user_id"`
+}
+
 type Repository interface {
 	CreateUser(ctx context.Context, use *User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	EmailUnique(ctx context.Context, email string) bool
 	GetAllUsers(c context.Context) ([]User, error)
+	GetUserById(ctx context.Context, user_id int) (*User, error)
 }
 
 type Service interface {
 	CreateUser(c context.Context, req *CreateUserReq) (*CreateUserRes, error)
 	Login(c context.Context, req *LoginUserReq) (*LoginUserRes, error)
 	GetAllUsers(c context.Context) ([]User, error)
+	GetUserById(c context.Context, req *GetUserByIdReq) (*User, error)
 }
 
 // validate backend

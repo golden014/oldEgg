@@ -74,6 +74,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/login", userHandler.Login)
 	r.GET("/logout", userHandler.Logout)
 	r.GET("/getAllUsers", userHandler.GetAllUsers)
+	r.POST("/getUserById", userHandler.GetUserById)
 
 	r.POST("/ws/createRoom", wsHandler.CreateRoom)
 	r.GET("/ws/joinRoom/:roomId", wsHandler.JoinRoom)

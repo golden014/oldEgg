@@ -141,6 +141,18 @@ func (s *service) GetAllUsers(c context.Context) ([]User, error) {
 	}
 }
 
+func (s *service) GetUserById(c context.Context, req *GetUserByIdReq) (*User, error) {
+	ctx, cancel := context.WithTimeout(c, s.timeout)
+	defer cancel()
+
+	user, err := s.Repository.GetUserById(ctx, req.UserId)
+	if err != nil {
+		return nil, err
+	} else {
+		return user, nil
+	}
+}
+
 func isValidEmail(email string) bool {
 
 	regex := regexp.MustCompile(`^[^@]+@[^@]+\.[^@]+`)

@@ -78,6 +78,19 @@ func (r *repository) GetUserByEmail(ctx context.Context, email string) (*User, e
 	return &u, nil
 }
 
+func (r *repository) GetUserById(ctx context.Context, user_id int) (*User, error) {
+	u := User{}
+
+	if err := r.db.Where("id = ?", user_id).First(&u).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return &User{}, nil
+		}
+		return nil, err
+	}
+
+	return &u, nil
+}
+
 // func (r *repository) EmailUnique(ctx context.Context, email string) bool {
 // 	//utk tampung hasil nya
 // 	u := User{}

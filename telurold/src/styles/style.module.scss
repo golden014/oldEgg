@@ -950,3 +950,19 @@
     grid-template-columns: repeat(5, 20%);
     // gap: 6.6%;
 }
+
+.review_card_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .review_card_left {
+        background-color: #e69538;
+        width: 20%;
+    }
+
+    .review_card_right {
+        width: 80%;
+        background-color: #1946B8;
+    }
+}

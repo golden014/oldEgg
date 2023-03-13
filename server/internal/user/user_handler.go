@@ -77,6 +77,23 @@ func (h *Handler) GetAllUsers(c *gin.Context) {
 	}
 }
 
+func (h *Handler) GetUserById(c *gin.Context) {
+	var r GetUserByIdReq
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user, err := h.Service.GetUserById(c.Request.Context(), &r)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}
+
 func (h *Handler) Logout(c *gin.Context) {
 	c.SetCookie("jwt", "", -1, "", "", false, true)
 	c.JSON(http.StatusOK, gin.H{"message": "logout success"})

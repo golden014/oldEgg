@@ -40,7 +40,9 @@ func InitRouter(userHandler *user.Handler,
 	r.Use(cors.New(config))
 
 	r.POST("/getReviewByProductId", rvHandler.GetReviewByProductId)
+	r.POST("/getReviewByStoreId", rvHandler.GetReviewByStoreId)
 	r.POST("/updateCountsProduct", rvHandler.UpdateCountsProduct)
+	r.POST("/getReviewStatsByStoreId", rvHandler.GetReviewStatsByStoreId)
 
 	r.POST("/addProduct", prHandler.AddProduct)
 	r.POST("/getProductById", prHandler.GetProductById)

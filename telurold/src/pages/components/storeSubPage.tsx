@@ -2,6 +2,8 @@ import { Product } from "modules/authProvider"
 import { useEffect, useState } from "react"
 import style from "../../styles/style.module.scss"
 import ProductCard from "./productCard"
+import ReviewHeader from "./reviewsHeader"
+import ReviewsStore from "./reviewsStore"
 
 const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
 
@@ -13,6 +15,8 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
     const [filtered, setFiltered] = useState<Product[]>([])
     const [search, setSearch] = useState("")
     const [sortByPrice, setSortByPrice] = useState(true)
+
+    const [filterReview, setFilterReview] = useState("")
 
     const nextPage = () => {
         setPage(page + 1)
@@ -148,9 +152,17 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
         )
     } else if (props.threeOption == "Reviews") {
         return (
-            <div>
-                Reviews
+            <div className={style.review_by_store_container}>
+                <h1>Reviews</h1>
+                <br />
+                <div className={style.reviews_header}>
+                    <ReviewHeader store_id={store_id} filter={filterReview}/>
+                </div>
+                <div className={style.all_reviews}>
+                    <ReviewsStore store_id={store_id} />
+                </div>
             </div>
+
         )
     } else if (props.threeOption == "AboutUs") {
         return (

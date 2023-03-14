@@ -1,5 +1,6 @@
 import { async } from "@firebase/util";
 import { Product, Review, UserInfo } from "modules/authProvider";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import style from "../../styles/style.module.scss"
 import Rating from "./rating";
@@ -23,7 +24,8 @@ const ReviewCard = (props: {review:Review}) => {
                 body: JSON.stringify({
                     product_id: review.product_id,
                     count_type: count_type,
-                    update_type: update_type
+                    update_type: update_type,
+                    review_id: review.review_id
                 }),
             });
 
@@ -112,15 +114,19 @@ const ReviewCard = (props: {review:Review}) => {
         getProductById()
     }, [])
 
+    const router = useRouter()
+
     return (  
         <div className={style.center}>
             <div className={style.review_card_container}>
                 
                 <div className={style.review_card_left}>
                     <h2>{user?.firstname} {user?.lastname}</h2>
-                    <p>on {product?.product_name}</p>
+                    <p onClick={(e) => router.push("/product/" + product?.product_id)}>on {product?.product_name}</p>
+                    <br />
+                    <p>{review.review_time}</p>
                 </div>
-
+            
                 <div className={style.review_card_right}>
                     <div className={style.left}>
                         <div className={style.header}>

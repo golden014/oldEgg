@@ -1046,3 +1046,28 @@
     justify-content: center;
     align-items: center;
 }
+
+.review_by_store_container {
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 100vw;
+
+    .all_reviews {
+        padding-top: 20px;
+        border-radius: 20px;
+        background-color: var(--background-color);
+    }
+
+    .reviews_header {
+        padding: 20px;
+        border-radius: 20px;
+        background-color: var(--background-color);
+        margin-bottom: 30px;
+    }
+
+}
+
+.reviews_header_container {
+    display: flex;
+    justify-content: space-between;
+}

@@ -62,7 +62,11 @@ export type Review = {
     store_id: number
     user_id: number
     review_title: string
+    on_time_delivery: string
+    product_accuracy: string
+    service_satisfaction: string
 }
+
 
 export const AuthContext = createContext<{
     authenticated: boolean

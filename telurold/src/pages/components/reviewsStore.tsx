@@ -6,6 +6,13 @@ import ReviewCard from "./reviewCard"
 const ReviewsStore = (props: {store_id: any}) => {
 
     const [reviews, setReviews] = useState<Review[]>([])
+    const [filtered, setFiltered] = useState<Review[]>([])
+    const [search, setSearch] = useState("")
+
+    useEffect(() => {
+        setFiltered(reviews.filter((review) => (review.review_description).includes(search)))
+    }, [search])
+
     //useeffect ambil semua reviews berdasarkan product id
     useEffect(() => {
         const getReviewsByProductId = async () => {
@@ -21,7 +28,7 @@ const ReviewsStore = (props: {store_id: any}) => {
                 if (res.ok) {
                     const data = await res.json();
                     setReviews(data)
-                    
+                    setFiltered(data)
                     
                 } else {
                     console.log("smth went wrong retreiving reviews");
@@ -41,8 +48,12 @@ const ReviewsStore = (props: {store_id: any}) => {
     if (reviews) {
         return (  
             <div className={style.reviews_container}>
+                <div className={style.input}>
+                    <input type="text" placeholder="Search" onChange={(e) => setSearch(e.target.value)}/>
+                </div>
+
                 <br />
-                {reviews.map((review) => {
+                {filtered.map((review) => {
                     return (
                         <div>
                             <ReviewCard review={review}/>

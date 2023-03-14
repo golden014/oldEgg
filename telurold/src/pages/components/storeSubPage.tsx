@@ -166,8 +166,17 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
         )
     } else if (props.threeOption == "AboutUs") {
         return (
-            <div>
-                About Us
+            <div className={style.review_by_store_container}>
+                <h1>About Us</h1>
+                <br />
+                <h3>Established in 2020, Store bukan josua are happy to serve you</h3>
+                <br />
+                <div className={style.reviews_header}>
+                    <ReviewHeader store_id={store_id} filter={filterReview}/>
+                </div>
+                <div className={style.all_reviews}>
+                    <ReviewsStore store_id={store_id} />
+                </div>
             </div>
         )
     } else {

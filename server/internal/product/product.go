@@ -73,6 +73,18 @@ type GetRecommendedProductReq struct {
 	OrderBy string `json:"order_by" db:"order_by"`
 }
 
+type UpdateProductReq struct {
+	ProductId          int    `json:"product_id" db:"product_id"`
+	StoreId            int    `json:"store_id" db:"store_id"`
+	ProductName        string `json:"product_name" db:"product_name"`
+	Stock              int    `json:"stock" db:"stock"`
+	ProductDescription string `json:"product_description" db:"product_description"`
+	CategoryId         int    `json:"category_id" db:"category_id"`
+	ProductImage       string `json:"product_image" db:"product_image"`
+	SubCategoryId      int    `json:"sub_category_id" db:"sub_category_id"`
+	Price              int    `json:"price" db:"price"`
+}
+
 type Handler struct {
 	db *gorm.DB
 }
@@ -288,4 +300,40 @@ func (h *Handler) GetRecommendedProduct(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, prods)
+}
+
+func (h *Handler) UpdateProductById(c *gin.Context) {
+	var r UpdateProductReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	product_id := r.ProductId
+
+	prod := Product{}
+
+	if err := h.db.Where("product_id = ?", product_id).Where("store_id = ?", r.StoreId).First(&prod).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "you are not the owner of this product"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	prod.CategoryId = r.CategoryId
+	prod.Price = r.Price
+	prod.ProductDescription = r.ProductDescription
+	prod.ProductImage = r.ProductImage
+	prod.ProductName = r.ProductName
+	prod.Stock = r.Stock
+	prod.SubCategoryId = r.SubCategoryId
+
+	if err := h.db.Save(&prod).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update product"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "aman"})
 }

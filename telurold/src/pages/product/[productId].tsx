@@ -1,6 +1,6 @@
-import { Product, Store } from "modules/authProvider";
+import { AuthContext, Product, Store } from "modules/authProvider";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Theme from "../components/theme";
 import style from "../../styles/style.module.scss"
 import Image from "next/image";
@@ -15,6 +15,8 @@ const ProductPage = () => {
     
     const [product, setProduct] = useState<Product>()
     const [store, setStore] = useState<Store>()
+
+    const { user } = useContext(AuthContext)
     //cek apakah store nya banned or not
     useEffect(() => {
         //ambil store by storeid
@@ -100,7 +102,48 @@ const ProductPage = () => {
 
                         </Theme>
                     )
-                } else {
+                } else if (user.role == "Seller") {
+                    return (  
+                        <Theme>
+                            <div className={style.product_detail_container}>
+                                
+                                <div className={style.product_page_top}>
+                                    <img src={product?.product_image} alt="Carousel" style={{
+                                        width: "30vw", 
+                                        height: "auto",
+                                        objectFit: "cover"
+                                        }}/>
+            
+                                    <div className={style.prod_detail}>
+                                        <h1>{product?.product_name}</h1>
+                                        <p>{product?.product_description}</p>
+                                        <br /><br />
+                                        {product.stock == 0 &&
+                                            <p style={{color: "red"}}>Out of Stock !</p>
+                                        }
+                                        {product.stock != 0 &&
+                                            <p>Stock: {product.stock}</p>
+                                        }
+
+                                        <p className={style.visit_store} onClick={(e) => router.push("/store/" + store.store_id)}>Visit {store.store_name} Store</p>
+                                        <p className={style.visit_store} onClick={(e) => router.push("/editproduct/" + productId)}>Edit Product</p>
+                                    </div>
+                                </div>
+                                <br /><br /><br />
+                                
+                                <h1>Similar Products</h1>
+                                <br />
+                                <SimilarProducts categoryId={product?.category_id} currProdId={productId}/>
+                            
+                                <h1>Reviews</h1>
+                                <br />
+                                <Reviews product_id={product.product_id} />
+                            </div>
+                        </Theme>
+                    );
+                }
+                
+                else {
                     return (  
                         <Theme>
                             <div className={style.product_detail_container}>

@@ -76,7 +76,18 @@ export const AuthContext = createContext<{
 }> ({
     authenticated: false,
     setAuthenticated: () => {},
-    user: {username: '', id: ''},
+    user: {
+        firstname: "",
+        lastname: "",
+        email: "",
+        mobilephone: "",
+        issubscribe: "",
+        role: "",
+        id: "",
+        status: "",
+        balance: 0,
+        accesstoken: "",
+    },
     setUser: () => {}
 })
 

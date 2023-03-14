@@ -1,5 +1,6 @@
 import style from "../../styles/style.module.scss"
 import { useState, useEffect } from "react"
+import Rating from "./rating"
 
 const ReviewHeader = (props: {store_id: any, filter: any}) => {
     const [totalReviews, setTotalReviews] = useState(0)
@@ -53,16 +54,55 @@ const ReviewHeader = (props: {store_id: any, filter: any}) => {
                 <h2>Total reviews {totalReviews}</h2>
             </div>
             <div className={style.mid}>
-                <p>5 star: {fiveStar}</p>
-                <p>4 star: {fourStar}</p>
-                <p>3 star: {threeStar}</p>
-                <p>2 star: {twoStar}</p>
-                <p>1 star: {oneStar}</p>
+
+                <div className={style.progress_bar}>
+                    <p>5 star</p>
+                    <Rating rating={5}/> 
+                    <progress value={fiveStar} max={totalReviews}> </progress>
+                    <p>{fiveStar}</p>
+                </div>
+
+                <div className={style.progress_bar}>
+                    <p>4 star</p>
+                    <Rating rating={4}/> 
+                    <progress value={fourStar} max={totalReviews}> </progress>
+                    <p>{fourStar} </p>
+                </div>
+
+                <div className={style.progress_bar}>
+                    <p>3 star</p>
+                    <Rating rating={3}/>
+                    <progress value={threeStar} max={totalReviews}> </progress>
+                    <p>{threeStar} </p>
+                </div>
+
+                <div className={style.progress_bar}>
+                    <p>2 star</p>
+                    <Rating rating={2}/>
+                    <progress value={twoStar} max={totalReviews}> </progress>
+                    <p>{twoStar} </p>
+                </div>
+
+                <div className={style.progress_bar}>
+                    <p>1 star </p>
+                    <Rating rating={1}/>
+                    <progress value={oneStar} max={totalReviews}> </progress>
+                    <p>{oneStar}</p>
+                </div>
             </div>
             <div className={style.right}>
-                <p>On Time Delivery: {onTimeDelivery}%</p>
-                <p>Product Accuracy: {productAccuracy}%</p>
-                <p>Service Satisfaction: {serviceSatisfaction}%</p>
+                <div className={style.progress_bar}>
+                    <p>On Time Delivery: {onTimeDelivery}%</p>
+                    <progress value={onTimeDelivery} max={100}> </progress>
+                </div>
+                <div className={style.progress_bar}>
+                    <p>Product Accuracy: {productAccuracy}%</p>
+                    <progress value={productAccuracy} max={100}> </progress>
+                </div>
+                <div className={style.progress_bar}>
+                    <p>Service Satisfaction: {serviceSatisfaction}%</p>
+                    <progress value={serviceSatisfaction} max={100}> </progress>
+                </div>
             </div>
             
         </div>

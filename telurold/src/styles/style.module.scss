@@ -1070,4 +1070,29 @@
 .reviews_header_container {
     display: flex;
     justify-content: space-between;
+
+    .mid {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .progress_bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 500px;
+        }
+    }
+
+    .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .progress_bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+    }
 }
+

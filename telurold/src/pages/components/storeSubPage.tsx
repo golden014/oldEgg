@@ -1,4 +1,4 @@
-import { Product } from "modules/authProvider"
+import { Product, Store } from "modules/authProvider"
 import { useEffect, useState } from "react"
 import style from "../../styles/style.module.scss"
 import ProductCard from "./productCard"
@@ -17,6 +17,33 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
     const [sortByPrice, setSortByPrice] = useState(true)
 
     const [filterReview, setFilterReview] = useState("")
+    const [store, setStore] = useState<Store>()
+
+    useEffect(() => {
+        const getStore = async () => {
+            try {
+                const res = await fetch("http://localhost:1234/getStoreById", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json;charset=utf-8" },
+                    body: JSON.stringify({
+                        store_id: store_id
+                    }),
+                });
+    
+                if (res.ok) {
+                    const data = await res.json();
+                    setStore(data)
+                 
+                } else {
+                    console.log("res not ok");
+                }
+                console.log(res);
+            } catch (error) {
+                
+            }
+        }
+        getStore()
+    }, [])
 
     const nextPage = () => {
         setPage(page + 1)
@@ -164,12 +191,19 @@ const StoreSubPage = (props: {threeOption: string, store_id: any}) => {
             </div>
 
         )
-    } else if (props.threeOption == "AboutUs") {
+    } 
+    
+   
+
+    else if (props.threeOption == "AboutUs") {
         return (
             <div className={style.review_by_store_container}>
                 <h1>About Us</h1>
                 <br />
                 <h3>Established in 2020, Store bukan josua are happy to serve you</h3>
+                <br />
+                <br /><br />
+                <h3>Total sales: {store?.number_of_sales}</h3>
                 <br />
                 <div className={style.reviews_header}>
                     <ReviewHeader store_id={store_id} filter={filterReview}/>

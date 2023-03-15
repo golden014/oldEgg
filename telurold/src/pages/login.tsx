@@ -27,6 +27,10 @@ export default function Login() {
         router.push("/")
     }
 
+    function forgotPassword() {
+        router.push("/forgotPassword")
+    }
+
     return (
         // <Theme>
         //     <div className="container">
@@ -46,6 +50,9 @@ export default function Login() {
             <h2>Login</h2>
 
             <LoginForm/>
+            <p>Forgot password ? <span onClick={forgotPassword}>Change Password</span></p>
+
+            <br /><br />
             <p>Don't have an account? <span onClick={handleClick}>Sign Up</span></p>
 
             <SignUpFooter/>

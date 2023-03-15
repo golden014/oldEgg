@@ -52,6 +52,7 @@ const ReviewHeader = (props: {store_id: any, filter: any}) => {
         <div className={style.reviews_header_container}>
             <div className={style.left}>
                 <h2>Total reviews {totalReviews}</h2>
+                <h2>Average rating: {((fiveStar*5) + (fourStar*4) + (threeStar*3) + (twoStar*2) + (oneStar*1))/totalReviews}</h2>
             </div>
             <div className={style.mid}>
 

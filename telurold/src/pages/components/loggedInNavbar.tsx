@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import NavbarDropDown from "./navbarDropdown";
 import notification from "../../../assets/notification.png"
 import unitedStates from "../../../assets/united-states.png"
+import { useEffect, useState } from "react";
 
 interface NavbarProps {
     isDarkMode: boolean;
@@ -27,6 +28,31 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
     }
 
     const router = useRouter()
+    const [country, setCountry] = useState("")
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(async({coords})=> {
+            const {longitude, latitude} = coords
+            if(longitude && latitude) {
+                
+            }
+            // const endpoint = `http://api.geonames.org/countryCodeJSON?lat=` + latitude + `&lng=` + latitude + `&username=josua_golden`
+            const endpoint = "http://api.geonames.org/countryCodeJSON?lat=-6.202056&lng=106.78186&username=dnj_isme"
+            fetch(endpoint)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                
+                setCountry(data.countryName)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        })
+
+    }, [])
+
+
 
     return (
         <div className={style.navbar}>
@@ -52,7 +78,7 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
                     onClick= {(e) => router.push("/")}
                 />
 
-                <LocationNavbar smallText= "Deliver to" bigText="Indonesia" img= {locationLogo} link=""/>
+                <LocationNavbar smallText= "Deliver to" bigText={country} img= {locationLogo} link=""/>
 
                 <div className={style.search_bar_home}>
                     <input 

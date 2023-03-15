@@ -2,6 +2,7 @@ package carousel
 
 import (
 	"net/http"
+	"net/smtp"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -76,4 +77,31 @@ func (h *Handler) RemoveCarousel(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "Carousel item deleted successfully"})
 
+}
+
+type SendMessageReq struct {
+	Message string   `json:"message"`
+	Emails  []string `json:"emails"`
+}
+
+// qmrlhcyexmamkfkl
+func (h *Handler) SendMessage(c *gin.Context) {
+
+	var r SendMessageReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	broadcaster := smtp.PlainAuth(
+		"",
+		"josuagoldendummy@gmail.com",
+		"qmrlhcyexmamkfkl",
+		"smtp.gmail.com")
+	err := smtp.SendMail("smtp.gmail.com:587", broadcaster, "josuagoldendummy@gmail.com", r.Emails, []byte(r.Message))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"eror": err.Error()})
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }

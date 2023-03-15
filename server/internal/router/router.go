@@ -3,6 +3,7 @@ package router
 import (
 	"server/internal/ban"
 	"server/internal/carousel"
+	"server/internal/email"
 	"server/internal/product"
 	"server/internal/review"
 	"server/internal/store"
@@ -26,6 +27,7 @@ func InitRouter(userHandler *user.Handler,
 	prHandler *product.Handler,
 	wsNewHandler *websocket.Handler,
 	rvHandler *review.Handler,
+	emHandler *email.Handler,
 ) {
 
 	r = gin.Default()
@@ -38,6 +40,10 @@ func InitRouter(userHandler *user.Handler,
 	}
 
 	r.Use(cors.New(config))
+
+	r.POST("/sendEmails", emHandler.SendMessage)
+	r.POST("/createCode", emHandler.CreateCode)
+	r.POST("/validateCode", emHandler.ValidateCode)
 
 	r.POST("/getReviewByProductId", rvHandler.GetReviewByProductId)
 	r.POST("/getReviewByStoreId", rvHandler.GetReviewByStoreId)

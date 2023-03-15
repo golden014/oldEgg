@@ -5,6 +5,7 @@ import (
 	"server/db"
 	"server/internal/ban"
 	"server/internal/carousel"
+	"server/internal/email"
 	"server/internal/product"
 	"server/internal/review"
 	"server/internal/router"
@@ -37,6 +38,7 @@ func main() {
 	prHandler := product.NewHandler(dbConn)
 	wsNewHandler := websocket.NewHandler(dbConn)
 	rvHandler := review.NewHandler(dbConn)
+	emHandler := email.NewHandler(dbConn)
 
 	router.InitRouter(
 		userHandler,
@@ -48,6 +50,7 @@ func main() {
 		prHandler,
 		wsNewHandler,
 		rvHandler,
+		emHandler,
 	)
 	// router.Start("localhost:1234")
 }

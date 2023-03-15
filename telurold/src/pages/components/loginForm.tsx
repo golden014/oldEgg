@@ -118,8 +118,7 @@ const loginForm = () => {
                     <p className="error_msg">{errorMsg}</p>
                 </div>
 
-                <button
-                >
+                <button onClick={(e) => {router.push("/oneTimeSignin")}}>
                 
                 Sign in with one-time code</button>
                 

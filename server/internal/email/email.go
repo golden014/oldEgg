@@ -42,6 +42,20 @@ type ValidateCodeReq struct {
 	Code  string `json:"code" db:"code"`
 }
 
+type User struct {
+	ID          int64  `json:"id" db:"id"`
+	FirstName   string `json:"firstname" db:"firstname"`
+	LastName    string `json:"lastname" db:"lastname"`
+	Email       string `json:"email" db:"email"`
+	MobilePhone string `json:"mobilephone" db:"mobilephone"`
+	Password    string `json:"password" db:"password"`
+	IsSubscribe string `json:"issubscribe" db:"issubscribe"`
+	Role        string `json:"role" db:"role"`
+	Status      string `json:"status" db:"status"`
+	Balance     int    `json:"balance" db:"balance"`
+	StoreId     int    `json:"store_id" db:"store_id"`
+}
+
 // qmrlhcyexmamkfkl
 func (h *Handler) SendMessage(c *gin.Context) {
 
@@ -81,6 +95,18 @@ func (h *Handler) CreateCode(c *gin.Context) {
 		Code:  code,
 	}
 
+	emails := []string{r.Email}
+
+	broadcaster := smtp.PlainAuth(
+		"",
+		"josuagoldendummy@gmail.com",
+		"qmrlhcyexmamkfkl",
+		"smtp.gmail.com")
+	err := smtp.SendMail("smtp.gmail.com:587", broadcaster, "josuagoldendummy@gmail.com", emails, []byte(code))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"eror": err.Error()})
+	}
+
 	// Insert the new row into the one_time_codes table
 	if err := h.db.Create(&codeObj).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -114,6 +140,12 @@ func (h *Handler) ValidateCode(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "succes"})
+	u := User{}
+	if err := h.db.Where("email = ?", r.Email).First(&u).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, u)
 
 }

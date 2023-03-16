@@ -2,7 +2,9 @@ package product
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -336,4 +338,35 @@ func (h *Handler) UpdateProductById(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "aman"})
+}
+
+func (h *Handler) GetProducts(c *gin.Context) {
+	// Get query parameters
+	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
+	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
+	orderBy := c.DefaultQuery("orderBy", "price")
+	orderDir := c.DefaultQuery("orderDir", "asc")
+	offset := (page - 1) * limit
+
+	// Query products from the database
+	var products []Product
+	db := h.db.Order(fmt.Sprintf("%s %s", orderBy, orderDir)).Offset(offset).Limit(limit).Find(&products)
+	if db.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": db.Error.Error()})
+		return
+	}
+
+	// Get total number of products
+	var count int64
+	db = h.db.Model(&Product{}).Count(&count)
+	if db.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": db.Error.Error()})
+		return
+	}
+
+	// Return products as JSON response
+	c.JSON(http.StatusOK, gin.H{
+		"products": products,
+		"total":    count,
+	})
 }

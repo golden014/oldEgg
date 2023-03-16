@@ -87,7 +87,7 @@ func (h *Handler) CreateCode(c *gin.Context) {
 
 	// Generate a 4-digit random code
 	rand.Seed(time.Now().UnixNano())
-	code := fmt.Sprintf("%04d", rand.Intn(10000))
+	code := fmt.Sprintf("%06d", rand.Intn(10000))
 
 	// Create a new OneTimeCode object
 	codeObj := OneTimeCode{
@@ -100,11 +100,12 @@ func (h *Handler) CreateCode(c *gin.Context) {
 	broadcaster := smtp.PlainAuth(
 		"",
 		"josuagoldendummy@gmail.com",
-		"qmrlhcyexmamkfkl",
+		"pokwuoyxflobljxp",
 		"smtp.gmail.com")
 	err := smtp.SendMail("smtp.gmail.com:587", broadcaster, "josuagoldendummy@gmail.com", emails, []byte(code))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"eror": err.Error()})
+		return
 	}
 
 	// Insert the new row into the one_time_codes table
@@ -125,7 +126,9 @@ func (h *Handler) ValidateCode(c *gin.Context) {
 
 	oneTimeCode := OneTimeCode{}
 
-	if err := h.db.Where("email = ?", r.Email).Where("code = ?", r.Code).First(&oneTimeCode).Error; err != nil {
+	fifteenMinutesAgo := time.Now().Add(-15 * time.Minute)
+
+	if err := h.db.Where("email = ?", r.Email).Where("code = ?", r.Code).Where("created_at > ?", fifteenMinutesAgo).First(&oneTimeCode).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "wrong code"})
 			return

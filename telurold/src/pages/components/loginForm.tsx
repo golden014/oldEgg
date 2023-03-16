@@ -16,12 +16,12 @@ const loginForm = () => {
 
     const router = useRouter()
 
-    useEffect(() => {
-        if (authenticated) {
-            router.push("/")
-            return
-        }
-    })
+    // useEffect(() => {
+    //     if (authenticated) {
+    //         router.push("/")
+    //         return
+    //     }
+    // })
     const [errorMsg, setErrorMsg] = useState("")
     // var error = ""
 
@@ -99,6 +99,12 @@ const loginForm = () => {
         
     }
 
+    const oneTimeSignIn = (e: any) => {
+        e.preventDefault()
+
+        router.push("/oneTimeSignIn")
+    }
+
     return ( 
          <div className="container">
             <form className={style.formForm}>
@@ -118,7 +124,7 @@ const loginForm = () => {
                     <p className="error_msg">{errorMsg}</p>
                 </div>
 
-                <button onClick={(e) => {router.push("/oneTimeSignin")}}>
+                <button onClick={oneTimeSignIn}>
                 
                 Sign in with one-time code</button>
                 

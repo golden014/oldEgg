@@ -101,11 +101,11 @@ const AuthContextProvider = ({children} : {children: React.ReactNode}) => {
     useEffect(() => {
         const userInfo = localStorage.getItem("user_info")
         if (!userInfo) {
-            if (window.location.pathname == "/login") {
-                router.push("/login");
-            } else {
-                // router.push("/");
-            }
+            // if (window.location.pathname == "/login") {
+            //     router.push("/login");
+            // } else {
+            //     // router.push("/");
+            // }
             //harusnya dibatesin hanya saat mau checkout saja
             // if (window.location.pathname != "/signup") {
             //     router.push("/login")

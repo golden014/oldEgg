@@ -1156,3 +1156,13 @@
         }
     }
 }
+
+.infinite_scrolling {
+    display: grid;
+    // row-gap: 20px;
+    grid-template-columns: repeat(4, 25%);
+    border-top-style: solid;
+    border-color: #8b8b8b;
+    padding-top: 20px;
+    margin-top: 20px;
+}

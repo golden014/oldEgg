@@ -18,6 +18,7 @@ import automotive from "../../../assets/automotive.png"
 import home from "../../../assets/house.png"
 import sport from "../../../assets/sport.png"
 import drone from "../../../assets/camera-drone.png"
+import ProductList from "./productsList";
 
 
 interface Carousel {
@@ -74,31 +75,37 @@ const RealHome = () => {
     // ]
 
     return (
-        <div className={style.top_home_page}>
-            <div className={style.popular_container}>   
-                <PopularCategories logo={computer} title="Components & Storage" onHover={<RealHome/>} />
-                <PopularCategories logo={laptop} title="Computer Systems" onHover={<RealHome/>} />
-                <PopularCategories logo={keyboard} title="Computer Peripherals" onHover={<RealHome/>} />
-                <PopularCategories logo={appliances} title="Appliances" onHover={<RealHome/>} />
-                <PopularCategories logo={tv} title="TV & Home Theater" onHover={<RealHome/>} />
-                <PopularCategories logo={headphone} title="Electronics" onHover={<RealHome/>} />
-                <PopularCategories logo={gaming} title="Gaming & VR" onHover={<RealHome/>} />
-                <PopularCategories logo={network} title="Networking" onHover={<RealHome/>} />
-                <PopularCategories logo={smart_home} title="Smart Home & Security" onHover={<RealHome/>} />
-                <PopularCategories logo={office} title="Office Solutions" onHover={<RealHome/>} />
-                <PopularCategories logo={software} title="Software & Services" onHover={<RealHome/>} />
-                <PopularCategories logo={automotive} title="Automotive & Tools" onHover={<RealHome/>} />
-                <PopularCategories logo={home} title="Home & Outdoors" onHover={<RealHome/>} />
-                <PopularCategories logo={sport} title="Health & Sports" onHover={<RealHome/>} />
-                <PopularCategories logo={drone} title="Toys, Drones & Maker" onHover={<RealHome/>} />
+        <div className={style.home_big_container}>
+            <div className={style.top_home_page}>
+                <div className={style.popular_container}>   
+                    <PopularCategories logo={computer} title="Components & Storage" onHover={<RealHome/>} />
+                    <PopularCategories logo={laptop} title="Computer Systems" onHover={<RealHome/>} />
+                    <PopularCategories logo={keyboard} title="Computer Peripherals" onHover={<RealHome/>} />
+                    <PopularCategories logo={appliances} title="Appliances" onHover={<RealHome/>} />
+                    <PopularCategories logo={tv} title="TV & Home Theater" onHover={<RealHome/>} />
+                    <PopularCategories logo={headphone} title="Electronics" onHover={<RealHome/>} />
+                    <PopularCategories logo={gaming} title="Gaming & VR" onHover={<RealHome/>} />
+                    <PopularCategories logo={network} title="Networking" onHover={<RealHome/>} />
+                    <PopularCategories logo={smart_home} title="Smart Home & Security" onHover={<RealHome/>} />
+                    <PopularCategories logo={office} title="Office Solutions" onHover={<RealHome/>} />
+                    <PopularCategories logo={software} title="Software & Services" onHover={<RealHome/>} />
+                    <PopularCategories logo={automotive} title="Automotive & Tools" onHover={<RealHome/>} />
+                    <PopularCategories logo={home} title="Home & Outdoors" onHover={<RealHome/>} />
+                    <PopularCategories logo={sport} title="Health & Sports" onHover={<RealHome/>} />
+                    <PopularCategories logo={drone} title="Toys, Drones & Maker" onHover={<RealHome/>} />
 
+                </div>
+
+                <ImageSlider slides={slides} />
+
+                {/* <div style={{
+                    height: "1000px"
+                }}></div> */}
             </div>
 
-            <ImageSlider slides={slides} />
-
-            <div style={{
-                height: "1000px"
-            }}></div>
+            <div className={style.bot_home_page}>
+                <ProductList/>
+            </div>
         </div>
     );
 }

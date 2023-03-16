@@ -334,7 +334,22 @@
 }
 
 .top_home_page {
+    .top_stores {
+        margin-left: 30px;
+        margin-top: 30px;
 
+        h1 {
+            @include desc_text();
+            font-size: 30px;
+            color: var(--p_txt_color);
+        }
+
+        .card {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 33.3%);
+        }
+    }
 }
 
 .popular_categories_container {
@@ -1165,4 +1180,45 @@
     border-color: #8b8b8b;
     padding-top: 20px;
     margin-top: 20px;
+}
+
+.most_bottom_home_page_container {
+    border-top-style: solid;
+    border-color: #8b8b8b;
+    padding-top: 20px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+
+    .contains {
+        background-color: var(--background-color);
+        border-radius: 20px;
+        width: 50%;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 30px;
+        input {
+            width: 17vw;
+            height: 5vh;
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: var(--background-color);
+            border-style: solid;
+            color: var(--p_txt_color);
+        }
+        h3 {
+            @include desc_text();
+            font-size: 30px;
+            color: var(--p_txt_color);
+        }
+
+        button {
+            @include button_style();
+        }
+    }
+
+    margin-bottom: 20px;
 }

@@ -260,3 +260,14 @@ func (h *Handler) UpdateStoreInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "okeoce aman mantap"})
 
 }
+
+func (h *Handler) GetTopStore(c *gin.Context) {
+	stores := []Store{}
+
+	if err := h.db.Order("number_of_sales desc").Limit(3).Find(&stores).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, stores)
+}

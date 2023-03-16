@@ -19,6 +19,8 @@ import home from "../../../assets/house.png"
 import sport from "../../../assets/sport.png"
 import drone from "../../../assets/camera-drone.png"
 import ProductList from "./productsList";
+import { Store } from "modules/authProvider";
+import StoreCard from "./shopCard";
 
 
 interface Carousel {
@@ -36,6 +38,25 @@ const RealHome = () => {
     console.log(slides);
     
     //create function to get slides from firebase
+
+    const [stores, setStores] = useState<Store[]>([])
+
+    useEffect(() => {
+        fetch('http://localhost:1234/getTopStore')
+        .then((response) => response.json())
+        .then((data) => {
+            setStores(data);
+            console.log("-----------------------");
+            console.log(data.data)
+            console.log(carousels);
+            
+            
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+    }, []);
 
 
     useEffect(() => {
@@ -73,41 +94,64 @@ const RealHome = () => {
     //     // {url: "https://firebasestorage.googleapis.com/v0/b/oldegg-93db0.appspot.com/o/carousel%2F58485741_p0.png?alt=media&token=f97c4830-584b-46e5-a84f-829b106b560e"},
     //     // {url: "https://firebasestorage.googleapis.com/v0/b/oldegg-93db0.appspot.com/o/carousel%2F232000.jpg?alt=media&token=ede72fa1-de91-4c7f-8a3e-53ff28bbd756"}
     // ]
+    if (stores) {
 
-    return (
-        <div className={style.home_big_container}>
-            <div className={style.top_home_page}>
-                <div className={style.popular_container}>   
-                    <PopularCategories logo={computer} title="Components & Storage" onHover={<RealHome/>} />
-                    <PopularCategories logo={laptop} title="Computer Systems" onHover={<RealHome/>} />
-                    <PopularCategories logo={keyboard} title="Computer Peripherals" onHover={<RealHome/>} />
-                    <PopularCategories logo={appliances} title="Appliances" onHover={<RealHome/>} />
-                    <PopularCategories logo={tv} title="TV & Home Theater" onHover={<RealHome/>} />
-                    <PopularCategories logo={headphone} title="Electronics" onHover={<RealHome/>} />
-                    <PopularCategories logo={gaming} title="Gaming & VR" onHover={<RealHome/>} />
-                    <PopularCategories logo={network} title="Networking" onHover={<RealHome/>} />
-                    <PopularCategories logo={smart_home} title="Smart Home & Security" onHover={<RealHome/>} />
-                    <PopularCategories logo={office} title="Office Solutions" onHover={<RealHome/>} />
-                    <PopularCategories logo={software} title="Software & Services" onHover={<RealHome/>} />
-                    <PopularCategories logo={automotive} title="Automotive & Tools" onHover={<RealHome/>} />
-                    <PopularCategories logo={home} title="Home & Outdoors" onHover={<RealHome/>} />
-                    <PopularCategories logo={sport} title="Health & Sports" onHover={<RealHome/>} />
-                    <PopularCategories logo={drone} title="Toys, Drones & Maker" onHover={<RealHome/>} />
+        return (
+            <div className={style.home_big_container}>
+                <div className={style.top_home_page}>
+                    <div className={style.popular_container}>   
+                        <PopularCategories logo={computer} title="Components & Storage" onHover={<RealHome/>} />
+                        <PopularCategories logo={laptop} title="Computer Systems" onHover={<RealHome/>} />
+                        <PopularCategories logo={keyboard} title="Computer Peripherals" onHover={<RealHome/>} />
+                        <PopularCategories logo={appliances} title="Appliances" onHover={<RealHome/>} />
+                        <PopularCategories logo={tv} title="TV & Home Theater" onHover={<RealHome/>} />
+                        <PopularCategories logo={headphone} title="Electronics" onHover={<RealHome/>} />
+                        <PopularCategories logo={gaming} title="Gaming & VR" onHover={<RealHome/>} />
+                        <PopularCategories logo={network} title="Networking" onHover={<RealHome/>} />
+                        <PopularCategories logo={smart_home} title="Smart Home & Security" onHover={<RealHome/>} />
+                        <PopularCategories logo={office} title="Office Solutions" onHover={<RealHome/>} />
+                        <PopularCategories logo={software} title="Software & Services" onHover={<RealHome/>} />
+                        <PopularCategories logo={automotive} title="Automotive & Tools" onHover={<RealHome/>} />
+                        <PopularCategories logo={home} title="Home & Outdoors" onHover={<RealHome/>} />
+                        <PopularCategories logo={sport} title="Health & Sports" onHover={<RealHome/>} />
+                        <PopularCategories logo={drone} title="Toys, Drones & Maker" onHover={<RealHome/>} />
+    
+                    </div>
+    
+                    <ImageSlider slides={slides} />
 
+                    <div className={style.top_stores}>
+                         <h1>Top Stores</h1>
+                         <div className={style.card}>
+                            {stores.map((store) => (
+                                <StoreCard store={store}/>
+                            ))}
+                         </div>
+                    </div>
                 </div>
-
-                <ImageSlider slides={slides} />
-
-                {/* <div style={{
-                    height: "1000px"
-                }}></div> */}
+             
+                <div className={style.bot_home_page}>
+                    <ProductList/>
+                </div>
+    
+                <div className={style.most_bottom_home_page_container}>
+                    <div className={style.contains}>
+                        <h3>Subscribe to newsletter</h3>
+                        <input type="text" placeholder="Input your email"/>
+                        <button onClick={(e) => alert("success")}>Submit</button>
+                    </div>
+                </div>  
             </div>
-
-            <div className={style.bot_home_page}>
-                <ProductList/>
+        );
+    } else {
+        return (
+            <div>
+                Loading...
             </div>
-        </div>
-    );
+        )
+    }
+
 }
  
 export default RealHome;
+

@@ -16,7 +16,6 @@ type User struct {
 	Role        string `json:"role" db:"role"`
 	Status      string `json:"status" db:"status"`
 	Balance     int    `json:"balance" db:"balance"`
-	StoreId     int    `json:"store_id" db:"store_id"`
 }
 
 type CreateUserReq struct {
@@ -28,7 +27,6 @@ type CreateUserReq struct {
 	IsSubscribe string `json:"issubscribe" db:"issubscribe"`
 	Role        string `json:"role" db:"role"`
 	Status      string `json:"status" db:"status"`
-	StoreId     int    `json:"store_id" db:"store_id"`
 }
 
 type CreateUserRes struct {

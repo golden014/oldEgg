@@ -45,7 +45,7 @@ useEffect(() => {
   
         setLoading(true);
   
-        const response = await fetch(`http://localhost:1234/api/products?offset=${products.length}&limit=10`);
+        const response = await fetch(`http://localhost:1234/api/products?offset=${products.length}&limit=7`);
         const data = await response.json();
         setProducts(prevProducts => [...prevProducts, ...data.products]);
   

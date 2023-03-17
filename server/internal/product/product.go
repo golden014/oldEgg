@@ -57,6 +57,10 @@ type GetProductRequest struct {
 	ProductId string `json:"product_id" db:"product_id"`
 }
 
+type GetProductsByKeywordReq struct {
+	Keyword string `json:"keyword"`
+}
+
 type GetSubCategoryRequest struct {
 	CategoryId uint `json:"category_id" db:"category_id"`
 }
@@ -145,6 +149,24 @@ func (h *Handler) GetProductById(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, prod)
+}
+
+func (h *Handler) GetProductsByKeyword(c *gin.Context) {
+	var r GetProductsByKeywordReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	keyword := r.Keyword
+
+	prods := []Product{}
+
+	if err := h.db.Where("product_name LIKE ?", "%"+keyword+"%").Or("product_description LIKE ?", "%"+keyword+"%").Find(&prods).Error; err != nil {
+		return
+	}
+
+	c.JSON(http.StatusOK, prods)
 }
 
 func (h *Handler) GetAllCategory(c *gin.Context) {

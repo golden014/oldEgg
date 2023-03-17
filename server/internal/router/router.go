@@ -41,6 +41,8 @@ func InitRouter(userHandler *user.Handler,
 
 	r.Use(cors.New(config))
 
+	r.POST("/addSavedQuery", crHandler.AddSavedQuery)
+
 	r.POST("/sendEmails", emHandler.SendMessage)
 	r.POST("/createCode", emHandler.CreateCode)
 	r.POST("/validateCode", emHandler.ValidateCode)
@@ -61,6 +63,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/getRecommendedProducts", prHandler.GetRecommendedProduct)
 	r.POST("/updateProductById", prHandler.UpdateProductById)
 	r.GET("/api/products", prHandler.GetProducts)
+	r.POST("/getProductsByKeyword", prHandler.GetProductsByKeyword)
 
 	r.POST("/addNewStore", stHandler.AddStore)
 	r.GET("/getAllStores", stHandler.GetAllStores)

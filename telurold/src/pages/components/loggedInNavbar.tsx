@@ -10,6 +10,7 @@ import NavbarDropDown from "./navbarDropdown";
 import notification from "../../../assets/notification.png"
 import unitedStates from "../../../assets/united-states.png"
 import { useEffect, useState } from "react";
+import SearchHome from "./searchHome";
 
 interface NavbarProps {
     isDarkMode: boolean;
@@ -79,17 +80,7 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
                 />
 
                 <LocationNavbar smallText= "Deliver to" bigText={country} img= {locationLogo} link=""/>
-
-                <div className={style.search_bar_home}>
-                    <input 
-                    type="text" 
-                    placeholder="Search..." 
-                    className="search-bar"
-                    // onChange={}
-                    // onKeyDown={}
-                    />
-                </div>
-
+                <SearchHome/>
                 <br />
 
                 <NavbarDropDown

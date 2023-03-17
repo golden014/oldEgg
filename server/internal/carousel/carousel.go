@@ -21,6 +21,16 @@ type RemoveCarouselReq struct {
 	ID uint `json:"ID" db:"ID"`
 }
 
+type SavedQuery struct {
+	UserId int    `json:"user_id" db:"user_id"`
+	Query  string `json:"query" db:"query"`
+}
+
+type AddSavedQueryReq struct {
+	UserId int    `json:"user_id" db:"user_id"`
+	Query  string `json:"query" db:"query"`
+}
+
 type Handler struct {
 	db *gorm.DB
 }
@@ -48,6 +58,38 @@ func (h *Handler) AddCarousel(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": carousel})
+
+}
+
+func (h *Handler) AddSavedQuery(c *gin.Context) {
+	var r AddSavedQueryReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	new := SavedQuery{
+		UserId: r.UserId,
+		Query:  r.Query,
+	}
+
+	var count int64
+	if err := h.db.Model(&SavedQuery{}).Where("user_id = ?", r.UserId).Count(&count).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if count >= 10 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user already has 10 saved queries"})
+		return
+	}
+
+	if err := h.db.Create(&new).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "mantep"})
 
 }
 

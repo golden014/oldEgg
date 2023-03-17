@@ -3,6 +3,7 @@ package router
 import (
 	"server/internal/ban"
 	"server/internal/carousel"
+	"server/internal/cart"
 	"server/internal/email"
 	"server/internal/product"
 	"server/internal/review"
@@ -28,6 +29,7 @@ func InitRouter(userHandler *user.Handler,
 	wsNewHandler *websocket.Handler,
 	rvHandler *review.Handler,
 	emHandler *email.Handler,
+	ctHandler *cart.Handler,
 ) {
 
 	r = gin.Default()

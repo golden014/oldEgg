@@ -27,6 +27,11 @@ func NewRepository(db *gorm.DB) Repository {
 	return &repository{db: db}
 }
 
+type Cart struct {
+	CartId uint  `gorm:"primary_key;auto_increment" json:"cart_id"`
+	UserId int64 `json:"user_id" db:"user_id"`
+}
+
 // create user method
 func (r *repository) CreateUser(ctx context.Context, user *User) (*User, error) {
 
@@ -42,6 +47,15 @@ func (r *repository) CreateUser(ctx context.Context, user *User) (*User, error) 
 	if err := r.db.WithContext(ctx).Create(user).Error; err != nil {
 		return nil, err
 	}
+
+	cart := &Cart{
+		UserId: user.ID,
+	}
+
+	if err := r.db.Create(cart).Error; err != nil {
+		return nil, err
+	}
+
 	return user, nil
 }
 

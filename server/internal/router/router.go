@@ -48,6 +48,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/sendEmails", emHandler.SendMessage)
 	r.POST("/createCode", emHandler.CreateCode)
 	r.POST("/validateCode", emHandler.ValidateCode)
+	r.POST("/sendNewsletters", emHandler.SendNewsletter)
 
 	r.POST("/getReviewByProductId", rvHandler.GetReviewByProductId)
 	r.POST("/getReviewByStoreId", rvHandler.GetReviewByStoreId)

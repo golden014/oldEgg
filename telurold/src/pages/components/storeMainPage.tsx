@@ -1,6 +1,6 @@
-import { Category, Product, Store } from "modules/authProvider";
+import { AuthContext, Category, Product, Store } from "modules/authProvider";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import style from "../../styles/style.module.scss"
 import CategoryCard from "./categoryCard";
 import ProductCard from "./productCard";
@@ -190,11 +190,12 @@ const StoreMainPage = (props: {store: Store}) => {
         getPaginated()
     }, [page])
 
+    const { user } = useContext(AuthContext)
     //SELLER-----------------------------------------------------------------------------------------------------------------------------------------------------------------
     if (categories) {
-        if (currStoreId) {
+        if (currStoreId == store.store_id && user.role == "Seller") {
             //ini adalah store nya sendiri
-            if (currStoreId == store.store_id) {
+            if (currStoreId == store.store_id)  {
                 //return yg ada tombol edit dll
                 return (  
                     <div className={style.store_main_page_container}>

@@ -14,6 +14,7 @@ const AdminHome = () => {
                     <button onClick={(e) => router.push("/viewAllUsers")}>View All Users</button>
                     <button onClick={(e) => router.push("/addNewStore")}>Add New Store</button>
                     <button onClick={(e) => router.push("/viewAllStore")}>View All Stores</button>
+                    <button onClick={(e) => router.push("/sendNewsletters")}>Send Newsletters</button>
 
                 </div>
             </div>

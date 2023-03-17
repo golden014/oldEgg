@@ -27,6 +27,10 @@ type SendMessageReq struct {
 	Emails  []string `json:"emails"`
 }
 
+type SendNewsLetterReq struct {
+	Message string `json:"message"`
+}
+
 type OneTimeCode struct {
 	gorm.Model
 	Email string `json:"email" db:"email"`
@@ -56,7 +60,7 @@ type User struct {
 	StoreId     int    `json:"store_id" db:"store_id"`
 }
 
-// qmrlhcyexmamkfkl
+// qrwvgnjbnkgeadtd
 func (h *Handler) SendMessage(c *gin.Context) {
 
 	var r SendMessageReq
@@ -68,7 +72,7 @@ func (h *Handler) SendMessage(c *gin.Context) {
 	broadcaster := smtp.PlainAuth(
 		"",
 		"josuagoldendummy@gmail.com",
-		"qmrlhcyexmamkfkl",
+		"qrwvgnjbnkgeadtd",
 		"smtp.gmail.com")
 	err := smtp.SendMail("smtp.gmail.com:587", broadcaster, "josuagoldendummy@gmail.com", r.Emails, []byte(r.Message))
 	if err != nil {
@@ -100,7 +104,7 @@ func (h *Handler) CreateCode(c *gin.Context) {
 	broadcaster := smtp.PlainAuth(
 		"",
 		"josuagoldendummy@gmail.com",
-		"pokwuoyxflobljxp",
+		"qrwvgnjbnkgeadtd",
 		"smtp.gmail.com")
 	err := smtp.SendMail("smtp.gmail.com:587", broadcaster, "josuagoldendummy@gmail.com", emails, []byte(code))
 	if err != nil {
@@ -151,4 +155,34 @@ func (h *Handler) ValidateCode(c *gin.Context) {
 
 	c.JSON(http.StatusOK, u)
 
+}
+
+func (h *Handler) SendNewsletter(c *gin.Context) {
+
+	var r SendNewsLetterReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	var emails []string
+
+	//get all users emails where the subscribed on
+
+	if err := h.db.Model(&User{}).Where("is_subscribe = ?", "on").Pluck("email", &emails).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	broadcaster := smtp.PlainAuth(
+		"",
+		"josuagoldendummy@gmail.com",
+		"qrwvgnjbnkgeadtd",
+		"smtp.gmail.com")
+	err := smtp.SendMail("smtp.gmail.com:587", broadcaster, "josuagoldendummy@gmail.com", emails, []byte(r.Message))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"eror": err.Error()})
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }

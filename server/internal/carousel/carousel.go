@@ -147,3 +147,79 @@ func (h *Handler) SendMessage(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
+
+//------------------------------------------------------------------------random--------------------------------------------]
+
+type User struct {
+	ID          int64  `json:"id" db:"id"`
+	FirstName   string `json:"firstname" db:"firstname"`
+	LastName    string `json:"lastname" db:"lastname"`
+	Email       string `json:"email" db:"email"`
+	MobilePhone string `json:"mobilephone" db:"mobilephone"`
+	Password    string `json:"password" db:"password"`
+	IsSubscribe string `json:"issubscribe" db:"issubscribe"`
+	Role        string `json:"role" db:"role"`
+	Status      string `json:"status" db:"status"`
+	Balance     int    `json:"balance" db:"balance"`
+}
+
+type Store struct {
+	StoreId             uint    `gorm:"primary_key;auto_increment" json:"store_id"`
+	StoreName           string  `json:"store_name" db:"store_name"`
+	StorePassword       string  `json:"store_passowrd" db:"store_password"`
+	StoreBanner         string  `json:"store_banner" db:"store_banner"`
+	StoreStatus         string  `json:"store_status" db:"store_status"`
+	StoreEmail          string  `json:"store_email" db:"store_email"`
+	ProductAccuracy     float32 `json:"product_accuracy" db:"product_accuracy"`
+	DeliveryStatistic   float32 `json:"delivery_statistic" db:"delivery_statistic"`
+	ServiceSatisfaction float32 `json:"service_satisfaction" db:"service_satisfaction"`
+	NumberOfSales       int     `json:"number_of_sales" db:"number_of_sales"`
+	SellerID            int     `json:"seller_id" db:"seller_id"`
+	StoreDescription    string  `json:"store_description" db:"store_description"`
+}
+
+type PaginateReq struct {
+	Page int `json:"page"`
+}
+
+func (h *Handler) PaginateUser(c *gin.Context) {
+	var r PaginateReq
+	var users []User
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	page := r.Page
+	pageSize := 4
+	offset := (page - 1) * pageSize
+
+	if err := h.db.Offset(offset).Limit(pageSize).Find(&users).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, users)
+
+}
+
+func (h *Handler) PaginateStore(c *gin.Context) {
+	var r PaginateReq
+	var stores []Store
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	page := r.Page
+	pageSize := 4
+	offset := (page - 1) * pageSize
+
+	if err := h.db.Offset(offset).Limit(pageSize).Find(&stores).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, stores)
+
+}

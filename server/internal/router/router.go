@@ -44,6 +44,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/addSavedQuery", crHandler.AddSavedQuery)
 	r.POST("/paginatedUsers", crHandler.PaginateUser)
 	r.POST("/paginatedStore", crHandler.PaginateStore)
+	r.POST("/paginatedStoreFiltered", crHandler.PaginateStoreFiltered)
 
 	r.POST("/sendEmails", emHandler.SendMessage)
 	r.POST("/createCode", emHandler.CreateCode)

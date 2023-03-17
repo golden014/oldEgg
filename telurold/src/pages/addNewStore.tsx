@@ -40,6 +40,29 @@ const AddNewStore = () => {
 
             if (res.ok) {
                 console.log("res ok");
+                // alert("Create Store Success !")
+            } else {
+                console.log("res not ok");
+            }
+
+            console.log(res);
+        } catch (error) {
+    
+        }
+
+        try {
+
+            const res = await fetch("http://localhost:1234/sendEmails", {
+                method: "POST",
+                headers: { "Content-Type": "application/json;charset=utf-8" },
+                body: JSON.stringify({
+                    message: "Olt ek has just added your " + storeName + " store", 
+                    emails: [storeEmail]
+                }),
+            });
+
+            if (res.ok) {
+                console.log("res ok");
                 alert("Create Store Success !")
             } else {
                 console.log("res not ok");

@@ -212,10 +212,40 @@ func (h *Handler) PaginateStore(c *gin.Context) {
 	}
 
 	page := r.Page
-	pageSize := 4
+	pageSize := 2
 	offset := (page - 1) * pageSize
 
 	if err := h.db.Offset(offset).Limit(pageSize).Find(&stores).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, stores)
+
+}
+
+// misalnya filter yg ke banned
+// column: status
+// columnValue: "banned"
+type PaginateFilteredReq struct {
+	Page        int    `json:"page"`
+	Column      string `json:"column"`
+	ColumnValue string `json:"column_value"`
+}
+
+func (h *Handler) PaginateStoreFiltered(c *gin.Context) {
+	var r PaginateFilteredReq
+	var stores []Store
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	page := r.Page
+	pageSize := 2
+	offset := (page - 1) * pageSize
+
+	if err := h.db.Where(r.Column+" = ?", r.ColumnValue).Offset(offset).Limit(pageSize).Find(&stores).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

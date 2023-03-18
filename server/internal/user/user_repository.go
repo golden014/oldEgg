@@ -30,6 +30,7 @@ func NewRepository(db *gorm.DB) Repository {
 type Cart struct {
 	CartId uint  `gorm:"primary_key;auto_increment" json:"cart_id"`
 	UserId int64 `json:"user_id" db:"user_id"`
+	Total  uint  `json:"total" db:"total"`
 }
 
 // create user method
@@ -50,6 +51,7 @@ func (r *repository) CreateUser(ctx context.Context, user *User) (*User, error) 
 
 	cart := &Cart{
 		UserId: user.ID,
+		Total:  0,
 	}
 
 	if err := r.db.Create(cart).Error; err != nil {

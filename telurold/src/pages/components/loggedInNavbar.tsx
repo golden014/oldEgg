@@ -11,6 +11,7 @@ import notification from "../../../assets/notification.png"
 import unitedStates from "../../../assets/united-states.png"
 import { useEffect, useState } from "react";
 import SearchHome from "./searchHome";
+import cartLogo from "../../../assets/shopping-cart.png"
 
 interface NavbarProps {
     isDarkMode: boolean;
@@ -99,6 +100,7 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
   {                 isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
                 </button>
 
+                <LocationNavbar smallText= "Welcome" bigText={userInfoObject.firstname + " " + userInfoObject.lastname} img= {userLogo} link = "/home"/>
                 <LocationNavbar smallText= "Welcome" bigText={userInfoObject.firstname + " " + userInfoObject.lastname} img= {userLogo} link = "/home"/>
 
             </div>

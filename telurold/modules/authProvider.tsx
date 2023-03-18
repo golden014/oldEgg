@@ -67,6 +67,18 @@ export type Review = {
     service_satisfaction: string
 }
 
+export type Cart = {
+    cart_id: number
+    user_id: number
+    total: number
+}
+
+export type CartProduct = {
+    cart_id: number
+    product_id: number
+    quantity: number
+}
+
 
 export const AuthContext = createContext<{
     authenticated: boolean

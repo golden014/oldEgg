@@ -44,6 +44,8 @@ func InitRouter(userHandler *user.Handler,
 	r.Use(cors.New(config))
 
 	r.POST("/addItemToCart", ctHandler.AddItemToCart)
+	r.POST("/getCartByUserId", ctHandler.GetCartByUserId)
+	r.POST("/getCartProduct", ctHandler.GetCartProduct)
 
 	r.POST("/addSavedQuery", crHandler.AddSavedQuery)
 	r.POST("/paginatedUsers", crHandler.PaginateUser)

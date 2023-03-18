@@ -9,9 +9,10 @@ import { useRouter } from "next/router";
 import NavbarDropDown from "./navbarDropdown";
 import notification from "../../../assets/notification.png"
 import unitedStates from "../../../assets/united-states.png"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import SearchHome from "./searchHome";
 import cartLogo from "../../../assets/shopping-cart.png"
+import { AuthContext, Cart } from "modules/authProvider";
 
 interface NavbarProps {
     isDarkMode: boolean;
@@ -54,7 +55,40 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
 
     }, [])
 
+    const { user } = useContext(AuthContext)
+    const [cart, setCart] = useState<Cart>()
+    useEffect(() => {
+        //ambil info cart berdasarkan user id
+        const getReviewsByProductId = async () => {
+            console.log("awikwok");
+            
+            console.log(user.id);
+            
+            try {
+                const res = await fetch("http://localhost:1234/getCartByUserId", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json;charset=utf-8"},
+                    body: JSON.stringify({
+                        user_id: user.id
+                    }),
+                });
 
+                if (res.ok) {
+                    const data = await res.json();
+                    setCart(data)
+                    
+                    
+                } else {
+                    console.log("smth went wrong retreiving reviews");
+                }
+
+            } catch (error){
+                console.log(error);                
+            }
+        }
+
+        getReviewsByProductId()
+    }, [])
 
     return (
         <div className={style.navbar}>
@@ -101,7 +135,7 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
                 </button>
 
                 <LocationNavbar smallText= "Welcome" bigText={userInfoObject.firstname + " " + userInfoObject.lastname} img= {userLogo} link = "/home"/>
-                <LocationNavbar smallText= "Welcome" bigText={userInfoObject.firstname + " " + userInfoObject.lastname} img= {userLogo} link = "/home"/>
+                <LocationNavbar smallText= "Total Cost" bigText={"$" + cart?.total} img= {cartLogo} link = "/cart"/>
 
             </div>
 

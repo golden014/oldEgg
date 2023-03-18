@@ -1,4 +1,4 @@
-import { AuthContext, Product, Store } from "modules/authProvider";
+import { AuthContext, Cart, Product, Store } from "modules/authProvider";
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
 import Theme from "../components/theme";
@@ -88,6 +88,87 @@ const ProductPage = () => {
         getProduct()
     }, [productId])
 
+    const [cart, setCart] = useState<Cart>()
+    useEffect(() => {
+        //ambil info cart berdasarkan user id
+        const getReviewsByProductId = async () => {
+            
+            try {
+                const res = await fetch("http://localhost:1234/getCartByUserId", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json;charset=utf-8"},
+                    body: JSON.stringify({
+                        user_id: user.id
+                    }),
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    setCart(data)
+                    
+                    
+                } else {
+                    console.log("smth went wrong retreiving reviews");
+                }
+
+            } catch (error){
+                console.log(error);                
+            }
+        }
+
+        getReviewsByProductId()
+    }, [])
+
+    const [count, setCount] = useState(0);
+
+    const handleIncrement = () => {
+        if (product) {
+            if (count >= product?.stock) {
+                alert("Can't add more, stock isn't enough")
+            } else {
+                setCount(count + 1);
+            }
+        }
+    };
+
+    const handleDecrement = () => {
+        if (count <= 0) {
+
+        } else  {
+            setCount(count - 1);
+        }
+    };
+
+    const handleAddCart = async() => {
+        if (count <= 0) {
+            alert("Please add at least one quantity before adding it to your cart !")
+        } else {
+            try {
+                const res = await fetch("http://localhost:1234/addItemToCart", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json;charset=utf-8" },
+                    body: JSON.stringify({
+                        product_id: product?.product_id,
+                        cart_id: cart?.cart_id,
+                        quantity: count
+                    }),
+                });
+    
+                if (res.ok) {
+                    const data = await res.json();
+                    alert("Add to cart success !")
+                    window.location = window.location
+                } else {
+                    alert("A problem occurred...")     
+                }
+    
+                console.log(res);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
     if(productId) {
     
         if (product) {
@@ -115,18 +196,20 @@ const ProductPage = () => {
                                         }}/>
             
                                     <div className={style.prod_detail}>
-                                        <h1>{product?.product_name}</h1>
-                                        <p>{product?.product_description}</p>
-                                        <br /><br />
-                                        {product.stock == 0 &&
-                                            <p style={{color: "red"}}>Out of Stock !</p>
-                                        }
-                                        {product.stock != 0 &&
-                                            <p>Stock: {product.stock}</p>
-                                        }
+                                        <div className={style.left}>
+                                            <h1>{product?.product_name}</h1>
+                                            <p>{product?.product_description}</p>
+                                            <br /><br />
+                                            {product.stock == 0 &&
+                                                <p style={{color: "red"}}>Out of Stock !</p>
+                                            }
+                                            {product.stock != 0 &&
+                                                <p>Stock: {product.stock}</p>
+                                            }
 
-                                        <p className={style.visit_store} onClick={(e) => router.push("/store/" + store.store_id)}>Visit {store.store_name} Store</p>
-                                        <p className={style.visit_store} onClick={(e) => router.push("/editproduct/" + productId)}>Edit Product</p>
+                                            <p className={style.visit_store} onClick={(e) => router.push("/store/" + store.store_id)}>Visit {store.store_name} Store</p>
+                                            <p className={style.visit_store} onClick={(e) => router.push("/editproduct/" + productId)}>Edit Product</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <br /><br /><br />
@@ -156,18 +239,37 @@ const ProductPage = () => {
                                         }}/>
             
                                     <div className={style.prod_detail}>
-                                        <h1>{product?.product_name}</h1>
-                                        <p>{product?.product_description}</p>
-                                        <br /><br />
-                                        {product.stock == 0 &&
-                                            <p style={{color: "red"}}>Out of Stock !</p>
-                                        }
-                                        {product.stock != 0 &&
-                                            <p>Stock: {product.stock}</p>
-                                        }
+                                        <div className={style.left}>
+                                            <h1>{product?.product_name}</h1>
+                                            <p>{product?.product_description}</p>
+                                            <br /><br />
+                                            
+                                            {product.stock == 0 &&
+                                                <p style={{color: "red"}}>Out of Stock !</p>
+                                            }
+                                            {product.stock != 0 &&
+                                                <p>Stock: {product.stock}</p>
+                                            }
 
-                                        <p className={style.visit_store} onClick={(e) => router.push("/store/" + store.store_id)}>Visit {store.store_name} Store</p>
+                                            <p className={style.visit_store} onClick={(e) => router.push("/store/" + store.store_id)}>Visit {store.store_name} Store</p>
 
+                                        </div>
+
+                                        <div className={style.right}>
+                                            <br />
+                                            <h1>${product.price}</h1>
+                                            <div className={style.add_to_cart}>
+
+                                            </div>
+                                            <div className={style.spinner}>
+                                                <button onClick={handleDecrement}>-</button>
+                                                <p>{count}</p>
+                                                <button onClick={handleIncrement}>+</button>
+                                                <button className={style.add_cart_button} onClick={handleAddCart}>
+                                                    Add To Cart
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <br /><br /><br />

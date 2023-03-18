@@ -86,3 +86,47 @@ func (h *Handler) AddItemToCart(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "add to cart success"})
 }
+
+type GetCartByUserIdReq struct {
+	UserId uint `json:"user_id" db:"user_id"`
+}
+
+func (h *Handler) GetCartByUserId(c *gin.Context) {
+	var r GetCartByUserIdReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	user_id := r.UserId
+
+	cart := Cart{}
+	if err := h.db.Where("user_id = ?", user_id).First(&cart).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, cart)
+}
+
+type GetCartProductReq struct {
+	CartId uint `json:"cart_id" db:"cart_id"`
+}
+
+func (h *Handler) GetCartProduct(c *gin.Context) {
+	var r GetCartProductReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	cart_id := r.CartId
+
+	cartProds := []CartProduct{}
+	if err := h.db.Where("cart_id = ?", cart_id).Find(&cartProds).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, cartProds)
+}

@@ -98,15 +98,13 @@ const ProductPage = () => {
                     method: "POST",
                     headers: {"Content-Type": "application/json;charset=utf-8"},
                     body: JSON.stringify({
-                        user_id: user.id
+                        user_id: parseInt(user.id)
                     }),
                 });
 
                 if (res.ok) {
                     const data = await res.json();
                     setCart(data)
-                    
-                    
                 } else {
                     console.log("smth went wrong retreiving reviews");
                 }
@@ -117,7 +115,7 @@ const ProductPage = () => {
         }
 
         getReviewsByProductId()
-    }, [])
+    }, [user])
 
     const [count, setCount] = useState(0);
 

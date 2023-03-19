@@ -62,7 +62,7 @@ func (h *Handler) AddItemToCart(c *gin.Context) {
 	}
 
 	prod := Product{}
-	if err := h.db.Where("product_id", r.ProductId).First(&prod).Error; err != nil {
+	if err := h.db.Where("product_id = ?", r.ProductId).First(&prod).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -73,7 +73,7 @@ func (h *Handler) AddItemToCart(c *gin.Context) {
 	}
 
 	currCart := Cart{}
-	if err := h.db.Where("cart_id", r.CartId).First(&currCart).Error; err != nil {
+	if err := h.db.Where("cart_id = ?", r.CartId).First(&currCart).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

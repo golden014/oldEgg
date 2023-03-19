@@ -153,6 +153,34 @@ const Checkout = () => {
 
     const [payment, setPayment] = useState("")
 
+
+    const createOrder = async() => {
+        try {
+            const res = await fetch("http://localhost:1234/createOrder", {
+                method: "POST",
+                headers: {"Content-Type": "application/json;charset=utf-8"},
+                body: JSON.stringify({
+                    cart_id: cart?.cart_id,
+                    user_id: parseInt(user.id),
+                    date_ordered: (new Date()).toLocaleDateString(),
+                    invoice_code: Math.random().toString(36).substring(2, 8),
+                    payment: payment
+                }),
+            });
+
+            if (res.ok) {
+                alert("order success")
+                router.push("/cart")
+            } else {
+                if (payment === "oldEgg")
+                alert("your oldEgg balance is not enough")
+            }
+
+        } catch (error){
+            console.log(error);                
+        }
+    }
+
     if (cartProduct) {
 
         return (  
@@ -185,7 +213,7 @@ const Checkout = () => {
                                 <h1>${cart?.total ? cart.total + 10: cart?.total}.00</h1>
                             </div>
                             <br />
-                            <button className={style.buttonss} onClick = {(e) => router.push("/checkout")}>
+                            <button className={style.buttonss} onClick = {createOrder}>
                                 Order
                             </button>
                        </div>
@@ -233,7 +261,7 @@ const Checkout = () => {
                         justifyContent: "center"
                         }}>
                         <select onChange={(e) => setPayment(e.target.value)}>
-                            <option value="1"> oldEgg Balance</option>
+                            <option value="oldEgg"> oldEgg Balance</option>
                             <option value="2">Gopai</option>
                             <option value="3">OwO</option>
                         </select>

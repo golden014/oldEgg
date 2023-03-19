@@ -6,6 +6,7 @@ import (
 	"server/internal/carousel"
 	"server/internal/cart"
 	"server/internal/email"
+	"server/internal/order"
 	"server/internal/product"
 	"server/internal/review"
 	"server/internal/store"
@@ -32,6 +33,7 @@ func InitRouter(userHandler *user.Handler,
 	emHandler *email.Handler,
 	ctHandler *cart.Handler,
 	adHandler *address.Handler,
+	orHandler *order.Handler,
 ) {
 
 	r = gin.Default()
@@ -45,9 +47,11 @@ func InitRouter(userHandler *user.Handler,
 
 	r.Use(cors.New(config))
 
+	r.POST("/createOrder", orHandler.CreateOrder)
+
 	r.POST("/addAddress", adHandler.AddAddress)
 	r.POST("/getAllAddressByUserId", adHandler.GetAllAddressByUserId)
-	r.POST("removeAddress", adHandler.RemoveAddress)
+	r.POST("/removeAddress", adHandler.RemoveAddress)
 
 	r.POST("/addItemToCart", ctHandler.AddItemToCart)
 	r.POST("/getCartByUserId", ctHandler.GetCartByUserId)

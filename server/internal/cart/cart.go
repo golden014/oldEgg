@@ -1,6 +1,7 @@
 package cart
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -129,4 +130,82 @@ func (h *Handler) GetCartProduct(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, cartProds)
+}
+
+type UpdateCartProductReq struct {
+	CartId    uint `json:"cart_id" db:"cart_id"`
+	ProductId uint `json:"product_id" db:"product_id"`
+	Quantity  uint `json:"quantity" db:"quantity"`
+}
+
+func (h *Handler) UpdateCartProduct(c *gin.Context) {
+	var r UpdateCartProductReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	// cartProds := CartProduct{}
+
+	if r.Quantity <= 0 {
+		if err := h.db.Where("cart_id = ?", r.CartId).Where("product_id = ?", r.ProductId).Delete(&CartProduct{}).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "product not found"})
+				return
+			}
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
+	if err := h.db.Table("cart_products").Where("cart_id = ?", r.CartId).Where("product_id = ?", r.ProductId).Update("quantity", r.Quantity).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "product not found"})
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// cartProds.Quantity = r.Quantity
+
+	// if err := h.db.Save(&cartProds).Error; err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
+	//ambil smua cart products, ambil total price * quantity, terus totalin
+	cartProds := []CartProduct{}
+	if err := h.db.Where("cart_id = ?", r.CartId).Find(&cartProds).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	newTotal := 0
+
+	for i := 0; i < len(cartProds); i++ {
+		tempProd := Product{}
+		if err := h.db.Where("product_id = ?", cartProds[i].ProductId).First(&tempProd).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		newTotal += (int(cartProds[i].Quantity) * tempProd.Price)
+	}
+
+	cart := Cart{}
+	if err := h.db.Where("cart_id = ?", r.CartId).Find(&cart).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	cart.Total = uint(newTotal)
+
+	if err := h.db.Save(&cart).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }

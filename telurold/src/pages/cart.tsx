@@ -80,12 +80,36 @@ const CartPage = () => {
                     <h1>Cart</h1>
                 </div>
                 <div className={style.cart_details}>
-                    {cartProduct.map((prod) => (
-                        <CartCard cartProd={prod} />
-                    ))}
+                   <div className={style.cart_details_left}>
+                        {cartProduct.map((prod) => (
+                            <div className={style.cart_card_container}>
+                                <CartCard cartProd={prod} />
+                            </div>                        
+                        ))}
+                   </div>
+                   <div className={style.cart_details_right}>
+                        <h1>Summary</h1>
+                        <br />
+                        <div className={style.summary_details}>
+                            <p>Item(s):</p>
+                            <p>${cart?.total}</p>
+                        </div>
+                        <div className={style.summary_details}>
+                            <p>Est. Delivery:</p>
+                            <p>$ 10.0</p>
+                        </div>
+                        <div className={style.summary_total}>
+                            <h2>Est. Total:</h2>
+                            <h1>${cart?.total ? cart.total + 10: cart?.total}.00</h1>
+                        </div>
+                   </div>
+                    
                 </div>
                 <div className={style.title}>
                     <h1>Saved For Later</h1>
+                </div>
+                <div style={{height: "1000px"}}>
+
                 </div>
             </div>
         </Theme>

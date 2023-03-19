@@ -12,7 +12,7 @@ const SearchPage = () => {
     const [page, setPage] = useState(0)
     const [sortByPrice, setSortByPrice] = useState(false)
     const [filtered, setFiltered] = useState<Product[]>([])
-    const [instock, setInStock] = useState(false)
+    const [instock, setInStock] = useState(true)
     const [search, setSearch] = useState("")
     const [productss, setProducts] = useState<Product[]>([])
 

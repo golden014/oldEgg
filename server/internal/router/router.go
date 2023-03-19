@@ -48,6 +48,7 @@ func InitRouter(userHandler *user.Handler,
 	r.Use(cors.New(config))
 
 	r.POST("/createOrder", orHandler.CreateOrder)
+	r.POST("/getOrderByUserId", orHandler.GetOrderByUserId)
 
 	r.POST("/addAddress", adHandler.AddAddress)
 	r.POST("/getAllAddressByUserId", adHandler.GetAllAddressByUserId)

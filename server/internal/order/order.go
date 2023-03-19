@@ -175,3 +175,24 @@ func (h *Handler) CreateOrder(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Success !"})
 
 }
+
+type GetOrderByUserIdReq struct {
+	UserId int `json:"user_id" db:"user_id"`
+}
+
+func (h *Handler) GetOrderByUserId(c *gin.Context) {
+	var r GetOrderByUserIdReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	orders := []Order{}
+
+	if err := h.db.Where("user_id = ?", r.UserId).Find(&orders).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
+}

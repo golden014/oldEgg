@@ -85,6 +85,21 @@ export type Address = {
     address_name: string
 }
 
+export type Order = {
+	order_id: number
+    user_id: number
+    store_id: number
+    date_ordered: string
+    invoice_code: string
+    status: string
+}
+
+export type OrderDetail = {
+    order_id: number
+    product_id: number
+    quantity: number
+}
+
 
 export const AuthContext = createContext<{
     authenticated: boolean

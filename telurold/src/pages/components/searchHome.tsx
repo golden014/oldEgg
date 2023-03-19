@@ -12,7 +12,6 @@ const SearchHome = () => {
     const router = useRouter()
     const handleKeyDown = (e: any) => {
         if (e.key === "Enter") {
-          alert("aaa")
           //buat page utk hasil search dengan pass si products
           router.push({
             pathname: '/searchPage',

@@ -1,6 +1,7 @@
 package router
 
 import (
+	"server/internal/address"
 	"server/internal/ban"
 	"server/internal/carousel"
 	"server/internal/cart"
@@ -30,6 +31,7 @@ func InitRouter(userHandler *user.Handler,
 	rvHandler *review.Handler,
 	emHandler *email.Handler,
 	ctHandler *cart.Handler,
+	adHandler *address.Handler,
 ) {
 
 	r = gin.Default()
@@ -42,6 +44,10 @@ func InitRouter(userHandler *user.Handler,
 	}
 
 	r.Use(cors.New(config))
+
+	r.POST("/addAddress", adHandler.AddAddress)
+	r.POST("/getAllAddressByUserId", adHandler.GetAllAddressByUserId)
+	r.POST("removeAddress", adHandler.RemoveAddress)
 
 	r.POST("/addItemToCart", ctHandler.AddItemToCart)
 	r.POST("/getCartByUserId", ctHandler.GetCartByUserId)

@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"server/db"
+	"server/internal/address"
 	"server/internal/ban"
 	"server/internal/carousel"
 	"server/internal/cart"
@@ -41,6 +42,7 @@ func main() {
 	rvHandler := review.NewHandler(dbConn)
 	emHandler := email.NewHandler(dbConn)
 	ctHandler := cart.NewHandler(dbConn)
+	adHandler := address.NewHandler(dbConn)
 
 	router.InitRouter(
 		userHandler,
@@ -54,6 +56,7 @@ func main() {
 		rvHandler,
 		emHandler,
 		ctHandler,
+		adHandler,
 	)
 	// router.Start("localhost:1234")
 }

@@ -69,7 +69,7 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
                     method: "POST",
                     headers: {"Content-Type": "application/json;charset=utf-8"},
                     body: JSON.stringify({
-                        user_id: user.id
+                        user_id: parseInt(user.id)
                     }),
                 });
 

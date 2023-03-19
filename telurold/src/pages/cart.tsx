@@ -3,9 +3,11 @@ import style from "../styles/style.module.scss"
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, Cart, CartProduct } from "modules/authProvider";
 import CartCard from "./components/cartCard";
+import { useRouter } from "next/router";
 
 const CartPage = () => {
 
+    const router = useRouter()
     const [cartProduct, setCartProduct] = useState<CartProduct[]>([])
     
     const { user } = useContext(AuthContext)
@@ -20,7 +22,7 @@ const CartPage = () => {
                         method: "POST",
                         headers: {"Content-Type": "application/json;charset=utf-8"},
                         body: JSON.stringify({
-                            user_id: user.id
+                            user_id: parseInt(user.id)
                         }),
                     });
     
@@ -102,6 +104,10 @@ const CartPage = () => {
                             <h2>Est. Total:</h2>
                             <h1>${cart?.total ? cart.total + 10: cart?.total}.00</h1>
                         </div>
+                        <br />
+                        <button className={style.buttonss} onClick = {(e) => router.push("/checkout")}>
+                            Checkout
+                        </button>
                    </div>
                     
                 </div>

@@ -79,6 +79,12 @@ export type CartProduct = {
     quantity: number
 }
 
+export type Address = {
+    user_id: number
+    address_id: number
+    address_name: string
+}
+
 
 export const AuthContext = createContext<{
     authenticated: boolean

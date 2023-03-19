@@ -145,7 +145,7 @@ const InsertNewProduct = () => {
                 <div className={style.voucher_balance_input}>
                     <p>Category</p>
                     <select onChange={(e) => setCategoryId(parseInt(e.target.value))}>
-                    <option value="-1"></option>
+                        <option value="-1"></option>
                         {categories.map((category) =>(
                             <option value={category.category_id}>{category.category_name}</option>
                         ))}

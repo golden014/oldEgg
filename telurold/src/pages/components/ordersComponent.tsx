@@ -2,7 +2,7 @@ import { Order } from "modules/authProvider";
 import style from "../../styles/style.module.scss"
 import OrderCard from "./orderCard";
 
-const OrdersComponent = (props : {orders: Order[]}) => {
+const OrdersComponent = (props : {orders: Order[], role: string}) => {
 
     if (props.orders.length == 0) {
         return (
@@ -14,7 +14,7 @@ const OrdersComponent = (props : {orders: Order[]}) => {
         return (  
             <div className={style.order_component_container}>
                 {props.orders.map((order) => (
-                    <OrderCard order={order}/>
+                    <OrderCard order={order} role={props.role}/>
                 ))}
             </div>
         );

@@ -2,6 +2,8 @@ package order
 
 import (
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -214,11 +216,144 @@ func (h *Handler) GetUserOrderByKeyword(c *gin.Context) {
 
 	orders := []Order{}
 
-	if err := h.db.Where("user_id = ?", user_id).Where("order_id LIKE ?", "%"+keyword+"%").Or("invoice_code LIKE ?", "%"+keyword+"%").Find(&orders).Error; err != nil {
-		//nnti hapus
+	// if err := h.db.Where("user_id = ?", user_id).Where("order_id LIKE ?", "%"+keyword+"%").Or("invoice_code LIKE ?", "%"+keyword+"%").Find(&orders).Error; err != nil {
+	// 	//nnti hapus
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
+	temp, err := strconv.Atoi(keyword)
+
+	if err != nil {
+
+	}
+
+	// if err := h.db.Where("user_id = ?", user_id).Where("order_id = ?", temp).Or("invoice_code LIKE ?", "%"+keyword+"%").Find(&orders).Error; err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 	return
+	// }
+
+	if err := h.db.Where("user_id = ? AND order_id = ?", user_id, temp).Or("user_id = ? AND invoice_code LIKE ?", user_id, "%"+keyword+"%").Find(&orders).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, orders)
+}
+
+type GetUserOrdersByDatesReq struct {
+	UserId int `json:"user_id" db:"user_id"`
+	Days   int `json:"days"`
+}
+
+func (h *Handler) GetUserOrdersByDates(c *gin.Context) {
+	var r GetUserOrdersByDatesReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	orders := []Order{}
+
+	//kurangin dengan days yg diminta
+	temp := time.Now().AddDate(0, 0, -(r.Days))
+
+	if err := h.db.Where("user_id = ?", r.UserId).Where("date_ordered > ?", temp.Format("1/2/2003")).Find(&orders).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
+}
+
+type GetUserOrdersByFilterReq struct {
+	UserId int    `json:"user_id" db:"user_id"`
+	Filter string `json:"filter"`
+}
+
+func (h *Handler) GetUserOrdersByFilter(c *gin.Context) {
+	var r GetUserOrdersByFilterReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	orders := []Order{}
+
+	if err := h.db.Where("user_id = ?", r.UserId).Where("status = ?", r.Filter).Find(&orders).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
+}
+
+type GetOrderByStoreIdReq struct {
+	StoreId int `json:"store_id" db:"store_id"`
+}
+
+func (h *Handler) GetOrderByStoreId(c *gin.Context) {
+	var r GetOrderByStoreIdReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	orders := []Order{}
+
+	if err := h.db.Where("store_id = ?", r.StoreId).Find(&orders).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
+}
+
+type GetStoreOrdersByFilterReq struct {
+	StoreId int    `json:"store_id" db:"store_id"`
+	Filter  string `json:"filter"`
+}
+
+func (h *Handler) GetStoreOrdersByFilter(c *gin.Context) {
+	var r GetStoreOrdersByFilterReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	orders := []Order{}
+
+	if err := h.db.Where("store_id = ?", r.StoreId).Where("status = ?", r.Filter).Find(&orders).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
+}
+
+type UpdateOrderStatusReq struct {
+	OrderId uint `json:"order_id" db:"order_id"`
+}
+
+func (h *Handler) UpdateOrderStatus(c *gin.Context) {
+	var r UpdateOrderStatusReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	order := Order{}
+	if err := h.db.Where("order_id = ?", r.OrderId).First(&order).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	order.Status = "Done"
+
+	if err := h.db.Save(&order).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "update success"})
 }

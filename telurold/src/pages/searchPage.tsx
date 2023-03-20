@@ -72,8 +72,6 @@ const SearchPage = () => {
     }, [search])
 
     const { user } = useContext(AuthContext)
-
-
     const saveSearch = async() => {
         try {
             const res = await fetch("http://localhost:1234/addSavedQuery", {

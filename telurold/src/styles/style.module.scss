@@ -1543,6 +1543,33 @@
     padding: 20px;
     background-color: var(--background-color);
     border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .left {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        p {
+            @include desc_text();
+            color: var(--p_txt_color);
+        }
+    }
+
+    .mid {
+        h1 {
+            @include desc_text();
+            color: var(--p_txt_color);
+            font-size: 20px;
+        }
+    }
+
+    .right {
+        button {
+            @include button_style();
+        }
+    }
 }
 
 .user_orders_header {
@@ -1550,6 +1577,8 @@
     background-color: var(--background-color);
     border-radius: 20px;
     margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
 
     .search {
         display: flex;
@@ -1569,6 +1598,29 @@
             background-color: var(--background-color);
             border-style: solid;
             color: var(--p_txt_color);
+        }
+    }
+
+    .filter {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        p {
+            @include desc_text();
+            color: var(--p_txt_color);
+        }
+
+        input {
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: var(--background-color);
+            border-style: solid;
+            color: var(--p_txt_color);
+        }
+
+        select {
+            width: 100px;
         }
     }
 }

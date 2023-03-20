@@ -222,6 +222,11 @@ const StoreMainPage = (props: {store: Store}) => {
                                 <div className={style.top_detail} style={{gap: "px"}}>
                                     <button onClick={handleEditStore}>Edit Store Info</button>
                                     <button onClick={(e) => router.push("/insertNewProduct")}>Insert New Product</button>
+                                    <button onClick={(e) => router.push({
+                                        pathname: "/sellerOrders",
+                                        query: {store_id: store.store_id}
+                                    })}>View Orders</button>
+                                    
                                 </div>
                             </div>
                         </div>

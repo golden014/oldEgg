@@ -139,7 +139,7 @@ const ReviewCard = (props: {review:Review}) => {
 
                     <div className={style.right}>
                         <div className={style.top}>
-                            <p>Edit</p>
+                            <p></p>
                         </div>
 
                         <div className={style.bottom}>

@@ -70,6 +70,30 @@ func NewHandler(db *gorm.DB) *Handler {
 	}
 }
 
+func (h *Handler) GetReviewByUserId(c *gin.Context) {
+	var r GetReviewByUserIdReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	user_id := r.UserId
+
+	reviews := []Review{}
+
+	if err := h.db.Where("user_id = ?", user_id).Find(&reviews).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "product not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, reviews)
+
+}
+
 func (h *Handler) GetReviewByProductId(c *gin.Context) {
 	var r GetReviewByProductIdReq
 
@@ -257,4 +281,93 @@ func (h *Handler) GetReviewStatsByStoreId(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, res)
+}
+
+type GetReviewByIdReq struct {
+	ReviewId uint `json:"review_id" db:"review_id"`
+}
+
+func (h *Handler) GetReviewById(c *gin.Context) {
+	var r GetReviewByIdReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	review := Review{}
+
+	if err := h.db.Where("review_id = ?", r.ReviewId).First(&review).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "product not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, review)
+
+}
+
+type UpdateReviewByUserIdReq struct {
+	ReviewId uint   `json:"review_id" db:"review_id"`
+	UserId   int    `json:"user_id" db:"user_id"`
+	Column   string `json:"column"`
+	NewValue string `json:"new_value"`
+}
+
+func (h *Handler) UpdateReviewByUserId(c *gin.Context) {
+	var r UpdateReviewByUserIdReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	if err := h.db.Table("reviews").Where("review_id = ?", r.ReviewId).Where("user_id = ?", r.UserId).Update(r.Column, r.NewValue).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "product not found"})
+			return
+		}
+
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
+}
+
+type DeleteReviewReq struct {
+	ReviewId uint `json:"review_id" db:"review_id"`
+	UserId   uint `json:"user_id" db:"user_id"`
+}
+
+func (h *Handler) DeleteReview(c *gin.Context) {
+	var r DeleteReviewReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	review_id := r.ReviewId
+	user_id := r.UserId
+
+	review := Review{}
+
+	if err := h.db.Where("review_id = ?", review_id).First(&review).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	if review.UserId != int(user_id) {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "user didnt matched !"})
+		return
+	}
+
+	if err := h.db.Delete(&review).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
+
 }

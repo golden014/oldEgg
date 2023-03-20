@@ -68,6 +68,7 @@ const Home = () => {
 
                 <button onClick={(e) => router.push("/inputVoucher")}>Input Voucher</button>
                 <button onClick={(e) => router.push("/userOrders")}>View your orders</button>
+                <button onClick={(e) => router.push("/userReviews")}>View your reviews</button>
             </div>
         </Theme>
 

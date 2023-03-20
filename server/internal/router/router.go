@@ -79,6 +79,10 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/getReviewByStoreId", rvHandler.GetReviewByStoreId)
 	r.POST("/updateCountsProduct", rvHandler.UpdateCountsProduct)
 	r.POST("/getReviewStatsByStoreId", rvHandler.GetReviewStatsByStoreId)
+	r.POST("/getReviewByUserId", rvHandler.GetReviewByUserId)
+	r.POST("/getReviewById", rvHandler.GetReviewById)
+	r.POST("/updateReviewByUserId", rvHandler.UpdateReviewByUserId)
+	r.POST("/deleteReview", rvHandler.DeleteReview)
 
 	r.POST("/addProduct", prHandler.AddProduct)
 	r.POST("/getProductById", prHandler.GetProductById)

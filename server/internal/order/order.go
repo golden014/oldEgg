@@ -196,3 +196,29 @@ func (h *Handler) GetOrderByUserId(c *gin.Context) {
 
 	c.JSON(http.StatusOK, orders)
 }
+
+type GetUserOrderByKeywordReq struct {
+	UserId  int    `json:"user_id" db:"user_id"`
+	Keyword string `json:"keyword" db:"keyword"`
+}
+
+func (h *Handler) GetUserOrderByKeyword(c *gin.Context) {
+	var r GetUserOrderByKeywordReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	keyword := r.Keyword
+	user_id := r.UserId
+
+	orders := []Order{}
+
+	if err := h.db.Where("user_id = ?", user_id).Where("order_id LIKE ?", "%"+keyword+"%").Or("invoice_code LIKE ?", "%"+keyword+"%").Find(&orders).Error; err != nil {
+		//nnti hapus
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, orders)
+}

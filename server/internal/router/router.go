@@ -49,6 +49,7 @@ func InitRouter(userHandler *user.Handler,
 
 	r.POST("/createOrder", orHandler.CreateOrder)
 	r.POST("/getOrderByUserId", orHandler.GetOrderByUserId)
+	r.POST("/getUserOrderByKeyword", orHandler.GetUserOrderByKeyword)
 
 	r.POST("/addAddress", adHandler.AddAddress)
 	r.POST("/getAllAddressByUserId", adHandler.GetAllAddressByUserId)

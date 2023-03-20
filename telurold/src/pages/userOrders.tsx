@@ -2,10 +2,13 @@ import Theme from "./components/theme";
 import style from "../styles/style.module.scss"
 import { useContext, useEffect, useState } from "react";
 import { AuthContext, Order } from "modules/authProvider";
+import OrderCard from "./components/orderCard";
+import OrdersComponent from "./components/ordersComponent";
 
 const UserOrders = () => {
 
     const [orders, setOrders] = useState<Order[]>([])
+    const [filtered, setFiltered] = useState<Order[]>([])
     const { user } = useContext(AuthContext) 
 
     useEffect(() => {
@@ -22,6 +25,7 @@ const UserOrders = () => {
                 if (res.ok) {
                     const data = await res.json();
                     setOrders(data)
+                    setFiltered(data)
                 } else {
                     console.log("smth went wrong retreiving data");
                 }
@@ -33,20 +37,25 @@ const UserOrders = () => {
         getOrders()
     }, [user])
 
+    const [search, setSearch] = useState("")
+
+    useEffect
+
     return (  
         <Theme>
             <div className={style.user_orders_container}>
-                {orders.map((order) => (
-                    <div>
-                        <h1>{order.order_id}</h1>
-                        <h2>{order.invoice_code}</h2>
-                        <h2>{order.status}</h2>
-                        <br /><br />
+                <div className={style.user_orders_header}>
+                    <div className={style.search}>
+                        <p>Search: </p>
+                        <input type="text" onChange={(e) => setSearch(e.target.value)}/>
                     </div>
-                ))}
+                    <div></div>
+                </div>
+                <OrdersComponent orders={filtered} />
             </div>
         </Theme>
     );
+    // }
 }
  
 export default UserOrders;

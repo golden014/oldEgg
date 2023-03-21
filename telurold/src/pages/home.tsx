@@ -70,6 +70,7 @@ const Home = () => {
                 <button onClick={(e) => router.push("/userOrders")}>View your orders</button>
                 <button onClick={(e) => router.push("/userReviews")}>View your reviews</button>
                 <button onClick={(e) => router.push("/accountSettings")}>Account Settings</button>
+                <button onClick={(e) => router.push("/wishlist")}>Wishlist</button>
             </div>
         </Theme>
 

@@ -1484,7 +1484,7 @@
 
 .address_card {
     background-color: var(--background-color);
-    width: 100%;
+    // width: 100%;
     padding: 19px;
     border-radius: 5px;    
 
@@ -1725,3 +1725,29 @@
     }
 }
 
+.wishlist_modal_container {
+    padding: 30px;
+    position: absolute;
+    width: 500px;
+    // height: 500px;
+    background-color: var(--main-background-color);
+    left: 20%;
+    top: 20%;
+    border-radius: 20px;
+    border-style: solid;
+    border-color: #1946B8;
+    border-width: 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    input {
+        padding: 10px;
+    }
+
+    p {
+        @include desc_text();
+        padding: 3px;
+    }
+}

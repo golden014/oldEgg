@@ -14,6 +14,7 @@ import (
 	"server/internal/user"
 	"server/internal/voucher"
 	"server/internal/websocket"
+	"server/internal/wishlist"
 	"server/internal/ws"
 
 	"github.com/gin-contrib/cors"
@@ -36,6 +37,7 @@ func InitRouter(userHandler *user.Handler,
 	adHandler *address.Handler,
 	orHandler *order.Handler,
 	acHandler *account.Handler,
+	wlHandler *wishlist.Handler,
 ) {
 
 	r = gin.Default()
@@ -48,6 +50,10 @@ func InitRouter(userHandler *user.Handler,
 	}
 
 	r.Use(cors.New(config))
+
+	r.POST("/createNewWishlist", wlHandler.CreateNewWishlist)
+	r.POST("/getWishlistByUserId", wlHandler.GetWishlistByUserId)
+	r.POST("/updateWishlistById", wlHandler.UpdateWishlistById)
 
 	r.POST("/updateAccount", acHandler.UpdateAccount)
 	r.POST("/updatePassword", acHandler.UpdatePassword)

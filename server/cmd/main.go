@@ -17,6 +17,7 @@ import (
 	"server/internal/user"
 	"server/internal/voucher"
 	"server/internal/websocket"
+	"server/internal/wishlist"
 	"server/internal/ws"
 )
 
@@ -47,6 +48,7 @@ func main() {
 	adHandler := address.NewHandler(dbConn)
 	orHandler := order.NewHandler(dbConn)
 	acHandler := account.NewHandler(dbConn)
+	wlHandler := wishlist.NewHandler(dbConn)
 
 	router.InitRouter(
 		userHandler,
@@ -63,6 +65,7 @@ func main() {
 		adHandler,
 		orHandler,
 		acHandler,
+		wlHandler,
 	)
 	// router.Start("localhost:1234")
 }

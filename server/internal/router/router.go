@@ -1,6 +1,7 @@
 package router
 
 import (
+	"server/internal/account"
 	"server/internal/address"
 	"server/internal/ban"
 	"server/internal/carousel"
@@ -34,6 +35,7 @@ func InitRouter(userHandler *user.Handler,
 	ctHandler *cart.Handler,
 	adHandler *address.Handler,
 	orHandler *order.Handler,
+	acHandler *account.Handler,
 ) {
 
 	r = gin.Default()
@@ -46,6 +48,9 @@ func InitRouter(userHandler *user.Handler,
 	}
 
 	r.Use(cors.New(config))
+
+	r.POST("/updateAccount", acHandler.UpdateAccount)
+	r.POST("/updatePassword", acHandler.UpdatePassword)
 
 	r.POST("/createOrder", orHandler.CreateOrder)
 	r.POST("/getOrderByUserId", orHandler.GetOrderByUserId)

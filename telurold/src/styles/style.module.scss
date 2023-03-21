@@ -1700,6 +1700,16 @@
                     border-style: solid;
                     color: var(--p_txt_color);
                 }
+
+                input {
+                    width: 17vw;
+                    height: 5vh;
+                    padding-left: 10px;
+                    padding-right: 10px;
+                    background-color: var(--background-color);
+                    border-style: solid;
+                    color: var(--p_txt_color);
+                }
             }
         }
     }

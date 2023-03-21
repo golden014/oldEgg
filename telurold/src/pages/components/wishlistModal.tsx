@@ -38,7 +38,7 @@ const WishlistModal = (props: {wishlist: Wishlist}) => {
 
     if (show) {
         return (
-            <div>
+            <div className={style.wishlist_awikwok} >
                 <div className={style.wishlist_modal_container}>
                     <input type="text" placeholder="Updated Wishlist's Name"  onChange={(e) => setNewName(e.target.value)}/>
                     <button style={{backgroundColor: "#1946B8"}} onClick={(e) => handleUpdate("wishlist_name", newName)}>Update Name</button>
@@ -53,14 +53,28 @@ const WishlistModal = (props: {wishlist: Wishlist}) => {
                     </div>
                     <button style={{backgroundColor: "#1946B8"}} onClick={(e) => handleUpdate("status", newStatus)}>Update Privacy</button>
                 </div>
-                <h2>{wishlist.wishlist_name}</h2>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px"
+                    }}>
+                    <h2>{wishlist.wishlist_name}</h2>
+                    <p>({wishlist.status})</p>
+                </div>
                 <button style={{backgroundColor: "#1946B8"}} onClick={(e) => setShow(!show)}>Update</button>
             </div>
         );
     } else {
         return (
-            <div>
-                 <h2>{wishlist.wishlist_name}</h2>
+            <div className={style.wishlist_awikwok}>
+                 <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px"
+                    }}>
+                    <h2>{wishlist.wishlist_name}</h2>
+                    <p>({wishlist.status})</p>
+                 </div>
                  <button style={{backgroundColor: "#1946B8"}} onClick={(e) => setShow(!show)}>Update</button>
             </div>
         )

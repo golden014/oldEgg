@@ -1482,11 +1482,23 @@
     
 }
 
+.wishlist_awikwok {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+
+    p {
+        @include desc_text();
+    }
+}
+
 .address_card {
     background-color: var(--background-color);
     // width: 100%;
     padding: 19px;
     border-radius: 5px;    
+
 
     h2 {
         @include desc_text();

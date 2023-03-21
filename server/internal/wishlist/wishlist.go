@@ -107,3 +107,29 @@ func (h *Handler) UpdateWishlistById(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
+
+type PaginateWishlistReq struct {
+	Page     int `json:"page"`
+	PageSize int `json:"page_size"`
+}
+
+func (h *Handler) PaginateWishlist(c *gin.Context) {
+	var r PaginateWishlistReq
+	var wishlists []Wishlist
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	page := r.Page
+	pageSize := r.PageSize
+	offset := (page - 1) * pageSize
+
+	if err := h.db.Where("status = ?", "public").Offset(offset).Limit(pageSize).Find(&wishlists).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, wishlists)
+
+}

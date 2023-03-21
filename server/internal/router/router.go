@@ -54,6 +54,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/createNewWishlist", wlHandler.CreateNewWishlist)
 	r.POST("/getWishlistByUserId", wlHandler.GetWishlistByUserId)
 	r.POST("/updateWishlistById", wlHandler.UpdateWishlistById)
+	r.POST("/paginateWishlist", wlHandler.PaginateWishlist)
 
 	r.POST("/updateAccount", acHandler.UpdateAccount)
 	r.POST("/updatePassword", acHandler.UpdatePassword)

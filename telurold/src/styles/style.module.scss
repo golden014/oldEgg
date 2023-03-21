@@ -1355,6 +1355,14 @@
         border-color: #8b8b8b;
         padding-bottom: 20px;
         margin-bottom: 20px;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+
+        button {
+            @include button_style();
+        }
     }
 
     
@@ -1762,4 +1770,36 @@
         @include desc_text();
         padding: 3px;
     }
+}
+
+.public_wishlist_detail {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    .detail_left {
+        align-items: center;
+        display: flex;
+        gap: 5px;
+        margin-right: 30px;
+    }
+    .detail_right {
+        align-items: center;
+        display: flex;
+        gap: 5px;
+    }
+
+    button {
+        @include button_style();
+    }
+
+    p {
+        @include desc_text();
+        color: var(--p_txt_color);
+    }
+
+    input {
+        width: 40px;
+    }
+
 }

@@ -3,6 +3,7 @@ import style from "../styles/style.module.scss"
 import { useState, useEffect, useContext } from "react"
 import { AuthContext, Wishlist } from "modules/authProvider";
 import WishlistModal from "./components/wishlistModal";
+import { useRouter } from "next/router";
 
 const Wishlist = () => {
 
@@ -68,41 +69,44 @@ const Wishlist = () => {
         }
     }, [user])
 
+    const router = useRouter()
+
     return (  
         <Theme>
             <div className={style.cart_page_container}>
-            <div className={style.title}>
-                        <br />
-                        <h1>Wishlist</h1>
-                    </div>
-                    <div className={style.addresses_container}>
-                        <div className={style.address_card}>
-                            <div style={{
-                                display: "flex",
-                                alignItems: "center"
-                            }}>
-                                <h2>Add New Wishlist</h2>
-                            </div>
-                            <input type="text" placeholder="New Wishlist's Name" onChange={(e) => setNewName(e.target.value)}/>
-                            <div>
-                                <select onChange={(e) => setNewStatus(e.target.value)}>
-                                    <option value="public">Public</option>
-                                    <option value="private">Private</option>
-                                </select>
-                            </div>
-                            <button style={{backgroundColor: "#050c2e"}} onClick={handleAdd}>
-                                Add
-                            </button>
+                <div className={style.title}>
+                    <br />
+                    <h1>Wishlist</h1>
+                    <button onClick={(e) => router.push("/publicWishlist")}>Public Wishlist</button>
+                </div>
+                <div className={style.addresses_container}>
+                    <div className={style.address_card}>
+                        <div style={{
+                            display: "flex",
+                            alignItems: "center"
+                        }}>
+                            <h2>Add New Wishlist</h2>
                         </div>
-                        {wishlists.map((wishlist) => {
-                            
-                            return (
-                                <div className={style.address_card}>
-                                    <WishlistModal wishlist={wishlist}/>
-                                </div>
-                            )
-                        })}
+                        <input type="text" placeholder="New Wishlist's Name" onChange={(e) => setNewName(e.target.value)}/>
+                        <div>
+                            <select onChange={(e) => setNewStatus(e.target.value)}>
+                                <option value="public">Public</option>
+                                <option value="private">Private</option>
+                            </select>
+                        </div>
+                        <button style={{backgroundColor: "#050c2e"}} onClick={handleAdd}>
+                            Add
+                        </button>
                     </div>
+                    {wishlists.map((wishlist) => {
+                        
+                        return (
+                            <div className={style.address_card}>
+                                <WishlistModal wishlist={wishlist}/>
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
         </Theme>
     );

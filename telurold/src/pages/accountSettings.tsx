@@ -7,7 +7,7 @@ const AccountSettings = () => {
     const { user } = useContext(AuthContext)
     const [email, setEmail] = useState(user.email)
     const [phoneNum, setPhoneNum] = useState(user.mobilephone)
-    const [currPassword, setPassword] = useState("")
+    const [currPassword, setCurrPassword] = useState("")
     const [newPassword, setNewPassword] = useState("")
 
     const handleUpdate = async(column: string, columnValue: any) => {
@@ -36,7 +36,28 @@ const AccountSettings = () => {
     }
 
     const handlePassword = async() => {
-        
+        if (user) {
+            try {
+                const res = await fetch("http://localhost:1234/updatePassword", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json;charset=utf-8"},
+                    body: JSON.stringify({
+                        user_id: parseInt(user.id),
+                        curr_pass: currPassword,
+                        new_pass: newPassword
+                    }),
+                });
+    
+                if (res.ok) {
+                    alert("Update password success !")
+                } else {
+                    alert("Current password don't match")
+                }
+    
+            } catch (error){
+                console.log(error);                
+            }
+        }
     }
 
     if (user) {
@@ -52,6 +73,13 @@ const AccountSettings = () => {
                         </div>
                         
                         <div className={style.details}>
+                        <div className={style.details_block}>
+                                <p>Enable F2A: </p>
+                                <select>
+                                    <option value="on">on</option>
+                                    <option value="off">off</option>
+                                </select>
+                            </div>
                             <div className={style.details_block}>
                                 <p>Is Subscribed: {user.issubscribe}</p>
                             </div>
@@ -67,14 +95,15 @@ const AccountSettings = () => {
                             </div>
                             <div className={style.details_block}>
                                 <p>Curr Password: </p>
-                                <input type="text" placeholder="input curr password"/>
+                                <input type="text" placeholder="input curr password" onChange={(e) => setCurrPassword(e.target.value)}/>
                                 <div style={{width: "73px"}}></div>
                             </div>
                             <div className={style.details_block}>
                                 <p>New Password: </p>
-                                <input type="text" placeholder="input new password"/>
-                                <button>Update</button>
+                                <input type="text" placeholder="input new password" onChange={(e) => setNewPassword(e.target.value)}/>
+                                <button onClick={handlePassword}>Update</button>
                             </div>
+
                         </div>
                     </div>
                 </div>

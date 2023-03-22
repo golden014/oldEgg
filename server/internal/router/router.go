@@ -83,6 +83,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/getCartByUserId", ctHandler.GetCartByUserId)
 	r.POST("/getCartProduct", ctHandler.GetCartProduct)
 	r.POST("/updateCartProduct", ctHandler.UpdateCartProduct)
+	r.POST("/addAllItemToCart", ctHandler.AddAllItemToCart)
 
 	r.POST("/addSavedQuery", crHandler.AddSavedQuery)
 	r.POST("/paginatedUsers", crHandler.PaginateUser)

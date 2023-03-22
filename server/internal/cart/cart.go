@@ -48,6 +48,21 @@ type AddItemToCartReq struct {
 	Quantity  uint `json:"quantity" db:"quantity"`
 }
 
+type Wishlist struct {
+	WishlistId   uint   `gorm:"primary_key;auto_increment" json:"wishlist_id"`
+	WishlistName string `json:"wishlist_name" db:"wishlist_name"`
+	UserId       uint   `json:"user_id" db:"user_id"`
+	Status       string `json:"status" db:"status"`
+}
+
+type WishlistDetail struct {
+	WishlistDetailId uint `gorm:"primary_key;auto_increment" json:"wishlist_detail_id"`
+	WishlistId       uint `json:"wishlist_id" db:"wishlist_id"`
+	UserId           uint `json:"user_id" db:"user_id"`
+	ProductId        uint `json:"product_id" db:"product_id"`
+	Quantity         uint `json:"quantity" db:"quantity"`
+}
+
 func (h *Handler) AddItemToCart(c *gin.Context) {
 	var r AddItemToCartReq
 
@@ -61,13 +76,13 @@ func (h *Handler) AddItemToCart(c *gin.Context) {
 		Quantity:  r.Quantity,
 	}
 
-	prod := Product{}
-	if err := h.db.Where("product_id = ?", r.ProductId).First(&prod).Error; err != nil {
+	if err := h.db.Create(&newProd).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := h.db.Create(&newProd).Error; err != nil {
+	prod := Product{}
+	if err := h.db.Where("product_id = ?", r.ProductId).First(&prod).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -208,4 +223,44 @@ func (h *Handler) UpdateCartProduct(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "success"})
+}
+
+type AddAllItemToCartReq struct {
+	WishlistId uint `json:"wishlist_id" db:"wishlist_id"`
+	UserId     uint `json:"user_id" db:"user_id"`
+}
+
+func (h *Handler) AddAllItemToCart(c *gin.Context) {
+	var r AddAllItemToCartReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	cart := Cart{}
+	if err := h.db.Where("user_id = ?", r.UserId).First(&cart).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	wishlistDetails := []WishlistDetail{}
+
+	if err := h.db.Where("wishlist_id = ?", r.WishlistId).Find(&wishlistDetails).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	for i := 0; i < len(wishlistDetails); i++ {
+		newProd := CartProduct{
+			ProductId: wishlistDetails[i].ProductId,
+			CartId:    cart.CartId,
+			Quantity:  wishlistDetails[i].Quantity,
+		}
+
+		if err := h.db.Create(&newProd).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
 }

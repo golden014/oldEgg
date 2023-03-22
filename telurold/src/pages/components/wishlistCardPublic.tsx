@@ -1,4 +1,5 @@
 import { AuthContext, Wishlist } from "modules/authProvider";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import style from "../../styles/style.module.scss"
 
@@ -34,6 +35,8 @@ const WishlistCardPublic = (props: {wishlist: Wishlist}) => {
      getReviewsByProductId()
     }
 
+    const router = useRouter()
+
     return (  
         <div className={style.wishlist_awikwok}>
                  <div style={{
@@ -41,7 +44,7 @@ const WishlistCardPublic = (props: {wishlist: Wishlist}) => {
                     flexDirection: "column",
                     gap: "10px"
                     }}>
-                    <h2>{wishlist.wishlist_name}</h2>
+                    <h2 onClick={(e) => router.push("/wishlistdetail/" + wishlist.wishlist_id)}>{wishlist.wishlist_name}</h2>
                     <p>({wishlist.status})</p>
                  </div>
                  <div style={{

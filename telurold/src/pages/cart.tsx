@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext, Cart, CartProduct } from "modules/authProvider";
 import CartCard from "./components/cartCard";
 import { useRouter } from "next/router";
+import WishlistPublicCard from "./components/wishlistPublicCard";
 
 const CartPage = () => {
 

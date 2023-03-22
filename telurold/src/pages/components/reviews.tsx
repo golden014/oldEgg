@@ -23,7 +23,6 @@ const Reviews = (props: {product_id: any}) => {
                     const data = await res.json();
                     setReviews(data)
                     
-                    
                 } else {
                     console.log("smth went wrong retreiving reviews");
                 }

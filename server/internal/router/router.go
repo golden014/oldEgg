@@ -61,6 +61,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/paginateWishlist", wlHandler.PaginateWishlist)
 	r.POST("/getWishlistDetails", wlHandler.GetWishlistDetails)
 	r.POST("/addWishlistDetail", wlHandler.AddWishlistDetail)
+	r.POST("/getWishlistById", wlHandler.GetWishlistById)
 
 	r.POST("/updateAccount", acHandler.UpdateAccount)
 	r.POST("/updatePassword", acHandler.UpdatePassword)
@@ -101,6 +102,7 @@ func InitRouter(userHandler *user.Handler,
 	r.POST("/getReviewById", rvHandler.GetReviewById)
 	r.POST("/updateReviewByUserId", rvHandler.UpdateReviewByUserId)
 	r.POST("/deleteReview", rvHandler.DeleteReview)
+	r.POST("/getReviewByProductIdStat", rvHandler.GetReviewByProductIdStat)
 
 	r.POST("/addProduct", prHandler.AddProduct)
 	r.POST("/getProductById", prHandler.GetProductById)

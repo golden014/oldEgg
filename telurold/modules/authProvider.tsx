@@ -107,6 +107,13 @@ export type Wishlist = {
     status: string
 }
 
+export type WishlistDetails = {
+    wishlist_detail_id: number
+    wishlist_id: number
+    product_id: number
+    quantity: number
+}
+
 
 export const AuthContext = createContext<{
     authenticated: boolean

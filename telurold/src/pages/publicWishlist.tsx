@@ -55,6 +55,8 @@ const PublicWishlist = () => {
         }
     }
 
+    
+
     return (  
         <Theme>
              <div className={style.cart_page_container}>

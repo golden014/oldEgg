@@ -7,6 +7,7 @@ import (
 	"server/internal/carousel"
 	"server/internal/cart"
 	"server/internal/email"
+	"server/internal/follow"
 	"server/internal/order"
 	"server/internal/product"
 	"server/internal/review"
@@ -38,6 +39,7 @@ func InitRouter(userHandler *user.Handler,
 	orHandler *order.Handler,
 	acHandler *account.Handler,
 	wlHandler *wishlist.Handler,
+	flHandler *follow.Handler,
 ) {
 
 	r = gin.Default()
@@ -51,10 +53,14 @@ func InitRouter(userHandler *user.Handler,
 
 	r.Use(cors.New(config))
 
+	r.POST("/createNewFollow", flHandler.CreateNewFollow)
+
 	r.POST("/createNewWishlist", wlHandler.CreateNewWishlist)
 	r.POST("/getWishlistByUserId", wlHandler.GetWishlistByUserId)
 	r.POST("/updateWishlistById", wlHandler.UpdateWishlistById)
 	r.POST("/paginateWishlist", wlHandler.PaginateWishlist)
+	r.POST("/getWishlistDetails", wlHandler.GetWishlistDetails)
+	r.POST("/addWishlistDetail", wlHandler.AddWishlistDetail)
 
 	r.POST("/updateAccount", acHandler.UpdateAccount)
 	r.POST("/updatePassword", acHandler.UpdatePassword)

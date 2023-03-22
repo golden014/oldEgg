@@ -9,6 +9,7 @@ import (
 	"server/internal/carousel"
 	"server/internal/cart"
 	"server/internal/email"
+	"server/internal/follow"
 	"server/internal/order"
 	"server/internal/product"
 	"server/internal/review"
@@ -49,6 +50,7 @@ func main() {
 	orHandler := order.NewHandler(dbConn)
 	acHandler := account.NewHandler(dbConn)
 	wlHandler := wishlist.NewHandler(dbConn)
+	flHandler := follow.NewHandler(dbConn)
 
 	router.InitRouter(
 		userHandler,
@@ -66,6 +68,7 @@ func main() {
 		orHandler,
 		acHandler,
 		wlHandler,
+		flHandler,
 	)
 	// router.Start("localhost:1234")
 }

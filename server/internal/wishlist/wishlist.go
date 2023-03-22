@@ -25,6 +25,13 @@ type Wishlist struct {
 	Status       string `json:"status" db:"status"`
 }
 
+type WishlistDetail struct {
+	WishlistDetailId uint `gorm:"primary_key;auto_increment" json:"wishlist_detail_id"`
+	WishlistId       uint `json:"wishlist_id" db:"wishlist_id"`
+	ProductId        uint `json:"product_id" db:"product_id"`
+	Quantity         uint `json:"quantity" db:"quantity"`
+}
+
 type CreateNewWishlistReq struct {
 	WishlistName string `json:"wishlist_name" db:"wishlist_name"`
 	UserId       uint   `json:"user_id" db:"user_id"`
@@ -131,5 +138,53 @@ func (h *Handler) PaginateWishlist(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, wishlists)
+}
 
+type GetWishlistDetailsReq struct {
+	WishlistId uint `json:"wishlist_id" db:"wishlist_id"`
+}
+
+func (h *Handler) GetWishlistDetails(c *gin.Context) {
+	var r GetWishlistDetailsReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	wishlist_details := []WishlistDetail{}
+
+	if err := h.db.Where("wishlist_id = ?", r.WishlistId).Find(&wishlist_details).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, wishlist_details)
+
+}
+
+type AddWishlistDetailReq struct {
+	WishlistId uint `json:"wishlist_id" db:"wishlist_id"`
+	ProductId  uint `json:"product_id" db:"product_id"`
+	Quantity   uint `json:"quantity" db:"quantity"`
+}
+
+func (h *Handler) AddWishlistDetail(c *gin.Context) {
+	var r AddWishlistDetailReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	wishlist_detail := WishlistDetail{
+		WishlistId: r.WishlistId,
+		ProductId:  r.ProductId,
+		Quantity:   r.Quantity,
+	}
+
+	if err := h.db.Create(&wishlist_detail).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "add wishlist detail success"})
 }

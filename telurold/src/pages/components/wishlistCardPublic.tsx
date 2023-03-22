@@ -1,9 +1,38 @@
-import { Wishlist } from "modules/authProvider";
+import { AuthContext, Wishlist } from "modules/authProvider";
+import { useContext } from "react";
 import style from "../../styles/style.module.scss"
 
 const WishlistCardPublic = (props: {wishlist: Wishlist}) => {
 
     const wishlist = props.wishlist
+
+    const { user } = useContext(AuthContext)
+    
+    const handleFollow = async() => {
+      const getReviewsByProductId = async () => {
+         try {
+             const res = await fetch("http://localhost:1234/createNewFollow", {
+                 method: "POST",
+                 headers: {"Content-Type": "application/json;charset=utf-8"},
+                 body: JSON.stringify({
+                     wishlist_id: wishlist.wishlist_id,
+                     user_id: parseInt(user.id)
+                 }),
+             });
+
+             if (res.ok) {
+                 alert("follow success !")
+             } else {
+                 console.log("smth went wrong retreiving reviews");
+             }
+
+         } catch (error){
+             console.log(error);                
+         }
+     }
+
+     getReviewsByProductId()
+    }
 
     return (  
         <div className={style.wishlist_awikwok}>
@@ -20,7 +49,7 @@ const WishlistCardPublic = (props: {wishlist: Wishlist}) => {
                     alignItems: "center",
                     gap: "20px"
                  }}>
-                    <button style={{backgroundColor: "#1946B8"}} >Follow</button>
+                    <button style={{backgroundColor: "#1946B8"}} onClick={handleFollow}>Follow</button>
                     <button style={{backgroundColor: "#1946B8"}} >Duplicate</button>
                  </div>
             </div>

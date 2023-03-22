@@ -3,7 +3,6 @@ package user
 import (
 	"context"
 	"errors"
-	"net/smtp"
 	"regexp"
 	"server/internal/util"
 	"strconv"
@@ -117,16 +116,16 @@ func (s *service) Login(c context.Context, req *LoginUserReq) (*LoginUserRes, er
 		return &LoginUserRes{}, err
 	}
 
-	emails := []string{u.Email}
+	// emails := []string{u.Email}
 
-	msg := []byte("oldEgg: 2fa - you just logged in")
-	broadcaster := smtp.PlainAuth(
-		"",
-		"josuagoldendummy@gmail.com",
-		"qrwvgnjbnkgeadtd",
-		"smtp.gmail.com")
+	// msg := []byte("oldEgg: 2fa - you just logged in")
+	// broadcaster := smtp.PlainAuth(
+	// 	"",
+	// 	"josuagoldendummy@gmail.com",
+	// 	"qrwvgnjbnkgeadtd",
+	// 	"smtp.gmail.com")
 
-	err = smtp.SendMail("smtp.gmail.com:587", broadcaster, "josuagoldendummy@gmail.com", emails, msg)
+	// err = smtp.SendMail("smtp.gmail.com:587", broadcaster, "josuagoldendummy@gmail.com", emails, msg)
 	if err != nil {
 		return &LoginUserRes{}, err
 	}

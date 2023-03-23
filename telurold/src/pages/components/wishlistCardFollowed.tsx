@@ -12,7 +12,7 @@ const WishlistCardFollowed = (props: {wishlist: Wishlist}) => {
     const handleFollow = async() => {
       const getReviewsByProductId = async () => {
          try {
-             const res = await fetch("http://localhost:1234/createNewFollow", {
+             const res = await fetch("http://localhost:1234/unfollow", {
                  method: "POST",
                  headers: {"Content-Type": "application/json;charset=utf-8"},
                  body: JSON.stringify({
@@ -22,7 +22,8 @@ const WishlistCardFollowed = (props: {wishlist: Wishlist}) => {
              });
 
              if (res.ok) {
-                 alert("follow success !")
+                 alert("unfollow success !")
+                 window.location = window.location
              } else {
                  console.log("smth went wrong retreiving reviews");
              }
@@ -33,6 +34,28 @@ const WishlistCardFollowed = (props: {wishlist: Wishlist}) => {
      }
 
      getReviewsByProductId()
+    }
+
+    const handleDuplicate = async() => {
+        try {
+            const res = await fetch("http://localhost:1234/duplicateWishlist", {
+                method: "POST",
+                headers: {"Content-Type": "application/json;charset=utf-8"},
+                body: JSON.stringify({
+                    wishlist_id: wishlist.wishlist_id,
+                    user_id: parseInt(user.id)
+                }),
+            });
+
+            if (res.ok) {
+                alert("duplicate success !")
+            } else {
+                console.log("smth went wrong retreiving reviews");
+            }
+
+        } catch (error){
+            console.log(error);                
+        }
     }
 
     const router = useRouter()
@@ -52,11 +75,11 @@ const WishlistCardFollowed = (props: {wishlist: Wishlist}) => {
                     alignItems: "center",
                     gap: "20px"
                  }}>
-                    <button style={{backgroundColor: "#1946B8"}} onClick={handleFollow}>Follow</button>
-                    <button style={{backgroundColor: "#1946B8"}} >Duplicate</button>
+                    <button style={{backgroundColor: "#1946B8"}} onClick={handleFollow}>Unfollow</button>
+                    <button style={{backgroundColor: "#1946B8"}} onClick={handleDuplicate}>Duplicate</button>
                  </div>
             </div>
     );
 }
  
-export default WishlistCardPublic;
+export default WishlistCardFollowed;

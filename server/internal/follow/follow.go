@@ -88,3 +88,18 @@ func (h *Handler) ViewAllFollowed(c *gin.Context) {
 
 	c.JSON(http.StatusOK, wishlists)
 }
+
+func (h *Handler) Unfollow(c *gin.Context) {
+	var r CreateNewFollowReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	if err := h.db.Where("user_id = ?", r.UserId).Where("wishlist_id = ?", r.WishlistId).Delete(&Follow{}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
+}

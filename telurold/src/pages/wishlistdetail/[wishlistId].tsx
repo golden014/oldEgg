@@ -100,6 +100,7 @@ const WishlistDetail = () => {
                     <div className={style.wishlist_detail_container}>
                         <div className={style.left}>
                             <h1>{wishlist?.wishlist_name}</h1>
+                            <h2>({wishlist.status})</h2>
                             <button onClick={addToCartHandler}>Add all item to cart</button>
                         </div>
                         <div className={style.right}>
@@ -122,8 +123,6 @@ const WishlistDetail = () => {
         } 
         //kalau punya user
         else {
-            
-
             return (
                 <Theme>
                     <div className={style.wishlist_detail_container}>
@@ -131,18 +130,20 @@ const WishlistDetail = () => {
                             <h1>{wishlist?.wishlist_name}</h1>
                             <h2>({wishlist.status})</h2>
                             <button onClick={addToCartHandler}>Add all item to cart</button>
-                            <div>
-                                <input type="text" placeholder="Updated Wishlist's Name"  onChange={(e) => setNewName(e.target.value)}/>
-                                <button style={{backgroundColor: "#1946B8"}} onClick={(e) => handleUpdate("wishlist_name", newName)}>Update Name</button>
-                                <div>
+                            <div className={style.detailss}>
+                                <div className={style.detailss}>
+                                    <input type="text" placeholder="Updated Wishlist's Name"  onChange={(e) => setNewName(e.target.value)}/>
+                                    <button style={{backgroundColor: "#1946B8"}} onClick={(e) => handleUpdate("wishlist_name", newName)}>Update Name</button>
+                                </div>
+                                <div className={style.detailss}>
                                     <p>Privacy</p>
                                     <select onChange={(e) => setNewStatus(e.target.value)}>
                                         <option value={wishlist.status}> </option>
                                         <option value="public">Public</option>
                                         <option value="private">Private</option>
                                     </select>
+                                    <button style={{backgroundColor: "#1946B8"}} onClick={(e) => handleUpdate("status", newStatus)}>Update Privacy</button>
                                 </div>
-                                <button style={{backgroundColor: "#1946B8"}} onClick={(e) => handleUpdate("status", newStatus)}>Update Privacy</button>
                             </div>
                         </div>
                         <div className={style.right}>

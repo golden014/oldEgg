@@ -35,6 +35,28 @@ const WishlistCardPublic = (props: {wishlist: Wishlist}) => {
      getReviewsByProductId()
     }
 
+    const handleDuplicate = async() => {
+        try {
+            const res = await fetch("http://localhost:1234/duplicateWishlist", {
+                method: "POST",
+                headers: {"Content-Type": "application/json;charset=utf-8"},
+                body: JSON.stringify({
+                    wishlist_id: wishlist.wishlist_id,
+                    user_id: parseInt(user.id)
+                }),
+            });
+
+            if (res.ok) {
+                alert("duplicate success !")
+            } else {
+                console.log("smth went wrong retreiving reviews");
+            }
+
+        } catch (error){
+            console.log(error);                
+        }
+    }
+
     const router = useRouter()
 
     return (  
@@ -53,7 +75,7 @@ const WishlistCardPublic = (props: {wishlist: Wishlist}) => {
                     gap: "20px"
                  }}>
                     <button style={{backgroundColor: "#1946B8"}} onClick={handleFollow}>Follow</button>
-                    <button style={{backgroundColor: "#1946B8"}} >Duplicate</button>
+                    <button style={{backgroundColor: "#1946B8"}} onClick={handleDuplicate}>Duplicate</button>
                  </div>
             </div>
     );

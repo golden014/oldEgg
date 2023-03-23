@@ -136,6 +136,7 @@ const WishlistOwnCard = (props: {cartProd: WishlistDetails}) => {
         }
     }
 
+    
     if (prod) {
         return (  
             <div className={style.cart_card}>

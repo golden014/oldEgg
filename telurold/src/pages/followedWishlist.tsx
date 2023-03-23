@@ -5,6 +5,7 @@ import { AuthContext, Wishlist } from "modules/authProvider";
 import WishlistModal from "./components/wishlistModal";
 import { useRouter } from "next/router";
 import WishlistCardPublic from "./components/wishlistCardPublic";
+import WishlistCardFollowed from "./components/wishlistCardFollowed";
 
 const FollowedWishlist = () => {
     const [wishlists, setWishlists] = useState<Wishlist[]>([])
@@ -49,6 +50,7 @@ const FollowedWishlist = () => {
                     <br />
                     <h1>Followed Wishlist</h1>
                     <button onClick={(e) => router.push("/wishlist")}>Your Wishlist</button>
+                    <button onClick={(e) => router.push("/publicWishlist")}>Public Wishlist</button>
                 </div>
                 <div className={style.addresses_container}>
                    
@@ -56,7 +58,7 @@ const FollowedWishlist = () => {
                     {wishlists.map((wishlist) => {
                         return (
                             <div className={style.address_card}>
-                                <WishlistCardPublic wishlist={wishlist}/>
+                                <WishlistCardFollowed wishlist={wishlist}/>
                             </div>
                         )
                     })}

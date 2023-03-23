@@ -1809,3 +1809,72 @@
     }
 
 }
+
+.wishlist_detail_container {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+
+    .left {
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+        background-color: var(--background-color);
+        padding: 30px;
+        border-radius: 30px;
+
+        h1 {
+            @include desc_text();
+            font-size: 30px;
+            color: var(--p_txt_color);
+        }
+
+        h2 {
+            @include desc_text();
+            font-size: 23px;
+            color: var(--p_txt_color);
+        }
+
+        input {
+            width: 17vw;
+            height: 5vh;
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: var(--background-color);
+            border-style: solid;
+            color: var(--p_txt_color);
+        }
+
+        select {
+            width: 17vw;
+            height: 5vh;
+            padding-left: 10px;
+            padding-right: 10px;
+            background-color: var(--background-color);
+            border-style: solid;
+            color: var(--p_txt_color);
+        }
+
+        p {
+            @include desc_text();
+            color: var(--p_txt_color)
+        }
+
+        button {
+            @include button_style();
+        }
+
+        .detailss {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+    }
+
+    .right {
+        width: 80%;
+    }
+}

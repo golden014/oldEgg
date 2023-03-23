@@ -166,6 +166,7 @@ type AddWishlistDetailReq struct {
 	WishlistId uint `json:"wishlist_id" db:"wishlist_id"`
 	ProductId  uint `json:"product_id" db:"product_id"`
 	Quantity   uint `json:"quantity" db:"quantity"`
+	UserId     uint `json:"user_id" db:"user_id"`
 }
 
 func (h *Handler) AddWishlistDetail(c *gin.Context) {
@@ -179,6 +180,7 @@ func (h *Handler) AddWishlistDetail(c *gin.Context) {
 		WishlistId: r.WishlistId,
 		ProductId:  r.ProductId,
 		Quantity:   r.Quantity,
+		UserId:     r.UserId,
 	}
 
 	if err := h.db.Create(&wishlist_detail).Error; err != nil {
@@ -289,4 +291,68 @@ func (h *Handler) DeleteWishlistDetail(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "delete success"})
+}
+
+type DuplicateWishlistReq struct {
+	WishlistId uint `json:"wishlist_id" db:"wishlist_id"`
+	UserId     uint `json:"user_id" db:"user_id"`
+}
+
+func (h *Handler) DuplicateWishlist(c *gin.Context) {
+	var r DuplicateWishlistReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	wishlist := Wishlist{}
+
+	if err := h.db.Where("wishlist_id = ?", r.WishlistId).First(&wishlist).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "product not found1"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//duplicate the wishlist
+	duplicated := Wishlist{
+		WishlistName: (wishlist.WishlistName + " (copy)"),
+		UserId:       r.UserId,
+		Status:       wishlist.Status,
+	}
+
+	if err := h.db.Create(&duplicated).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//ambil wishlist details dlu
+	wishlistDetails := []WishlistDetail{}
+	if err := h.db.Where("wishlist_id = ?", r.WishlistId).Find(&wishlistDetails).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "product not found1"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	//duplicate details nya
+	for i := 0; i < len(wishlistDetails); i++ {
+		wishlist_detail := WishlistDetail{
+			WishlistId: duplicated.WishlistId,
+			ProductId:  wishlistDetails[i].ProductId,
+			Quantity:   wishlistDetails[i].Quantity,
+			UserId:     r.UserId,
+		}
+
+		if err := h.db.Create(&wishlist_detail).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }

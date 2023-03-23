@@ -78,6 +78,7 @@ const Wishlist = () => {
                     <br />
                     <h1>Wishlist</h1>
                     <button onClick={(e) => router.push("/publicWishlist")}>Public Wishlist</button>
+                    <button onClick={(e) => router.push("/followedWishlist")}>Followed Wishlist</button>
                 </div>
                 <div className={style.addresses_container}>
                     <div className={style.address_card}>

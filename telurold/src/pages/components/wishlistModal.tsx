@@ -1,4 +1,5 @@
 import { AuthContext, Wishlist } from "modules/authProvider";
+import { useRouter } from "next/router";
 import { useState, useContext } from "react";
 import style from "../../styles/style.module.scss"
 
@@ -35,6 +36,7 @@ const WishlistModal = (props: {wishlist: Wishlist}) => {
     const [show, setShow] = useState(false)
     const [newStatus, setNewStatus] = useState(props.wishlist.status)
     const [newName, setNewName] = useState(props.wishlist.wishlist_name)
+    const router = useRouter()
 
     if (show) {
         return (
@@ -58,7 +60,7 @@ const WishlistModal = (props: {wishlist: Wishlist}) => {
                     flexDirection: "column",
                     gap: "10px"
                     }}>
-                    <h2>{wishlist.wishlist_name}</h2>
+                    <h2 onClick={(e) => router.push("/wishlistdetail/" + wishlist.wishlist_id)}>{wishlist.wishlist_name}</h2>
                     <p>({wishlist.status})</p>
                 </div>
                 <button style={{backgroundColor: "#1946B8"}} onClick={(e) => setShow(!show)}>Update</button>
@@ -72,7 +74,7 @@ const WishlistModal = (props: {wishlist: Wishlist}) => {
                     flexDirection: "column",
                     gap: "10px"
                     }}>
-                    <h2>{wishlist.wishlist_name}</h2>
+                    <h2 onClick={(e) => router.push("/wishlistdetail/" + wishlist.wishlist_id)}>{wishlist.wishlist_name}</h2>
                     <p>({wishlist.status})</p>
                  </div>
                  <button style={{backgroundColor: "#1946B8"}} onClick={(e) => setShow(!show)}>Update</button>

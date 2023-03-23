@@ -1472,6 +1472,12 @@
                 padding: 10px;
             }
         }
+
+        button {
+            @include button_style();
+            background-color: rgb(183, 49, 44);
+            color: white
+        }
     }
 }
 

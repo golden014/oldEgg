@@ -1,6 +1,7 @@
 package follow
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -53,4 +54,37 @@ func (h *Handler) CreateNewFollow(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "success"})
+}
+
+type ViewAllFollowedReq struct {
+	UserId uint `json:"user_id" db:"user_id"`
+}
+
+func (h *Handler) ViewAllFollowed(c *gin.Context) {
+	var r ViewAllFollowedReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	follows := []Follow{}
+
+	if err := h.db.Where("user_id = ?", r.UserId).Find(&follows).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	wishlists := []Wishlist{}
+
+	fmt.Println(len(follows))
+	for i := 0; i < len(follows); i++ {
+		var wishlist Wishlist
+		if err := h.db.Where("wishlist_id = ?", follows[i].WishlistId).First(&wishlist).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		wishlists = append(wishlists, wishlist)
+	}
+
+	c.JSON(http.StatusOK, wishlists)
 }

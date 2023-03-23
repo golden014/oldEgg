@@ -5,6 +5,7 @@ import { getWishlistById, getWishlistDetailss } from "../../hooks/wishlist"
 import Theme from "../components/theme";
 import style from "../../styles/style.module.scss"
 import WishlistPublicCard from "../components/wishlistPublicCard";
+import WishlistOwnCard from "../components/wishlistOwnCard";
 
 const WishlistDetail = () => {
 
@@ -14,6 +15,16 @@ const WishlistDetail = () => {
     const { wishlistDetails, getWishlistDetails } = getWishlistDetailss()
     const { wishlist, getWishlist } = getWishlistById()
 
+    // const [show, setShow] = useState(false)
+    const [newStatus, setNewStatus] = useState("")
+    const [newName, setNewName] = useState("")
+
+    useEffect(() => {
+        if (wishlist) {
+            setNewName(wishlist.wishlist_name)
+            setNewStatus(wishlist.status)
+        }
+    }, [wishlist])
 
     useEffect(() => {
         if (typeof(wishlistId) == "string") {
@@ -53,33 +64,105 @@ const WishlistDetail = () => {
         }
     }
 
+    const handleUpdate = async(column: string, newValue: string) => {
+        if (wishlist) {
+            try {
+                const res = await fetch("http://localhost:1234/updateWishlistById", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json;charset=utf-8"},
+                    body: JSON.stringify({
+                        wishlist_id: wishlist.wishlist_id,
+                        user_id: parseInt(user.id),
+                        column: column,
+                        new_value: newValue
+                    }),
+                });
+    
+                if (res.ok) {
+                    alert("Update" + column + " Success !")
+                    window.location = window.location
+                } else {
+                    console.log("smth went wrong retreiving reviews");
+                }
+    
+            } catch (error){
+                console.log(error);                
+            }
+        }
+    }
+
     if (wishlist) {
         console.log(wishlistDetails);
+        //kalau bukan punya user
+        if (wishlist.user_id != parseInt(user.id)) {
+            return (
+                <Theme>
+                    <div className={style.wishlist_detail_container}>
+                        <div className={style.left}>
+                            <h1>{wishlist?.wishlist_name}</h1>
+                            <button onClick={addToCartHandler}>Add all item to cart</button>
+                        </div>
+                        <div className={style.right}>
+                            {/* <div className={style.right_top}>
         
-        return (
-            <Theme>
-                <div className={style.wishlist_detail_container}>
-                    <div className={style.left}>
-                        <h1>{wishlist?.wishlist_name}</h1>
-                        <button onClick={addToCartHandler}>Add all item to cart</button>
-                    </div>
-                    <div className={style.right}>
-                        {/* <div className={style.right_top}>
-    
-                        </div> */}
-                        <div className={style.cart_details}>
-                            <div className={style.cart_details_left}>
-                                {wishlistDetails.map((wishlistDetail) => (
-                                    <div className={style.cart_card_container}>
-                                        <WishlistPublicCard cartProd={wishlistDetail} />
-                                    </div>                        
-                                ))}
+                            </div> */}
+                            <div className={style.cart_details}>
+                                <div className={style.cart_details_left}>
+                                    {wishlistDetails.map((wishlistDetail) => (
+                                        <div className={style.cart_card_container}>
+                                            <WishlistPublicCard cartProd={wishlistDetail} />
+                                        </div>                        
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </Theme>
-        )
+                </Theme>
+            )
+        } 
+        //kalau punya user
+        else {
+            
+
+            return (
+                <Theme>
+                    <div className={style.wishlist_detail_container}>
+                        <div className={style.left}>
+                            <h1>{wishlist?.wishlist_name}</h1>
+                            <h2>({wishlist.status})</h2>
+                            <button onClick={addToCartHandler}>Add all item to cart</button>
+                            <div>
+                                <input type="text" placeholder="Updated Wishlist's Name"  onChange={(e) => setNewName(e.target.value)}/>
+                                <button style={{backgroundColor: "#1946B8"}} onClick={(e) => handleUpdate("wishlist_name", newName)}>Update Name</button>
+                                <div>
+                                    <p>Privacy</p>
+                                    <select onChange={(e) => setNewStatus(e.target.value)}>
+                                        <option value={wishlist.status}> </option>
+                                        <option value="public">Public</option>
+                                        <option value="private">Private</option>
+                                    </select>
+                                </div>
+                                <button style={{backgroundColor: "#1946B8"}} onClick={(e) => handleUpdate("status", newStatus)}>Update Privacy</button>
+                            </div>
+                        </div>
+                        <div className={style.right}>
+                            {/* <div className={style.right_top}>
+        
+                            </div> */}
+                            <div className={style.cart_details}>
+                                <div className={style.cart_details_left}>
+                                    {wishlistDetails.map((wishlistDetail) => (
+                                        <div className={style.cart_card_container}>
+                                            <WishlistOwnCard cartProd={wishlistDetail} />
+                                        </div>                        
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Theme>
+            )
+        }
     } else {
         return (
             <h1>Loading...</h1>

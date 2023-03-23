@@ -216,3 +216,77 @@ func (h *Handler) GetWishlistById(c *gin.Context) {
 	c.JSON(http.StatusOK, wishlist)
 
 }
+
+type UpdateWishlistDetailReq struct {
+	WishlistDetailId uint `json:"wishlist_detail_id" db:"wishlsit_detail_id"`
+	UserId           uint `json:"user_id" db:"user_id"`
+	Quantity         uint `json:"quantity" db:"quantity"`
+}
+
+func (h *Handler) UpdateWishlistDetail(c *gin.Context) {
+	var r UpdateWishlistDetailReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	wishlist_detail_id := r.WishlistDetailId
+
+	wishlistDetail := WishlistDetail{}
+
+	if r.Quantity <= 0 {
+		if err := h.db.Where("wishlist_detail_id = ?", r.WishlistDetailId).Where("user_id = ?", r.UserId).Delete(&WishlistDetail{}).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "product not found1"})
+				return
+			}
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"message": "success"})
+		return
+	}
+
+	if err := h.db.Where("wishlist_detail_id = ?", wishlist_detail_id).Where("user_id = ?", r.UserId).First(&wishlistDetail).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	wishlistDetail.Quantity = r.Quantity
+
+	if err := h.db.Save(&wishlistDetail).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "update success"})
+
+}
+
+type DeleteWishlistDetailReq struct {
+	WishlistDetailId uint `json:"wishlist_detail_id" db:"wishlsit_detail_id"`
+	UserId           uint `json:"user_id" db:"user_id"`
+}
+
+func (h *Handler) DeleteWishlistDetail(c *gin.Context) {
+	var r DeleteWishlistDetailReq
+
+	if err := c.ShouldBindJSON(&r); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	}
+
+	if err := h.db.Where("wishlist_detail_id = ?", r.WishlistDetailId).Where("user_id = ?", r.UserId).Delete(&WishlistDetail{}).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "product not found1"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "delete success"})
+}

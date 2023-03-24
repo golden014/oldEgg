@@ -4,6 +4,7 @@ import { useState, useContext, useEffect } from "react"
 import { AuthContext, Review } from "modules/authProvider";
 import ReviewCard from "./components/reviewCard";
 import ReviewCardOwn from "./components/reviewCardOwn";
+import Space from "./components/space";
 
 const UserReviews = () => {
     const [reviews, setReviews] = useState<Review[]>([])
@@ -43,6 +44,7 @@ const UserReviews = () => {
             {reviews.map((review) => (
                 <ReviewCardOwn review={review}/>
             ))}
+            <Space/>
         </Theme>
     );
 }

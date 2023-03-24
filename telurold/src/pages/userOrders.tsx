@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext, Order } from "modules/authProvider";
 import OrderCard from "./components/orderCard";
 import OrdersComponent from "./components/ordersComponent";
+import Space from "./components/space";
 
 const UserOrders = () => {
 
@@ -153,6 +154,7 @@ const UserOrders = () => {
                 </div>
                 <OrdersComponent orders={filtered} role={"user"}/>
             </div>
+            <Space/>
         </Theme>
     );
     // }

@@ -226,7 +226,9 @@ const StoreMainPage = (props: {store: Store}) => {
                                         pathname: "/sellerOrders",
                                         query: {store_id: store.store_id}
                                     })}>View Orders</button>
-                                    
+                                    <button onClick={(e) => router.push("/customerChat")}>Customer Chat(Seller)</button>
+                                    <button onClick={(e) => router.push("/sellerNotification")}>Seller Notifications</button>
+
                                 </div>
                             </div>
                         </div>

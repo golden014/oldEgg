@@ -5,6 +5,7 @@ import { Wishlist } from "modules/authProvider";
 import WishlistModal from "./components/wishlistModal";
 import { useRouter } from "next/router";
 import WishlistCardPublic from "./components/wishlistCardPublic";
+import Space from "./components/space";
 
 const PublicWishlist = () => {
 
@@ -97,6 +98,7 @@ const PublicWishlist = () => {
                     })}
                 </div>
             </div>
+            <Space/>
         </Theme>
     );
 }

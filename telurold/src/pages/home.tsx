@@ -71,6 +71,11 @@ const Home = () => {
                 <button onClick={(e) => router.push("/userReviews")}>View your reviews</button>
                 <button onClick={(e) => router.push("/accountSettings")}>Account Settings</button>
                 <button onClick={(e) => router.push("/wishlist")}>Wishlist</button>
+                <button onClick={(e) => router.push("/csChatUser")}>Customer Service Chat</button>
+                <button onClick={(e) => router.push("/sellerChat")}>Seller Chat (User)</button>
+                <button onClick={(e) => router.push("/userNotifications")}>User Notifications</button>
+                <button onClick={(e) => router.push("/buildPc")}>Build PC</button>
+
             </div>
         </Theme>
 

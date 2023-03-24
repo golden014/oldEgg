@@ -136,8 +136,6 @@ const LoggedInNavbar:React.FC<NavbarProps> = ({isDarkMode, setIsDarkMode}) => {
 
                 <LocationNavbar smallText= "Welcome" bigText={userInfoObject.firstname + " " + userInfoObject.lastname} img= {userLogo} link = "/home"/>
                 <LocationNavbar smallText= "Total Cost" bigText={"$" + cart?.total} img= {cartLogo} link = "/cart"/>
-                <button onClick={(e) => router.push("/csChatUser")}>CsChatUser</button>
-                <button onClick={(e) => router.push("/messageCenter")}>Message Center</button>
             </div>
 
             <div className={style.navbar_bot}>

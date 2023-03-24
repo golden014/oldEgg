@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Theme from "./components/theme";
 import style from "../styles/style.module.scss"
 import OrdersComponent from "./components/ordersComponent";
+import Space from "./components/space";
 
 const SellerOrders = () => {
 
@@ -89,6 +90,7 @@ const SellerOrders = () => {
                 </div>
                 <OrdersComponent orders={filtered} role={"seller"}/>
             </div>
+            <Space/>
         </Theme>
     );
 }

@@ -6,6 +6,7 @@ import WishlistModal from "./components/wishlistModal";
 import { useRouter } from "next/router";
 import WishlistCardPublic from "./components/wishlistCardPublic";
 import WishlistCardFollowed from "./components/wishlistCardFollowed";
+import Space from "./components/space";
 
 const FollowedWishlist = () => {
     const [wishlists, setWishlists] = useState<Wishlist[]>([])
@@ -64,6 +65,7 @@ const FollowedWishlist = () => {
                     })}
                 </div>
             </div>
+            <Space/>
         </Theme>
     );
 }

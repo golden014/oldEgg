@@ -1,4 +1,4 @@
-import { AuthContext, Cart, Product, Store } from "modules/authProvider";
+import { AuthContext, Cart, Product, Store, Wishlist } from "modules/authProvider";
 import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
 import Theme from "../components/theme";
@@ -6,6 +6,7 @@ import style from "../../styles/style.module.scss"
 import Image from "next/image";
 import SimilarProducts from "../components/similarProduct";
 import Reviews from "../components/reviews";
+import StoreCard from "../components/shopCard";
 
 
 const ProductPage = () => {
@@ -167,6 +168,79 @@ const ProductPage = () => {
         }
     }
 
+    const [wishlists, setWishlist] = useState<Wishlist[]>([])
+    const [addToWishlistId, setAddToWishlistId] = useState(-1)
+
+    useEffect(() => {
+        const getWishlists = async() => {
+            try {
+                const res = await fetch("http://localhost:1234/getWishlistByUserId", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json;charset=utf-8" },
+                    body: JSON.stringify({
+                        user_id: parseInt(user.id)
+                    }),
+                });
+    
+                if (res.ok) {
+                    const data = await res.json()
+                    setWishlist(data)
+                    console.log("nice");
+                    
+                } else {       
+                    console.log("hmm not nice");
+                }
+                console.log(res);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        getWishlists()
+    }, [user])
+
+    const handleAddToWishlist = async() => {
+        if (productId && typeof(productId) == "string") {
+            try {
+                const res = await fetch("http://localhost:1234/addWishlistDetail", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json;charset=utf-8" },
+                    body: JSON.stringify({
+                        wishlist_id: addToWishlistId,
+                        product_id: parseInt(productId),
+                        quantity: count,
+                        user_id: parseInt(user.id)
+                    }),
+                });
+    
+                if (res.ok) {
+                    alert("add to wishlist success")
+                    console.log("nice");
+                    
+                } else {       
+                    console.log("hmm not nice");
+                }
+                console.log(res);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
+
+    const [stores, setStores] = useState<Store[]>([])
+
+    useEffect(() => {
+        fetch('http://localhost:1234/getTopStore')
+        .then((response) => response.json())
+        .then((data) => {
+            setStores(data);       
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+    }, []);
+
     if(productId) {
     
         if (product) {
@@ -267,6 +341,17 @@ const ProductPage = () => {
                                                     Add To Cart
                                                 </button>
                                             </div>
+                                            <br /><br />
+                                            <div className={style.spinner}>
+                                                <p>Add to Wishlist</p>
+                                                <select onChange={(e) => setAddToWishlistId(parseInt(e.target.value))}>
+                                                    <option value=""></option>
+                                                    {wishlists.map((wishlist) => (
+                                                        <option value={wishlist.wishlist_id}>{wishlist.wishlist_name}</option>
+                                                    ))}
+                                                </select>
+                                                <button onClick={handleAddToWishlist}>Add</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -279,6 +364,25 @@ const ProductPage = () => {
                                 <h1>Reviews</h1>
                                 <br />
                                 <Reviews product_id={product.product_id} />
+
+                                <div className={style.top_stores}>
+                                    <h1>Alternate Sellers</h1>
+                                    <div className={style.card} style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        gap: "10%"
+                                    }}>
+                                        {stores.map((store) => (
+                                            <StoreCard store={store}/>
+                                        ))}
+                                    </div>
+                                </div>   
+                                <br /><br /><br />
+                                <h1>Frequently bought with this item</h1>
+                                <br />
+                                <SimilarProducts categoryId={product?.category_id} currProdId={productId}/>                   
+
                             </div>
                         </Theme>
                     );
